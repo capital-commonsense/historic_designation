@@ -43,16 +43,20 @@ OUTCOMES = (  # first match wins; order matters
     ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"
                r"|denying the (?:application|nomination|designation)"),
     ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"
-                  r"|prior to deliberating|nomination be revised|return to the Board"),
-    ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"),
-    ("designated", r"designat|nomination approved|approve[ds]? the nomination|voted to approve"
-                   r"|approved the (?:landmark|historic district|application)"),
+                  r"|prior to deliberating|nomination be revised|return to the Board|abeyance|wishes to proceed"),
+    ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"
+                r"|boundaries (?:increased|expanded|extended)|voted to expand the (?:boundar|period)"),
+    ("designated", r"designat|nomination (?:was )?approved|approve[ds]? the nomination|voted to approve"
+                   r"|approved the (?:landmark|historic district|application)|\blisted\b.{0,80}?Inventory"),
 )
 # Statements that apply one action to a following list of cases (consent calendars).
 BLOCK_ACTION = re.compile(r"(?:consent calendar|following (?:cases|items|nominations|properties) were|"
-                          r"approved the following)[^.]*\.", re.I)
-# ... and statements that follow the list they apply to (March 2011 AU Park houses).
-BLOCK_AFTER = re.compile(r"designated the above[- ]listed[^.]*\.", re.I)
+                          r"approved the following)[^.:]*[.:]", re.I)  # "... consent calendar on July 27:"
+# ... and statements that follow the list they apply to: "designated the above-listed properties"
+# (March 2011), "designated the five properties" (Jan 2011), "Designated by a vote of 8-0" (Jan 2010).
+BLOCK_AFTER = re.compile(r"[^.]*\b(?:above[- ]listed|these (?:nominations|properties|buildings|landmarks)"
+                         r"|the (?:two|three|four|five|six|seven|eight|nine|ten|\d+) (?:properties|buildings|nominations|landmarks)"
+                         r"|^Designated by a vote)[^.]*\.", re.I | re.M)
 STAFF_REC = re.compile(r"(?:The )?(?:HPO|staff|Historic Preservation Office) recommend\w*[^.]*\.", re.I)
 MONTHS = "january|february|march|april|may|june|july|august|september|october|november|december"
 
@@ -125,13 +129,21 @@ def items(text: str, anchors: list[tuple[str, str]] = ()) -> list[dict]:
             heading = re.search(r"\n[A-Z][A-Z ,/&'’-]{6,}\n", flat[m.end:])
             after = flat[m.end: m.end + heading.start() if heading else len(flat)]
             follow = BLOCK_AFTER.search(after)
-            if follow:
-                outcome, phrase, basis = "designated", follow.group(0)[:200], "following block statement (inferred)"
+            # Another item's vote in between means the statement isn't ours, unless it names the list
+            # explicitly ("above-listed"; March 2011 has the MPD's own vote first).
+            if follow and (not VOTE.search(after[: follow.start()]) or re.search(r"above[- ]listed", follow.group(0), re.I)):
+                for name, pat in OUTCOMES:
+                    if re.search(pat, follow.group(0), re.I) or (name == "designated" and re.search(r"approv|passed", follow.group(0), re.I)):
+                        outcome, phrase, basis = name, re.sub(r"\s+", " ", follow.group(0)).strip()[:200], "following block statement (inferred)"
+                        break
         if outcome == "unclear":
-            # Use a block statement (e.g. consent calendar) between the previous vote and this item.
+            # Use the last block statement (e.g. consent calendar) before this item, unless another
+            # item's vote comes between them. The statement often carries its own vote ("... Vote: 5-0.").
             before = flat[max(0, line_start - 2500): line_start]
-            last_vote = max((m2.end() for m2 in VOTE.finditer(before)), default=0)
-            block = BLOCK_ACTION.findall(before[last_vote:])
+            blocks = list(BLOCK_ACTION.finditer(before))
+            tail = before[blocks[-1].end():] if blocks else ""
+            own_vote = re.match(r"\s*(?:Vote:?\s*)?\d+\s*[-–]\s*\d+\.?", tail)
+            block = [blocks[-1].group(0)] if blocks and not VOTE.search(tail[own_vote.end() if own_vote else 0:]) else []
             if block:
                 for name, pat in OUTCOMES:
                     if re.search(pat, block[-1], re.I) or (name == "designated" and re.search(r"approved", block[-1], re.I)):
