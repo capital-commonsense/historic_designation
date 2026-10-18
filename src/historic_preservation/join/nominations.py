@@ -71,6 +71,9 @@ def records() -> pd.DataFrame:
     acts = pd.read_csv(NORMALIZED / "hprb_designation_actions.csv", parse_dates=["meeting_date"])
     for r in acts.itertuples():
         name, rest = (re.split(ADDR_START, r.header, maxsplit=1) + [""])[:2]
+        if re.fullmatch(r"\d[\d-]*", name.strip()):  # "917, 919 and 921 6th Street NW, Case 20-12": all address
+            rest = f"{name}, {rest}"
+            name = re.sub(r",?\s*Case.*$", "", rest).strip()
         name = re.sub(r"^(?:[A-Z0-9]+\.|•)\s+", "", name).strip()
         if re.search(r"\bamendment\b", r.header, re.I) and not re.search(r"\bamend", name, re.I):
             name += " (amendment)"  # e.g. "All Souls Church, Unitarian, ..., Case 20-10 (amendment)"; read by kind()

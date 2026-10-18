@@ -1,0 +1,68 @@
+{
+  "window": "FY2007-FY2025, individual landmark nominations (and amendments) with an HPRB action",
+  "heard": {
+    "n": 269,
+    "designated": 241,
+    "denied": 24,
+    "withdrawn": 4,
+    "designated_share": 0.896
+  },
+  "documented_pending_raze": {
+    "n": 14,
+    "denied": 6,
+    "designated": 6,
+    "withdrawn": 2,
+    "designated_share": 0.429
+  },
+  "documented_pending_alteration_or_new_construction": {
+    "n": 13,
+    "designated": 11,
+    "denied": 2,
+    "designated_share": 0.846
+  },
+  "no_documented_pending_application": {
+    "n": 242,
+    "designated": 224,
+    "denied": 16,
+    "withdrawn": 2,
+    "designated_share": 0.926
+  },
+  "documented_any_share": 0.1,
+  "documented_raze_share": 0.052,
+  "pending_not_in_nominations": [
+    {
+      "case_no": "18-05",
+      "name": "Raymond and Olive Clapper House",
+      "note": "not heard: absent from the revised Dec 21 2017 agenda and actions; permit R1700219 issued 2018-03-27 (open data)"
+    }
+  ],
+  "order_stated": [
+    {
+      "case_no": "18-09",
+      "name": "St. Paul\u2019s Methodist Episcopal Church South",
+      "order": "raze_first"
+    },
+    {
+      "case_no": "19-07",
+      "name": "Barry Farm Dwellings",
+      "order": "raze_first"
+    }
+  ],
+  "raze_after_denial_or_withdrawal": {
+    "denied_or_withdrawn_since_2009": 25,
+    "with_raze_permit_within_180_days": 9,
+    "of_which_not_documented_as_pending": [
+      "11-22",
+      "13-14",
+      "20-12",
+      "21-01"
+    ]
+  },
+  "caveats": [
+    "Documented counts are lower bounds: HPRB lists a raze application with a nomination only when HPO scheduled it 'if designated'.",
+    "The documents show an application pending at the hearing; only two say the raze application came first.",
+    "Nominations withdrawn before a hearing are mostly missing from the nominations table (e.g. Clapper House, Case 18-05).",
+    "DOB open data lists issued permits from 2009 only, with no application date; a raze blocked by designation never appears.",
+    "Permit-to-nomination links go through address text; 'permit timing' rows were matched by address or lot and are listed for review."
+  ]
+}

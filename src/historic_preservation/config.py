@@ -29,6 +29,7 @@ class ArcGISLayer:
     path: str
     out_fields: tuple[str, ...] | None = None  # None means all fields
     geometry: bool = False  # fetched as GeoJSON in WGS84 (EPSG:4326)
+    where: str = "1=1"
 
 
 ARCGIS_LAYERS = (
@@ -89,6 +90,28 @@ ARCGIS_LAYERS = (
         "DCGIS_DATA/Planning_Landuse_and_Zoning_WebMercator/MapServer/43",
         geometry=True,
     ),
+)
+
+# DOB building permits, one layer per issue year. These list issued permits only:
+# no application date, and nothing for applications that were never issued.
+# Owner and applicant names are left out of the fetch.
+PERMIT_LAYER_IDS = {
+    2009: 12, 2010: 11, 2011: 10, 2012: 7, 2013: 6, 2014: 5, 2015: 25, 2016: 24, 2017: 37,
+    2018: 9, 2019: 8, 2020: 2, 2021: 3, 2022: 14, 2023: 15, 2024: 16, 2025: 17, 2026: 18,
+}
+PERMIT_SUBTYPES = ("RAZE", "DEMOLITION", "NEW BUILDING", "ADDITION")
+PERMIT_LAYERS = tuple(
+    ArcGISLayer(
+        f"permits_{year}",
+        f"FEEDS/DCRA/FeatureServer/{layer_id}",
+        (
+            "OBJECTID", "PERMIT_ID", "ISSUE_DATE", "PERMIT_TYPE_NAME", "PERMIT_SUBTYPE_NAME",
+            "APPLICATION_STATUS_NAME", "FULL_ADDRESS", "DESC_OF_WORK", "SSL",
+            "MARADDRESSREPOSITORYID", "LATITUDE", "LONGITUDE", "WARD",
+        ),
+        where="PERMIT_SUBTYPE_NAME IN ({})".format(",".join(f"'{s}'" for s in PERMIT_SUBTYPES)),
+    )
+    for year, layer_id in PERMIT_LAYER_IDS.items()
 )
 
 

@@ -29,7 +29,7 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
 
     meta = client.get_json(url, {"f": "json"})
     _write_json(out / "layer.json", meta)
-    count = client.get_json(f"{url}/query", {"where": "1=1", "returnCountOnly": "true", "f": "json"})["count"]
+    count = client.get_json(f"{url}/query", {"where": layer.where, "returnCountOnly": "true", "f": "json"})["count"]
     page_size = meta.get("maxRecordCount") or 1000
 
     n_features = 0
@@ -39,7 +39,7 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
             data = client.get_json(
                 f"{url}/query",
                 {
-                    "where": "1=1",
+                    "where": layer.where,
                     "outFields": ",".join(layer.out_fields) if layer.out_fields else "*",
                     "returnGeometry": str(layer.geometry).lower(),
                     "orderByFields": "OBJECTID",
@@ -64,6 +64,7 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
             "page_size": page_size,
             "out_fields": list(layer.out_fields) if layer.out_fields else "*",
             "geometry": layer.geometry,
+            "where": layer.where,
             "completed_at": datetime.now(timezone.utc).isoformat(),
         },
     )

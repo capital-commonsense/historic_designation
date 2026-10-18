@@ -45,6 +45,14 @@ majority status of the record's square+suffix), `none` (treated as not designate
 | `mayors_agent_summary.json`, `mayors_agent_outcomes_by_decade.csv` | H6: Mayor's Agent grant rates overall, by basis (special merit, hardship, public interest, consistency) and decade; caveats |
 | `court_appeals_summary.json` | counts, order-to-opinion lag, designation challenges, opinions not yet fetched |
 
+## H2: permits and pending applications
+
+- `data/raw/<date>/arcgis/permits_<year>/` — DOB building permits from DC GIS (`FEEDS/DCRA/FeatureServer`), one layer per issue year 2009–present, filtered to raze, demolition, new building and addition subtypes. Owner and applicant names are not fetched. Issued permits only: no application date, and no record of applications never issued.
+- `data/normalized/permits.csv` — one row per permit: id, issue date, subtype, status, address, standardized address key, SSL, ward, description.
+- `data/joined/nomination_permits.csv` — permits issued within 3 years of an individual-landmark nomination's reference date (first HPRB hearing, else outcome date), linked by lot (via the zoning lookup and tax roll addresses) or by address. `nomination_lot_match.csv` records which nominations resolved to an address or lot.
+- `data/joined/h2_pending_applications.csv` — `inputs/h2_pending_applications.csv` with quotes checked and nominations attached.
+- `data/analysis/h2_summary.json` — share of heard nominations (FY2007–2025) with a documented pending raze or alteration application, outcomes by group, and raze permits issued within 180 days after a denial or withdrawal (`h2_raze_after_denial.csv`).
+
 ## Hand-curated inputs (`inputs/`)
 
 `district_dates.csv` — one row per dated event per GIS district (`event`:
@@ -116,6 +124,8 @@ collection are coded in `court_cases.csv` (`local_file`).
 (`prevailed`, `lost`, `remanded`, `mixed`); it is a coding judgment, with the
 holding quoted verbatim. Private individuals are masked in `case_label`;
 `cluster_id` links to the public opinion.
+
+- `h2_pending_applications.csv` — raze, alteration and new-construction applications that HPRB agendas and actions, HPO monthly notices or staff reports list alongside a pending landmark nomination (usually "(if designated)" or "[pending landmark]"). One row per case: application number, type, `order` (only where a document says which came first), source file (`box:` for the box.com archive), verbatim quote (checked by the build), note.
 
 ## Reconciliation with the exploratory figures
 

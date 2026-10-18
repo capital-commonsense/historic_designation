@@ -2,7 +2,7 @@
 
 from datetime import date
 
-from historic_preservation.config import ARCGIS_LAYERS, DOCUMENTS, RAW, WEB_PAGES
+from historic_preservation.config import ARCGIS_LAYERS, DOCUMENTS, PERMIT_LAYERS, RAW, WEB_PAGES
 from historic_preservation.fetch.arcgis import fetch_layer
 from historic_preservation.fetch.courtlistener import fetch_opinions
 from historic_preservation.fetch.dcoz import fetch_zc_cases
@@ -19,7 +19,7 @@ def run() -> None:
     print(f"Fetching into {dest}")
     client = PoliteClient()
     try:
-        for layer in ARCGIS_LAYERS:
+        for layer in ARCGIS_LAYERS + PERMIT_LAYERS:
             fetch_layer(client, layer, dest / "arcgis")
         for doc in DOCUMENTS:
             fetch_document(client, doc, dest / "documents")

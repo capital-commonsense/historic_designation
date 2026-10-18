@@ -44,7 +44,8 @@ VOTE = re.compile(r"Vote:?\s*(\d+)\s*[-–]\s*(\d+)")
 OUTCOMES = (  # first match wins; order matters
     ("withdrawn", r"withdr[ae]w|was withdrawn"),
     ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"
-               r"|denying the (?:application|nomination|designation)"),
+               r"|denying the (?:application|nomination|designation)"
+               r"|to not designate|did not meet the (?:\w+ )?(?:designation )?criteria"),  # Meads Row 2009; St. Paul's 2018
     ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"
                   r"|prior to deliberating|nomination be revised|return to the Board|abeyance|wishes to proceed"),
     ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"
