@@ -72,3 +72,13 @@ def test_generic_alias_does_not_match(noms):
     # "(proposed)" once linked the Barney Circle district to DCPL's Folger amendment.
     barney = noms[noms["name"].str.contains("Barney Circle", na=False)]
     assert not barney["seen_in"].str.contains("dcpl").any()
+
+
+def test_board_rosters_match_part_vi_counts():
+    # Each 990 roster should list as many trustees as Part VI line 1a reports.
+    board = pd.read_csv(JOINED.parent.parent / "inputs" / "dcpl_board.csv", dtype=str)
+    lines = pd.read_csv(JOINED.parent.parent / "inputs" / "dcpl_990_lines.csv", dtype=str)
+    voting = lines[lines["form_line"] == "Part VI line 1a"].set_index("tax_period")["value"].astype(int)
+    counts = board.groupby("period")["person_key"].nunique()
+    for period, n in voting.items():
+        assert counts[period] == n, period

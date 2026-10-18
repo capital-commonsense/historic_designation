@@ -41,6 +41,7 @@ majority status of the record's square+suffix), `none` (treated as not designate
 | `value_by_designation_era.csv` | value in districts by era of earliest covering district (`_strict`: exact matches only) |
 | `inventory_summary.json` | 2009 Inventory entry counts |
 | `court_mayors_agent_appeals.csv` | appeals of Mayor's Agent permit decisions: appellant (owner vs preservation/neighborhood side) × ruling × outcome for the preservation side. Appealed cases only, not approval rates |
+| `dcpl_governance.json` | DCPL board: roster sizes, share of trustees with a printed architecture credential (per person across rosters), turnover between rosters, current affiliation categories, Part VI policy answers by year. No names |
 | `court_appeals_summary.json` | counts, order-to-opinion lag, designation challenges, opinions not yet fetched |
 
 ## Hand-curated inputs (`inputs/`)
@@ -69,6 +70,14 @@ be found in its source file stops the build.
 FY2008; the reconciled data has 17, 12 of them confirmed by both an HPRB
 action and the 2009 Inventory. The difference appears to be in HPO's table,
 not the scrape, and is reported as is.
+
+`dcpl_board.csv` — DCPL trustee rosters: FY2006 and FY2010–2015 from the
+990s (Part VII or the attached board list), and the current board page
+(2026-10). Names and credentials as listed; `affiliation_as_listed` and the
+coded `affiliation_category` exist only for the current page, whose lines
+are sometimes a title rather than an employer. Findings report aggregates
+only. Part VI answers are in `dcpl_990_lines.csv` (FY2011–2013 checkboxes
+read from page images).
 
 `court_cases.csv` — coding of DC Court of Appeals preservation cases.
 `preservation_side` is the outcome for whoever argued for preservation

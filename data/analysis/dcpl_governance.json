@@ -1,0 +1,167 @@
+{
+ "rosters": [
+  {
+   "period": "200603",
+   "trustees": 15,
+   "architect_credential": 2,
+   "architect_share": 0.133
+  },
+  {
+   "period": "201003",
+   "trustees": 17,
+   "architect_credential": 4,
+   "architect_share": 0.235
+  },
+  {
+   "period": "201103",
+   "trustees": 17,
+   "architect_credential": 4,
+   "architect_share": 0.235
+  },
+  {
+   "period": "201203",
+   "trustees": 17,
+   "architect_credential": 4,
+   "architect_share": 0.235
+  },
+  {
+   "period": "201303",
+   "trustees": 19,
+   "architect_credential": 5,
+   "architect_share": 0.263
+  },
+  {
+   "period": "201403",
+   "trustees": 18,
+   "architect_credential": 4,
+   "architect_share": 0.222
+  },
+  {
+   "period": "201503",
+   "trustees": 17,
+   "architect_credential": 5,
+   "architect_share": 0.294
+  },
+  {
+   "period": "2026-10",
+   "trustees": 14,
+   "architect_credential": 6,
+   "architect_share": 0.429
+  }
+ ],
+ "people": 43,
+ "people_on_4_or_more_rosters": 16,
+ "turnover": {
+  "200603->201003": {
+   "stayed": 7,
+   "left": 8,
+   "joined": 10
+  },
+  "201003->201103": {
+   "stayed": 14,
+   "left": 3,
+   "joined": 3
+  },
+  "201103->201203": {
+   "stayed": 13,
+   "left": 4,
+   "joined": 4
+  },
+  "201203->201303": {
+   "stayed": 16,
+   "left": 1,
+   "joined": 3
+  },
+  "201303->201403": {
+   "stayed": 17,
+   "left": 2,
+   "joined": 1
+  },
+  "201403->201503": {
+   "stayed": 16,
+   "left": 2,
+   "joined": 1
+  },
+  "201503->2026-10": {
+   "stayed": 8,
+   "left": 9,
+   "joined": 6
+  }
+ },
+ "current_affiliation_categories": {
+  "architecture/planning firm": 4,
+  "preservation professional (title, no employer listed)": 3,
+  "neighborhood preservation group": 2,
+  "architect (title, no employer listed)": 2,
+  "law firm": 2,
+  "real estate brokerage": 1
+ },
+ "current_source": "data/raw/2026-10-17/web/dcpl_board_of_trustees.html",
+ "part_vi": {
+  "201103": {
+   "Annual disclosure of interests required": "Yes",
+   "Independent review of other officers compensation": "No",
+   "Independent review of top official compensation": "No",
+   "Independent voting members": "17",
+   "Members or others who elect or appoint governing-body members": "No",
+   "Policy regularly monitored and enforced": "Yes",
+   "Voting members of the governing body": "17",
+   "Written conflict of interest policy": "Yes",
+   "Written document retention and destruction policy": "No",
+   "Written whistleblower policy": "No"
+  },
+  "201203": {
+   "Annual disclosure of interests required": "Yes",
+   "Independent review of other officers compensation": "No",
+   "Independent review of top official compensation": "No",
+   "Independent voting members": "17",
+   "Members or others who elect or appoint governing-body members": "No",
+   "Policy regularly monitored and enforced": "Yes",
+   "Voting members of the governing body": "17",
+   "Written conflict of interest policy": "Yes",
+   "Written document retention and destruction policy": "No",
+   "Written whistleblower policy": "No"
+  },
+  "201303": {
+   "Annual disclosure of interests required": "Yes",
+   "Independent review of other officers compensation": "No",
+   "Independent review of top official compensation": "No",
+   "Independent voting members": "19",
+   "Members or others who elect or appoint governing-body members": "No",
+   "Policy regularly monitored and enforced": "Yes",
+   "Voting members of the governing body": "19",
+   "Written conflict of interest policy": "Yes",
+   "Written document retention and destruction policy": "No",
+   "Written whistleblower policy": "No"
+  },
+  "201403": {
+   "Annual disclosure of interests required": "Yes",
+   "Independent review of other officers compensation": "No",
+   "Independent review of top official compensation": "No",
+   "Independent voting members": "18",
+   "Members or others who elect or appoint governing-body members": "No",
+   "Policy regularly monitored and enforced": "Yes",
+   "Voting members of the governing body": "18",
+   "Written conflict of interest policy": "Yes",
+   "Written document retention and destruction policy": "No",
+   "Written whistleblower policy": "No"
+  },
+  "201503": {
+   "Annual disclosure of interests required": "Yes",
+   "Independent review of other officers compensation": "No",
+   "Independent review of top official compensation": "No",
+   "Independent voting members": "17",
+   "Members or others who elect or appoint governing-body members": "No",
+   "Policy regularly monitored and enforced": "Yes",
+   "Voting members of the governing body": "17",
+   "Written conflict of interest policy": "Yes",
+   "Written document retention and destruction policy": "No",
+   "Written whistleblower policy": "No"
+  }
+ },
+ "caveats": [
+  "Employers are listed only on the current board page; earlier rosters give names and credentials.",
+  "A trustee counts as architect-credentialed if any roster prints AIA/FAIA for them; one without a printed credential may still be an architect.",
+  "One 2011 roster name ('John D. Ferrari') is read as the trustee listed as John DeFerrari in later years (inferred from spelling)."
+ ]
+}
