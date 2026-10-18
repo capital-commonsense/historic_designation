@@ -25,7 +25,7 @@ from historic_preservation.config import INPUTS, JOINED, NORMALIZED
 from historic_preservation.normalize.filers import classify, load_rules
 
 OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6, "amended": 4,
-                "pending": 1, "continued": 2, "unclear": 0}
+                "pending": 1, "continued": 2, "unclear": 0, "adopted": 3, "nr_only": 3}
 DATE_FMT = "%B %d, %Y"
 
 
@@ -277,6 +277,13 @@ def run() -> None:
     noms.insert(3, "kind", noms["name"].map(kind))
     noms["expected_missing"] = noms.apply(expected_missing, axis=1)
     noms.to_csv(JOINED / "nominations.csv", index=False, date_format="%Y-%m-%d")
-    review = noms[(noms["expected_missing"] != "") | (noms["date_conflict"] != "")]
+    review = noms[(noms["expected_missing"] != "") | (noms["date_conflict"] != "")].copy()
+    # Hand-checked explanations (inputs/reconciliation_notes.csv); rows without one still need review.
+    notes = pd.read_csv(INPUTS / "reconciliation_notes.csv").set_index("name")["note"]
+    stale = set(notes.index) - set(review["name"])
+    if stale:
+        raise ValueError(f"reconciliation_notes.csv: no longer in reconciliation.csv: {sorted(stale)}")
+    review["review_note"] = review["name"].map(notes).fillna("")
     review.to_csv(JOINED / "reconciliation.csv", index=False, date_format="%Y-%m-%d")
-    print(f"nominations: {len(noms)} rows; {len(review)} missing an expected source (reconciliation.csv)")
+    print(f"nominations: {len(noms)} rows; {len(review)} in reconciliation.csv, "
+          f"{(review['review_note'] == '').sum()} without a review note")

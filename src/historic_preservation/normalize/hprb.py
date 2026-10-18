@@ -186,4 +186,27 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
             for it in items(text, anchors.get(source, [])):
                 rows.append({"meeting_date": date, "slug": slug, "source_file": source, **it})
     df = pd.DataFrame(rows)
-    return df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df
+    df = df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df
+    return apply_review(df, hprb_dir, index)
+
+
+def apply_review(df: pd.DataFrame, hprb_dir: Path, index: dict) -> pd.DataFrame:
+    """Hand-read outcomes (inputs/hprb_outcome_review.csv) for actions the rules leave unclear.
+
+    Each row's quote must appear in its source file, and each row must still match an unclear
+    action, so a stale review entry stops the build instead of lingering.
+    """
+    review = pd.read_csv(INPUTS / "hprb_outcome_review.csv", dtype=str).fillna("")
+    texts: dict[str, str] = {}
+    for r in review.itertuples():
+        if r.source_file not in texts:
+            pdf = hprb_dir / "attachments" / r.source_file
+            raw = pdf_text(pdf) if pdf.exists() else html_text(hprb_dir / "pages" / r.source_file)
+            texts[r.source_file] = re.sub(r"\s+", " ", raw)
+        if re.sub(r"\s+", " ", r.quote) not in texts[r.source_file]:
+            raise ValueError(f"hprb_outcome_review.csv: quote not found in {r.source_file}: {r.quote[:60]!r}")
+        hit = (df["source_file"] == r.source_file) & (df["case_no"] == r.case_no) & (df["outcome"] == "unclear")
+        if not hit.any():
+            raise ValueError(f"hprb_outcome_review.csv: no unclear action for {r.case_no} in {r.source_file}")
+        df.loc[hit, ["outcome", "outcome_phrase", "outcome_basis"]] = [r.outcome, r.quote[:200], "hand review"]
+    return df
