@@ -59,6 +59,17 @@ def _lines(doc):
                     yield pno, spans, text
 
 
+OCR_FIXES = ((re.compile(r"\b(\d{3}) (\d)\b"), r"\1\2"),  # "201 1" -> "2011"
+             (re.compile(r"\bMorch\b"), "March"),
+             (re.compile(r"(\d),(\d{4})\b"), r"\1, \2"))  # "28,2016" -> "28, 2016"
+
+
+def clean_ocr(text: str) -> str:
+    for pattern, repl in OCR_FIXES:
+        text = pattern.sub(repl, text)
+    return text
+
+
 def _is_italic(spans) -> bool:
     return all("Italic" in s["font"] or "Oblique" in s["font"] for s in spans)
 
@@ -88,14 +99,15 @@ def parse_items(pdf_path) -> list[Item]:
             items[-1].body.append(text)
 
     for i, it in enumerate(items):
-        m = ATTRIBUTION.search(" ".join(it.body))
+        body = clean_ocr(" ".join(it.body))
+        m = ATTRIBUTION.search(body)
         if not m:
             continue
         start = m.start()
         # Keep a leading "Both"/"All" so shared attributions can be spread back.
-        lead = re.search(r"\b(Both|All|Each)\s+$", " ".join(it.body)[max(0, start - 6):start])
+        lead = re.search(r"\b(Both|All|Each)\s+$", body[max(0, start - 6):start])
         attribution = re.sub(r"\s+", " ", (lead.group(0) if lead else "") + m.group(0)).strip()
-        eff = re.match(rf"\s*(?:\((?:designation\s+)?effective\s+{DATE}\)|and effective (?:on )?{DATE})", " ".join(it.body)[m.end():])
+        eff = re.match(rf"\s*(?:\((?:designation\s+)?effective\s+{DATE}\)|and effective (?:on )?{DATE})", body[m.end():])
         if eff:
             attribution += eff.group(0)
         it.attribution = attribution

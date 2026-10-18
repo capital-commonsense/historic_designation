@@ -27,7 +27,7 @@ class ArcGISLayer:
     key: str
     path: str
     out_fields: tuple[str, ...] | None = None  # None means all fields
-    geometry: bool = False
+    geometry: bool = False  # fetched as GeoJSON in WGS84 (EPSG:4326)
 
 
 ARCGIS_LAYERS = (
@@ -40,6 +40,8 @@ ARCGIS_LAYERS = (
             "OVERLAY_SHORT", "HISTORICDISTRICT_NAME", "HISTORICLANDMARK_LABEL",
         ),
     ),
+    # Lot polygons for spatial joins (same layer, geometry only).
+    ArcGISLayer("lot_polygons", "DCOZ/Zone_Mapservice/MapServer/56", ("OBJECTID", "SSL"), geometry=True),
     # Owner names are fetched into the raw snapshot only; normalize drops them.
     ArcGISLayer(
         "itspe",
@@ -123,11 +125,49 @@ INVENTORY_UPDATES = tuple(
 # Full HPO annual reports after the last Inventory update (FY2020), and the
 # 2021-2025 preservation-plan implementation report.
 HPO_REPORTS = (
+    *(Document(f"hpo_annual_report_fy{y}", f"{_OP_ATTACH}/{y}_HPO_Annual_Report.pdf")
+      for y in (*range(1979, 1989), 1994, *range(1996, 2009))),
+    Document("hpo_annual_report_fy1993", f"{_OP_ATTACH}/1993%2520HPO%2520Annual%2520Report.pdf"),
+    Document("hpo_annual_report_fy2009", f"{_OP_ATTACH}/2009%2520Annual%2520Report%2520Finall.pdf"),
+    Document("hpo_annual_report_fy2012", f"{_OP_ATTACH}/FY%202012%20Annual%20Report.pdf"),
+    Document("hpo_annual_report_fy2015", f"{_OP_ATTACH}/FY%202015%20Annual%20Report.pdf"),
+    Document("hpo_annual_report_fy2017", f"{_OP_ATTACH}/2017%20Annual%20Report%20Final.pdf"),
+    Document("hpo_annual_report_fy2018", f"{_OP_ATTACH}/2018%20Annual%20Report.pdf"),
+    Document("hpo_annual_report_fy2020", f"{_OP_ATTACH}/Annual%20HPO%20Annual%20Report%20FY%202020.pdf"),
     Document("hpo_annual_report_fy2021", f"{_OP_ATTACH}/2021%20HPO%20Annual%20Report.pdf"),
     Document("hpo_annual_report_fy2022", f"{_OP_ATTACH}/2022%20Annual%20Report%20FINAL%20corrected.pdf"),
     Document("hp_plan_implementation_2025", f"{_OP_ATTACH}/2025%20HP%20Plan-FINAL%20%20Implementation%20Report.pdf"),
 )
 DOCUMENTS = (INVENTORY_2009, *INVENTORY_UPDATES, *HPO_REPORTS)
+
+
+DCPL_EIN = "521038849"  # DC Preservation League
+
+
+@dataclass(frozen=True)
+class WebPage:
+    key: str
+    url: str
+    follow_pdfs: bool = False
+
+
+_DCPL = "https://dcpreservation.org"
+WEB_PAGES = (
+    WebPage("dcpl_nominations_and_landmarks", f"{_DCPL}/resources/nominations-and-landmarks/", True),
+    WebPage("dcpl_past_issues", f"{_DCPL}/places-and-spaces/past-issues/", True),
+    WebPage("dcpl_current_issues", f"{_DCPL}/places-and-spaces/current-issues/", True),
+    WebPage("dcpl_endangered_places", f"{_DCPL}/endangered-places/", True),
+    WebPage("dcpl_grants", f"{_DCPL}/grants/", True),
+    WebPage("dcpl_history", f"{_DCPL}/about-us/history/"),
+    WebPage("dcpl_board_of_trustees", f"{_DCPL}/about-us/board-of-trustees/"),
+    WebPage("dcpl_staff", f"{_DCPL}/about-us/staff/"),
+    WebPage("dcpl_news", f"{_DCPL}/about-us/news/"),
+    WebPage("dcpl_inventory_2022_update", f"{_DCPL}/wp-content/uploads/2022/01/DC-Inventory-Landmarks-and-Historic-Districts_2022Update.pdf"),
+    WebPage("hpo_pending_nominations", "https://planning.dc.gov/page/pending-nominations-dc-inventory", True),
+    # DCPL grant award lists
+    WebPage("dcpl_grants_2014_2016", f"{_DCPL}/wp-content/uploads/2021/10/2014-2016-Awarded-Projects-1.pdf"),
+    WebPage("dcpl_grants_2018_2023", f"{_DCPL}/wp-content/uploads/2023/08/2018-2023-Awarded-Projects.pdf"),
+)
 
 
 def snapshot_dir() -> Path:

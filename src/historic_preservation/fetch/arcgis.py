@@ -45,7 +45,7 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
                     "orderByFields": "OBJECTID",
                     "resultOffset": offset,
                     "resultRecordCount": page_size,
-                    "f": "json",
+                    **({"outSR": 4326, "geometryPrecision": 7, "f": "geojson"} if layer.geometry else {"f": "json"}),
                 },
             )
             _write_json(page, data)
@@ -70,6 +70,13 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
 
 
 def read_features(snapshot: Path, key: str) -> list[dict]:
-    """All features of a fetched layer, in page order."""
+    """All features of a fetched layer, in page order, as {"attributes", "geometry"}.
+
+    Geometry layers are GeoJSON (attributes under "properties"); others are Esri JSON.
+    """
     pages = sorted((snapshot / "arcgis" / key).glob("page_*.json"))
-    return [f for p in pages for f in json.loads(p.read_text())["features"]]
+    return [
+        {"attributes": f.get("attributes", f.get("properties")), "geometry": f.get("geometry")}
+        for p in pages
+        for f in json.loads(p.read_text())["features"]
+    ]

@@ -1,0 +1,187 @@
+uniqueid,gis_name,decision,candidate_name,candidate_source,confidence,note
+L_0048,Friends Meeting House,accept,Friends Meeting House (Friends Meeting of Washington),inventory_2009,medium,
+L_0088,"National Museum of Natural History, Smithsonian Institution",override,"Natural History Building, Smithsonian Institution",inventory_2009,medium,NMNH is the Inventory's Natural History Building
+L_0117,O Street Market,accept,O Street Market (Northern Market),inventory_2009,medium,
+L_0130,Arlington Memorial Bridge,accept,Arlington Memorial Bridge (and Related Features),inventory_2009,medium,
+L_0138,"Rochambeau, Comte Jean de, Monument",accept,Comte de Rochambeau Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0139,"Witherspoon, John, Statue",accept,John Witherspoon Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0140,"Kosciuszko, Thaddeus, Monument",accept,Thaddeus Kosciuszko Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0141,"Steuben, Baron Frederick von, Monument",accept,Baron von Steuben Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0142,"Pulaski, Brigadier General Count Casimir, Statue",accept,Count Pulaski Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0143,"Barry, Commodore John, Statue",accept,John Barry Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0144,"Burke, Edmund, Statue",accept,Edmund Burke Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0146,"Ward, Artemas, Statue",accept,Artemas Ward Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0172,"Georgetown Commercial Buildings-M St, NW",accept,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,
+L_0176,Georgetown Commercial Buildings - Sims House,accept,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,
+L_0178,Georgetown Commercial Buildings - Thomas Cramphin Building,override,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,Cramphin Building listed within the Georgetown Commercial Buildings entry (HABS DC-118)
+L_0184,Georgetown Commercial Buildings - Reckert House,reject,,,,auto-match rejected: The Six Buildings [demolished]
+L_0219,Masonic Temple (Nat'l Museum of Women in the Arts),accept,Masonic Temple (Museum of Women in the Arts),inventory_2009,medium,
+L_0230,"George Washington University, Corcoran Hall",override,"George Washington University, Corcoran Hall",inventory_2009,high,
+L_0266,Octagon House (John Tayloe House),accept,Octagon House (The Octagon; John Tayloe House),inventory_2009,medium,
+L_0272,District Building (John A. Wilson Bldg.),accept,District Building (John A. Wilson Building),inventory_2009,medium,
+L_0284,"Jones, John Paul, Monument",accept,John Paul Jones Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0298,"Washington Navy Yard, Tingey House (Commandant's House)",accept,Tingey House (Commandant’s House; Quarters A),inventory_2009,medium,
+L_0299,"Washington Navy Yard, Commandant's Office",accept,Commandant’s Office (Building #1; Quarters J),inventory_2009,medium,
+L_0300,"Douglass, Frederick, NHS (Cedar Hill; Van Hook Mansion)",accept,Frederick Douglass National Historic Site (Cedar Hill; Van Hook Mansion),inventory_2009,medium,
+L_0302,Civil War Fort Sites-Battery Ricketts,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0303,"Washington Navy Yard, Main Gate (Latrobe Gate)",accept,Main Gate (Latrobe Gate),inventory_2009,medium,
+L_0318,Bomford Mill (Pioneer Flour Mills),accept,Bomford Mill (Pioneer Flour Mills; Flour Mill),inventory_2009,medium,
+L_0345,"Capitol Grounds, Herdic Stations",accept,Capitol Grounds,inventory_2009,medium,
+L_0346,"Capitol Grounds, West Terraces and Steps",accept,Capitol Grounds,inventory_2009,medium,
+L_0347,Civil War Fort Sites-Fort Davis,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0348,Civil War Fort Sites-Fort DeRussy,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0349,Civil War Fort Sites-Fort Dupont,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0350,Civil War Fort Sites-Fort Mahan,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0351,Civil War Fort Sites-Fort Stevens,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0352,Civil War Fort Sites-Fort Totten,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0356,"Scott, Lt. General Winfield, Statue",accept,Winfield Scott Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0357,"Rawlins, John, Statue",accept,John Rawlins Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0358,Emancipation (Abraham Lincoln) Monument,accept,Emancipation Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0359,"McPherson, James B., Statue",accept,James McPherson Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0365,"Greene, Nathanael, Statue",accept,Nathanael Greene Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0366,"Franklin, Benjamin, Statue",accept,Benjamin Franklin Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0367,"Lafayette, Marquis Gilbert de, Monument",accept,Marquis de Lafayette Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0368,Navy-Peace Monument,accept,Navy-Peace Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0369,"Thomas, Major General George H., Statue",accept,Major General George H. Thomas Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0370,"Farragut, Admiral David, Statue",accept,Admiral David G. Farragut Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0371,"Hancock, Major General Winfield Scott, Statue",accept,Major General Winfield Scott Hancock Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0380,"Pike, Brigadier General Albert, Statue",accept,Brigadier General Albert Pike Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0381,"Logan, General John A., Statue",accept,General John A. Logan Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0382,"Sherman, General William Tecumseh, Memorial",accept,General William Tecumseh Sherman Memorial,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0383,"McClellan, General George B., Statue",accept,General George B. McClellan Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0384,"Sheridan, General Phillip H., Statue",accept,General Phillip H. Sheridan Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0385,Grand Army of the Republic Memorial (Dr. Benjamin Stephenson Memorial),accept,Grand Army of the Republic Memorial (Dr. Benjamin F. Stephenson Memorial),inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0386,"Dupont, Admiral Francis, Memorial Fountain",accept,Rear Admiral Francis Dupont Memorial Fountain,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0387,"Grant, Ulysses S., Memorial",accept,Ulysses S. Grant Memorial,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0388,Nuns of the Battlefield Monument,accept,Nuns of the Battlefield Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0389,"Meade, Major General George Gordon, Monument",accept,Major General George Gordon Meade Monument,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0394,Constitution Hall,accept,Constitution Hall (Daughters of the American Revolution),inventory_2009,medium,
+L_0418,Wardman Tower (and Arcade),accept,Wardman Tower (Wardman Park Annex) and Arcade,inventory_2009,medium,
+L_0422,Civil War Fort Sites-Fort Greble,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0423,Civil War Fort Sites-Fort Lincoln,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0424,Civil War Fort Sites-Fort Reno,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0425,"Walter-Reed Army Medical Center, Army Medical Museum and Library",accept,"Army Medical Museum and Library (National Museum of Health and Medicine, Armed Forces Institute of Pathology)",inventory_2009,medium,
+L_0429,"Washington Navy Yard, Second Officer's House (Quarters B)",accept,Second Officer’s House (Quarters B),inventory_2009,medium,
+L_0465,"Georgetown Commercial Buildings - Wisconsin Ave, NW",accept,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,
+L_0472,"Square 38 - Washington Circle, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
+L_0477,"Soldiers' Home, Sherman Building",accept,"Soldier’s Home, Main Building (Sherman Building)",inventory_2009,medium,
+L_0478,Soldiers' Home NHS (U.S. Soldiers' & Airmen's Home) - Quarters #1 & #2,accept,Soldiers’ Home National Historic Site (United States Military Asylum),inventory_2009,medium,
+L_0479,Spring Valley Shoping Center (Esso & D.G.S. Market),accept,Spring Valley Shopping Center (Massachusetts Avenue Parking Shops and Square 1500),inventory_2009,medium,
+L_0482,"Union Station, Columbus Fountain & Plaza (and interiors)",accept,Columbus Plaza (Union Station Plaza; Reservation 334),inventory_2009,medium,
+L_0492,Bulfinch Gatehouse,accept,Bulfinch Gatehouses and Gateposts,inventory_2009,medium,
+L_0494,Bulfinch Gatepost,accept,Bulfinch Gatehouses and Gateposts,inventory_2009,medium,
+L_0501,"Washington, George, Statue",accept,George Washington Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0516,"Capitol Grounds, Spring Grotto",accept,Capitol Grounds,inventory_2009,medium,
+L_0518,Arts Club of Washington (Caldwell-Monroe; Cleveland Abbe House),accept,Arts Club of Washington,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0521,"Hale, Nathan, Statue",accept,Nathan Hale Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0524,"Archbold, Anne Hall",accept,Anne Archbold Hall (Gallinger Hospital Nurses’ Residence; Capital City School of Nursing),inventory_2009,medium,
+L_0532,Boulder Bridge,reject,,,,auto-match rejected: Key Bridge
+L_0546,"Spring Valley Shopping Center, Massachusetts Ave Parking Shops",accept,Spring Valley Shopping Center (Massachusetts Avenue Parking Shops and Square 1500),inventory_2009,medium,
+L_0549,"Spring Valley Shopping Center, Garfinckel's, Spring Valley Branch",override,Spring Valley Shopping Center (Massachusetts Avenue Parking Shops and Square 1500),inventory_2009,medium,Garfinckel's Spring Valley branch is part of the shopping center designation
+L_0552,Soldiers' Home NHS-Anderson Cottage (Corn Rigs; President Lincoln & Soldiers' Home Nat'l Monument),accept,Lincoln Cottage (President Lincoln and Soldiers’ Home National Monument),inventory_2009,medium,
+L_0579,"Washington Cathedral, Saint Alban's Church, Guild Hall, Rectory, & Satterlee Hall",override,Washington Cathedral (Cathedral Church of Saint Peter and Saint Paul and Close; National Cathedral),inventory_2009,medium,component of the Cathedral listing
+L_0584,Church of Jesus Christ of Latter Day Saints,accept,Church of Jesus Christ of Latter Day Saints (Washington Chapel),inventory_2009,medium,
+L_0587,Civil War Fort Sites-Fort Stanton,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
+L_0639,"4628 48th Street, NW",reject,,,,"auto-match rejected: 2225 N Street, NW"
+L_0643,Christian Science Monitor Building,accept,"Third Church of Christ, Scientist, and Christian Science Monitor Building",inventory_2009,medium,
+L_0644,Dahlgreen Courts,accept,Dahlgreen Courts,inventory_update_fy2010,medium,matched entry carries no DC date (statue/memorial on a reservation)
+L_0646,"Webster, Daniel, Memorial",override,Daniel Webster Statue,inventory_2009,high,
+L_0651,Engine Company No. 16/Truck Company No. 3,reject,,,,auto-match rejected: Engine Company No. 3
+L_0653,Engine Company No. 26,override,Engine Company No. 26,inventory_update_fy2011,high,
+L_0654,Engine Company No. 27,override,Engine Company No. 27,inventory_update_fy2011,medium,
+L_0664,"Longfellow, Henry Wadsworth, Memorial",accept,Henry Wadsworth Longfellow Statue,inventory_2009,medium,
+L_0677,"Morris, Edgar and Beronica, House",override,Morris Residence,inventory_update_fy2010,high,4001 Linnean Avenue NW
+L_0678,Munson Hall,override,The Euclid,inventory_update_fy2010,medium,"GWU's Munson Hall is the former Euclid apartments, 2212 I St NW"
+L_0694,"Chappell, N. Webster, House",override,N. Webster Chappell House,inventory_update_fy2011,medium,
+L_0695,"Stone, Robert and Lillie May, House",override,Robert and Lillie May Stone House,inventory_update_fy2011,medium,
+L_0696,"Burrows, Samuel and Harriet America, House",reject,,,,auto-match rejected: Samuel Gompers House
+L_0700,"Third Church of Christ, Scientist",accept,"Third Church of Christ, Scientist, and Christian Science Monitor Building",inventory_2009,medium,
+L_0704,U.S. Government Central Heating Plant,accept,Central Heating Plant,inventory_2009,medium,
+L_0705,Public Health Service,accept,Public Health Service (Department of the Interior South Building),inventory_2009,medium,
+L_0720,Garden Club Entrance Marker at Georgia Avenue,accept,Garden Club Entrance Markers,inventory_2009,medium,
+L_0721,Garden Club Entrance Markers at Friendship Heights,accept,Garden Club Entrance Markers,inventory_2009,medium,
+L_0723,Garden Club Entrance Markers in Westmoreland Circle,accept,Garden Club Entrance Markers,inventory_2009,medium,
+L_0724,Garden Club Entrance Markers in Chevy Chase Circle,accept,Garden Club Entrance Markers,inventory_2009,medium,
+L_0731,Greystone Enclave,accept,"Greystone Enclave (Porter Street, NW, North Side of 2300 Block)",inventory_2009,medium,
+L_0732,Gearing Bungalow,override,"Greystone Enclave (Porter Street, NW, North Side of 2300 Block)",inventory_2009,high,Gearing Bungalow is listed within Greystone Enclave
+L_0733,Pine Crest Manor,override,"Greystone Enclave (Porter Street, NW, North Side of 2300 Block)",inventory_2009,high,Pine Crest Manor is listed within Greystone Enclave
+L_1144,"Square 38 - 23rd St, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
+L_1147,"Square 38 - Pennsylvania Ave, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
+L_1155,"Square 38 - 24th St, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
+L_1381,The Maycroft,reject,,,,auto-match rejected: The Cairo
+L_1384,Dorsch's White Cross Bakery,reject,,,,auto-match rejected: Reeves Bakery [demolished]
+L_1386,Park View School (and Auditorium),override,Park View School (and Auditorium Interior),inventory_update_fy2012,medium,
+L_1389,Fish Market Lunchroom & Oyster Shucking Shed,accept,"Municipal Fish Market, Lunch Room and Oyster Shucking Shed",inventory_update_fy2016,medium,
+L_1392,York Theater,reject,,,,auto-match rejected: Newton Theater
+L_1400,Denrike Building,override,Denrike Building,inventory_update_fy2016,high,
+L_1402,Baker House,accept,Thomas Beall House (Newton D. Baker House),inventory_2009,medium,
+L_1403,Suter Properties,reject,,,,"auto-match rejected: Square 38, Designated Properties"
+L_1406,Brookland Bowling Alley,override,Brookland Bowling Alleys,inventory_update_fy2016,medium,
+L_1407,Dunblane,accept,Dumblane,inventory_2009,medium,
+L_1408,"First Church of Christ, Scientist",reject,,,,auto-match rejected: Christ Church
+L_1409,Sheridan Theater,reject,,,,auto-match rejected: Strand Theater
+L_1410,Western Bus Garage,reject,,,,auto-match rejected: Central Bus Garage
+L_1411,Decatur Street Car Barn,reject,,,,auto-match rejected: East Capitol Street Car Barn (Metropolitan Railroad Company Car Barn)
+L_1412,"Washington Aqueduct, Dalecarlia Reservoir",accept,Washington Aqueduct,inventory_2009,medium,
+L_1414,"Washington Aqueduct, Georgetown Reservoir",accept,Washington Aqueduct,inventory_2009,medium,
+L_1418,Boundary Stones,accept,Boundary Stones of the District of Columbia,inventory_2009,medium,
+L_1433,Springarn Senior High School,accept,Joel Elias Spingarn Senior High School,inventory_update_fy2013,medium,
+L_1435,Parkview Playground and Field House,accept,Park View Playground and Field House,inventory_update_fy2013,medium,
+L_1437,Washington Railway and Electric Company Garage,reject,,,,auto-match rejected: Hotel Washington
+L_1438,General Baking Company Bakery (Bond Bread Factory),accept,Bond Bread Bakery,inventory_update_fy2013,medium,
+L_1444,Capitol Park Towers,reject,,,,auto-match rejected: The Capitol
+L_1454,Emory United Methodist Church,reject,,,,auto-match rejected: Ebenezer United Methodist Church
+L_1459,3020 Albemarle Street,reject,,,,"auto-match rejected: 22 D Street, SE [demolished]"
+L_1461,Dunblane 2,accept,Dumblane,inventory_2009,medium,
+L_1464,GSA Regional Office Building,reject,,,,auto-match rejected: Bond Building
+L_1466,INTELSAT Building,reject,,,,auto-match rejected: Winder Building
+L_1467,Interstate Building,reject,,,,auto-match rejected: Winder Building
+L_1476,Anderson Tire Manufacturing Company,reject,,,,auto-match rejected: District of Columbia Paper Manufacturing Company (Paper Mill)
+L_1477,King David Masonic Lodge #28,reject,,,,auto-match rejected: Potomac Masonic Lodge No. 5
+L_1479,Railway Express Building,reject,,,,auto-match rejected: Southern Railway Building
+L_1483,Valencia Apartments,reject,,,,auto-match rejected: Glade Apartments
+L_1484,Vizcaya Apartments,override,Chilchester Arms Apartments (Vizcaya Apartments),inventory_update_fy2016,medium,
+L_1485,Union Market Terminal,reject,,,,auto-match rejected: Union Market Historic District
+L_1489,Concord Apartments,override,Park Vista and Pine Manor (Concord Apartments),inventory_update_fy2016,low,
+L_1491,National Geographic Society,reject,,,,auto-match rejected: Schlitz Brewing Company Washington Branch / National Geographic Society Warehouse
+L_1493,Carnegie Atomic Physics Laboratory,reject,,,,"auto-match rejected: Carnegie Institution of Washington, Geophysical Laboratory"
+L_1494,American Theater,accept,American Theater (Sylvan Theater),inventory_update_fy2019,medium,
+L_1509,PEPCO Substation 61,reject,,,,auto-match rejected: Potomac Electric Power Company Substation No. 13
+L_1513,MacFarland Junior High School,override,MacFarland Junior High School,inventory_update_fy2018,high,
+L_1528,Twin Oaks Playground,override,Twin Oaks Playground and Field House,inventory_update_fy2017,medium,two-column layout; attribution placement checked by eye
+L_1533,3020 University Terrace,reject,,,,auto-match rejected: Clifton Terrace
+L_1536,Capitol Power Plant Pump House,reject,,,,auto-match rejected: The Capitol
+L_1537,PEPCO Harrison Street Substation,reject,,,,"auto-match rejected: 22 D Street, SE [demolished]"
+L_1538,Thomas Jefferson Junior High School,override,Jefferson Junior High School,hpo_annual_report_fy2021,high,
+L_1540,Pan American Health Organization,reject,,,,auto-match rejected: Pan American Union (Organization of American States)
+L_1546,Calvin Coolidge High School,accept,Calvin Coolidge Senior High School,hpo_annual_report_fy2021,medium,
+L_1551,Northeast Savings Bank,reject,,,,auto-match rejected: Mercantile Savings Bank
+L_1552,Lord & Taylor Chevy Chase Branch Store,reject,,,,auto-match rejected: Chevy Chase Theater (Avalon Theater)
+L_1554,Chevy Chase Savings Bank,reject,,,,auto-match rejected: Chevy Chase Playground
+L_1556,Holy Name College and Sherwood Farmhouse,reject,,,,auto-match rejected: Holy Redeemer College
+L_1558,Randle Highlands School,reject,,,,auto-match rejected: Engine Company No. 19 (Randle Highlands Firehouse)
+L_1559,Eastern High School,reject,,,,auto-match rejected: Paul Lawrence Dunbar High School [demolished]
+L_1560,Little Tavern Store No. 27,reject,,,,auto-match rejected: City Tavern
+L_1562,Smothers Elementary School,reject,,,,auto-match rejected: Lucy Diggs Slowe Elementary School
+L_1563,Buchanan School Plaza,reject,,,,auto-match rejected: Chain Bridge Road School
+L_1564,Marist College,reject,,,,auto-match rejected: Army War College (National Defense University)
+L_1565,Swedish Ambassador’s Residence,reject,,,,auto-match rejected: Morris Residence
+L_1566,"The University Club of Washington, D.C.",accept,United Mine Workers of America (The University Club),inventory_2009,medium,
+L_1567,Old Chinese Legation,reject,,,,auto-match rejected: National Archives
+L_1568,Old Korean Legation,reject,,,,auto-match rejected: Old Engine Company No. 6
+L_1569,Federal Office Building 10A,reject,,,,auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1570,Federal Office Building 10B,reject,,,,auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1571,Sofia Reyes de Veyra Residence,reject,,,,auto-match rejected: Morris Residence
+L_1572,Pauline “Polly” Shackleton Residence,reject,,,,auto-match rejected: Morris Residence
+L_1573,John J. Earley House (and interiors),reject,,,,auto-match rejected: Barney Studio House (and Interiors)
+L_1574,Latin American Youth Center,reject,,,,auto-match rejected: American Federation of Labor
+L_1575,Euram Building,reject,,,,auto-match rejected: Homer Building
+L_1576,Francis Junior High School,reject,,,,auto-match rejected: John Philip Sousa Junior High School
+L_1577,Department of Education Lyndon Baines Johnson Building,reject,,,,auto-match rejected: Bond Building
+L_1578,Department of Health & Human Services Hubert H Humphrey Building,reject,,,,auto-match rejected: Bond Building
+L_1579,The Ritz Apartments,reject,,,,auto-match rejected: Capitol Park Apartments
+L_1580,The Mozart Apartments,reject,,,,auto-match rejected: Fort View Apartments
+L_1581,Doris Fleeson House,reject,,,,auto-match rejected: Cady-Lee House
+L_1582,Dorothy I. Height Elementary School,reject,,,,auto-match rejected: Bunker Hill Elementary School
+L_1583,Vermont Avenue Baptist Church,reject,,,,auto-match rejected: Mount Olivet Lutheran Church (Vermont Avenue Christian Church)
+L_1584,National Theatre,reject,,,,auto-match rejected: Ford’s Theatre National Historic Site

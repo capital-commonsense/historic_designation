@@ -1,0 +1,21 @@
+order,pattern,filer_type,canonical_name,note
+1,"pre\S*\s*\S*\s*league|prese.?vation league|\bD\.?C\.?\s+\S+\s+league","dcpl",DC Preservation League,"matches OCR variants (rresetvotion, PreseNation, Pteservctior, Preservof'on, Prese,vation)"
+2,"historic washington architecture","citywide_other",Historic Washington Architecture,"citywide advocacy group despite 'Inc.'"
+3,"committee of 100","citywide_other",Committee of 100 on the Federal City,
+4,"art deco society","citywide_other",Art Deco Society of Washington,
+5,"capit[ao]l fire museum","citywide_other",Capital Fire Museum,"fire-history organization; spelled Capitol/Capital in sources"
+6,"save the corcoran","citywide_other",Save the Corcoran,
+7,"colonial dames","owner",National Society Colonial Dames XVII Century,"inferred owner (nominated its own headquarters)"
+8,"advisory neighborhood commission|\banc\b","anc",ANC,"canonical name extended with the commission id"
+9,"historic preservation office|\bhpo\b|\bshpo\b","government",DC Historic Preservation Office,
+10,"general services administration|\bgsa\b","government",US General Services Administration,
+11,"department of general services","government",DC Department of General Services,
+12,"national park service|national capital parks","government",National Park Service,
+13,"parks and recreation","government",DC Department of Parks and Recreation,
+14,"deputy mayor","government",Deputy Mayor for Planning and Economic Development,
+15,"consumer financial protection bureau","government",Consumer Financial Protection Bureau,"federal agency nominating its own building"
+16,"government of the district","government",Government of the District of Columbia,"owner is the District government"
+17,"\bus army\b|u\.s\. army","government",US Army,
+18,"historical society|historic mount pleasant|restoration society|historic anacostia|citizens association of georgetown","neighborhood",,"standing preservation/historical societies; kept as neighborhood for the society/ad hoc split"
+19,"citizens association|civic association|community association|neighborhood association|neighborhood alliance|neighborhood assembly|tenants|coalition|condo association|allies association|brigade|bridgade","neighborhood",,"neighborhood groups; society vs ad hoc decided by prior-nomination count (inferred)"
+20,"property owners?|\bowners?\b|\bllc\b|\blp\b|limited partnership|owners,? inc|corporation|esop|hospitality|university|church|redemptorists|library|congressional club|cultural institute|yacht club","owner","","owner or owner-institution nominating its own property (inferred from name)"

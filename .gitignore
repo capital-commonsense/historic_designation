@@ -13,3 +13,7 @@ wheels/
 data/raw/
 data/normalized/
 data/joined/
+data/drafts/
+
+# Local secrets (API tokens)
+.env
