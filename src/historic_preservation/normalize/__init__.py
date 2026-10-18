@@ -7,8 +7,17 @@ import json
 
 import pandas as pd
 
-from historic_preservation.config import NORMALIZED, snapshot_dir
+from historic_preservation.config import (
+    HPO_REPORTS,
+    INVENTORY_2009,
+    INVENTORY_UPDATES,
+    NORMALIZED,
+    snapshot_dir,
+)
 from historic_preservation.fetch.arcgis import read_features
+from historic_preservation.fetch.documents import document_path
+from historic_preservation.normalize.inventory import extract_dates, parse_entries
+from historic_preservation.normalize.inventory_updates import parse_items
 
 ITSPE_DROP = ("OWNERNAME", "OWNNAME2")
 
@@ -104,6 +113,25 @@ def gis_layer(snapshot, key: str) -> pd.DataFrame:
     return df
 
 
+def inventory_2009(snapshot) -> pd.DataFrame:
+    path = document_path(snapshot, INVENTORY_2009)
+    entries, _ = parse_entries(path)
+    return pd.DataFrame(
+        [{"name": e.name, "page": e.page, **extract_dates(e.text), "text": e.text} for e in entries]
+    )
+
+
+def inventory_updates(snapshot) -> pd.DataFrame:
+    rows = []
+    for doc in (*INVENTORY_UPDATES, *HPO_REPORTS[:2]):
+        path = document_path(snapshot, doc)
+        if not path.exists():
+            continue
+        for item in parse_items(path):
+            rows.append({"source_doc": doc.key, **item.fields()})
+    return pd.DataFrame(rows)
+
+
 def run() -> None:
     snapshot = snapshot_dir()
     print(f"normalize: reading {snapshot}")
@@ -114,4 +142,6 @@ def run() -> None:
     for key in ("condo_one_to_many", "historic_districts", "landmark_points", "landmark_polygons",
                 "potential_landmarks", "preservation_easements"):
         gis_layer(snapshot, key).to_csv(NORMALIZED / f"{key}.csv", index=False)
+    inventory_2009(snapshot).to_csv(NORMALIZED / "inventory_2009_entries.csv", index=False)
+    inventory_updates(snapshot).to_csv(NORMALIZED / "inventory_update_items.csv", index=False)
     (NORMALIZED / "SNAPSHOT.json").write_text(json.dumps({"snapshot": snapshot.name}))

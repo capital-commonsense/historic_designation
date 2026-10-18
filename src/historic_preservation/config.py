@@ -89,6 +89,47 @@ ARCGIS_LAYERS = (
 )
 
 
+@dataclass(frozen=True)
+class Document:
+    key: str
+    url: str
+
+    @property
+    def filename(self) -> str:
+        return f"{self.key}.pdf"
+
+
+_OP_ATTACH = "https://planning.dc.gov/sites/default/files/dc/sites/op/publication/attachments"
+
+# DC Inventory of Historic Sites: the 2009 alphabetical edition plus annual
+# updates listed at https://planning.dc.gov/publication/dc-inventory-updates
+INVENTORY_2009 = Document("inventory_2009", f"{_OP_ATTACH}/Inventory%202009%200%20Alpha%20Version%2003%2011.pdf")
+INVENTORY_UPDATES = tuple(
+    Document(f"inventory_update_fy{fy}", f"{_OP_ATTACH}/{name}")
+    for fy, name in (
+        (2010, "FY%202010%20Landmarks%20Update.pdf"),
+        (2011, "FY%202011%20Landmarks%20Update.pdf"),
+        (2012, "FY%202012%20Landmarks%20Update_0.pdf"),
+        (2013, "FY%202013%20Landmarks%20Upldate.pdf"),
+        (2014, "FY%202014%20Landmarks%20Update.pdf"),
+        (2015, "FY%202015%20Landmarks%20Update.pdf"),
+        (2016, "FY%202016%20Landmarks%20Update.pdf"),
+        (2017, "FY%202017%20Landmarks.pdf"),
+        (2018, "FY%202018%20Landmarks.pdf"),
+        (2019, "FY%202019%20Landmarks.pdf"),
+        (2020, "2020%20Landmarks%20Update.pdf"),
+    )
+)
+# Full HPO annual reports after the last Inventory update (FY2020), and the
+# 2021-2025 preservation-plan implementation report.
+HPO_REPORTS = (
+    Document("hpo_annual_report_fy2021", f"{_OP_ATTACH}/2021%20HPO%20Annual%20Report.pdf"),
+    Document("hpo_annual_report_fy2022", f"{_OP_ATTACH}/2022%20Annual%20Report%20FINAL%20corrected.pdf"),
+    Document("hp_plan_implementation_2025", f"{_OP_ATTACH}/2025%20HP%20Plan-FINAL%20%20Implementation%20Report.pdf"),
+)
+DOCUMENTS = (INVENTORY_2009, *INVENTORY_UPDATES, *HPO_REPORTS)
+
+
 def snapshot_dir() -> Path:
     """The raw snapshot the build reads: $HP_SNAPSHOT, else the newest complete one."""
     if name := os.environ.get("HP_SNAPSHOT"):

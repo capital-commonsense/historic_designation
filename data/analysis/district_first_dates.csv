@@ -1,0 +1,75 @@
+district,first_event,first_date,source_doc,source_page,confidence,expansions,has_expansion,era
+Anacostia Historic District,designated,1973-11-27,inventory_2009,8.0,high,1978-02-03; 2021-10-28,True,1970s
+Armed Forces Retirement Home-Washington Historic District,designated,2008-05-22,inventory_2009,12.0,high,,False,2000s
+Blagden Alley/Naylor Court,designated,1990-09-19,inventory_2009,21.0,high,,False,1990s
+Bloomingdale Historic District,designated,2018-07-26,inventory_update_fy2018,,high,,False,2010s
+Capitol Hill Historic District,designated,1973-06-19,inventory_2009,31.0,high,1976-01-20; 2002-02-07; 2015-05-28,True,1970s
+Chesapeake and Ohio Canal National Historical Park,dc_listing,1964-11-08,inventory_2009,36.0,medium,,False,1964 list
+Cleveland Park Historic District,designated,1986-11-19,inventory_2009,39.0,high,,False,1980s
+Colony Hill Historic District,designated,2021-02-04,hpo_annual_report_fy2021,17.0,high,,False,2020s
+Downtown Historic District,designated,1982-07-26,inventory_2009,48.0,high,,False,1980s
+Dumbarton Oaks Park (Res 637),dc_listing,1979-03-03,inventory_2009,48.0,high,,False,1970s
+Dupont Circle Historic District,designated,1977-06-17,inventory_2009,49.0,high,1983-06-30; 2005-02-24,True,1970s
+East and West Potomac Parks Historic District,dc_listing,1964-11-08,inventory_2009,50.0,high,,False,1964 list
+Emerald Street Historic District,designated,2017-05-25,inventory_update_fy2017,,high,,False,2010s
+Federal Triangle Historic District,dc_listing,1968-03-07,inventory_2009,58.0,high,,False,1960s other
+Financial Historic District,designated,1981-07-31,inventory_2009,59.0,high,2016-07-28,True,1980s
+Foggy Bottom Historic District,designated,1986-10-15,inventory_2009,60.0,high,,False,1980s
+Ford's Theatre National Historic Site,designated,1973-06-19,inventory_2009,61.0,high,,False,1970s
+Fort Circle Parks Historic District,dc_listing,1964-11-08,inventory_2009,39.0,medium,,False,1964 list
+Fort McNair (The Old Arsenal),dc_listing,1964-11-08,inventory_2009,61.0,high,,False,1964 list
+Foxhall Village Historic District,designated,2007-07-26,inventory_2009,63.0,high,,False,2000s
+Gallaudet College Historic District,designated,1973-08-28,inventory_2009,66.0,high,,False,1970s
+George Washington University /Old West End Historic District,designated,2014-10-02,inventory_update_fy2015,3.0,high,,False,2010s
+Georgetown Historic District,established_by_act,1950-09-22,inventory_2009,70.0,high,,False,1950
+Georgetown Visitation Convent and Preparatory School,dc_listing,1964-11-08,inventory_2009,71.0,medium,,False,1964 list
+Glover-Archbold Park (Res 450 & 351),dc_listing,1964-11-08,inventory_2009,72.0,high,,False,1964 list
+Grant Circle Historic District,designated,2015-04-02,inventory_update_fy2015,,high,,False,2010s
+Grant Road Historic District,designated,2002-02-28,inventory_2009,74.0,high,,False,2000s
+Greater Fourteenth Street Historic District,designated,1994-05-26,inventory_2009,63.0,high,2007-01-18,True,1990s
+Greater U Street Historic District,designated,1998-12-17,inventory_2009,75.0,high,,False,1990s
+Greystone Enclave,designated,1989-06-21,inventory_2009,75.0,high,,False,1980s
+Immaculata Seminary Historic District,designated,2011-10-27,inventory_update_fy2012,3.0,high,,False,2010s
+Kalorama Triangle Historic District,designated,1986-11-22,inventory_2009,86.0,high,,False,1980s
+Kingman Park Historic District,designated,2018-05-03,inventory_update_fy2018,,high,2020-09-24,True,2010s
+Lafayette Square Historic District,designated,1973-06-19,inventory_2009,89.0,high,2022-09-29,True,1970s
+Langston Golf Course Historic District,designated,2018-03-22,inventory_update_fy2018,,high,,False,2010s
+LeDroit Park Historic District,designated,1973-11-27,inventory_2009,91.0,high,,False,1970s
+Logan Circle Historic District,designated,1972-03-28,inventory_2009,94.0,high,,False,1970s
+Marine Barracks Historic District,dc_listing,1964-11-08,inventory_2009,97.0,high,,False,1964 list
+Marjorie Webster Historic District,designated,2011-09-22,inventory_update_fy2011,3.0,high,,False,2010s
+Massachusetts Avenue Historic District,designated,1973-11-27,inventory_2009,98.0,high,,False,1970s
+McMillan Park Reservoir Historic District,designated,1991-08-21,inventory_2009,100.0,high,,False,1990s
+Meridian Hill Historic District,designated,2014-03-06,inventory_update_fy2014,1.0,high,,False,2010s
+Montrose Park (Res 324),dc_listing,1979-03-03,inventory_2009,104.0,high,,False,1970s
+Mount Pleasant Historic District,designated,1986-10-15,inventory_2009,105.0,high,,False,1980s
+Mount Vernon Memorial Highway Historic District,dc_listing,1964-11-08,inventory_2009,105.0,high,,False,1964 list
+Mount Vernon Seminary for Girls Historic District,designated,2016-05-26,inventory_update_fy2016,,high,,False,2010s
+Mount Vernon Square Historic District,designated,1999-07-22,inventory_2009,106.0,high,,False,1990s
+Mount Vernon Triangle Historic District,designated,2005-11-17,inventory_2009,106.0,high,,False,2000s
+National Arboretum,dc_listing,1968-03-07,inventory_2009,108.0,high,,False,1960s other
+National Mall,dc_listing,1964-11-08,inventory_2009,109.0,high,2016-12-15,True,1964 list
+National Zoological Park,dc_listing,1964-11-08,inventory_2009,110.0,high,,False,1964 list
+Observatory Hill Historic District,designated,2016-10-27,inventory_update_fy2017,1.0,high,,False,2010s
+Pennsylvania Avenue National Historic Site,designated,1973-06-19,inventory_2009,126.0,high,,False,1970s
+"Potomac Gorge, The  (Potomac Palisades)",dc_listing,1964-11-08,inventory_2009,132.0,high,,False,1964 list
+Rock Creek & Potomac Parkway (Res 360),dc_listing,1964-11-08,inventory_2009,140.0,high,,False,1964 list
+Rock Creek Park Historic District,dc_listing,1964-11-08,inventory_2009,140.0,high,,False,1964 list
+Saint Elizabeths Hospital Historic District,designated,2005-05-26,inventory_2009,143.0,high,,False,2000s
+Seventeenth Street Historic District,dc_listing,1968-03-07,inventory_2009,147.0,high,,False,1960s other
+Shaw Historic District,designated,1999-07-22,inventory_2009,148.0,high,,False,1990s
+Sheridan-Kalorama Historic District,designated,1989-08-16,inventory_2009,149.0,high,,False,1980s
+Sixteenth Street Historic District,designated,1977-03-09,inventory_2009,150.0,high,2007-01-18,True,1970s
+Soldier's Home National Historic Site,dc_listing,1979-03-03,inventory_2009,151.0,high,,False,1970s
+Strivers' Section Historic District,designated,1983-06-30,inventory_2009,155.0,high,,False,1980s
+Takoma Park Historic District,designated,1980-09-18,inventory_2009,157.0,high,,False,1980s
+Theodore Roosevelt Island National Memorial (Analostan Island),dc_listing,1964-11-08,inventory_2009,141.0,high,,False,1964 list
+U.S. Naval Observatory,designated,2023-01-01,hp_plan_implementation_2025,,medium,,False,2020s
+Union Market Historic District,designated,2016-11-03,inventory_update_fy2017,,high,,False,2010s
+Walter Reed Army Medical Center Historic District,designated,2014-04-24,inventory_update_fy2014,3.0,high,,False,2010s
+Washington Heights Historic District,designated,2006-07-27,inventory_2009,172.0,high,,False,2000s
+Washington Monument and Grounds Historic District,designated,2016-12-15,inventory_update_fy2017,2.0,high,,False,2010s
+Washington National Cathedral and Close Historic District,dc_listing,1968-03-07,inventory_2009,171.0,medium,,False,1960s other
+Washington Navy Yard Historic District,dc_listing,1964-11-08,inventory_2009,175.0,high,2008-02-28,True,1964 list
+Woodley Park Historic District,designated,1990-04-18,inventory_2009,183.0,high,,False,1990s
+"Young, Brown, Phelps and Spingarn Educational Campus Historic District",designated,2015-05-28,inventory_update_fy2015,6.0,high,,False,2010s

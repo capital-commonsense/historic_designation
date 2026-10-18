@@ -1,0 +1,103 @@
+district,event,date,effective,nominated_by,source_doc,source_page,confidence,notes
+Anacostia Historic District,designated,1973-11-27,,,inventory_2009,8,high,
+Anacostia Historic District,expanded,1978-02-03,,,inventory_2009,8,high,
+Anacostia Historic District,expanded,2021-10-28,2021-12-12,DC Preservation League,hpo_annual_report_fy2022,11,high,adds about 325 properties on the periphery
+Armed Forces Retirement Home-Washington Historic District,designated,2008-05-22,,,inventory_2009,12,high,
+Blagden Alley/Naylor Court,designated,1990-09-19,1990-11-13,,inventory_2009,21,high,superseded by expanded district 1999-07-22; original designation reinstituted 1999-12-16
+Bloomingdale Historic District,designated,2018-07-26,2018-09-09,DC Preservation League on behalf of the Bloomingdale Historic Designation Coalition,inventory_update_fy2018,,high,
+Capitol Hill Historic District,preliminary_listing,1964-11-08,,,inventory_2009,31,high,preliminary identification; not a designation
+Capitol Hill Historic District,designated,1973-06-19,,,inventory_2009,31,high,
+Capitol Hill Historic District,expanded,1976-01-20,,,inventory_2009,31,high,boundary expansion
+Capitol Hill Historic District,expanded,2002-02-07,2002-04-21,,inventory_2009,31,high,boundary expansion south of the Southeast Freeway
+Capitol Hill Historic District,amended,2003-02-27,,,inventory_2009,31,high,period of significance extended; no boundary change
+Capitol Hill Historic District,expanded,2015-05-28,,ANC 6C,inventory_update_fy2015,6,high,four-block area north of F and G Streets NE between 2nd and 4th Streets; 170 contributing buildings
+Chesapeake and Ohio Canal National Historical Park,dc_listing,1964-11-08,,,inventory_2009,36,medium,canal itself listed 1964; the NHP entry records DC designation 1973-01-23
+Chesapeake and Ohio Canal National Historical Park,designated,1973-01-23,,,inventory_2009,36,medium,DC designation of the National Historical Park
+Cleveland Park Historic District,preliminary_listing,1964-11-08,,,inventory_2009,39,high,preliminary identification; not a designation
+Cleveland Park Historic District,designated,1986-11-19,1987-04-27,,inventory_2009,39,high,
+Colony Hill Historic District,designated,2021-02-04,,Colony Hill Neighborhood Association,hpo_annual_report_fy2021,17,high,
+Downtown Historic District,designated,1982-07-26,1984-10-05,,inventory_2009,48,high,NR listing blocked by owner objection 1984; NR listed 2001
+Dumbarton Oaks Park (Res 637),dc_listing,1979-03-03,,,inventory_2009,48,high,
+Dupont Circle Historic District,preliminary_listing,1964-11-08,,,inventory_2009,49,high,preliminary identification; not a designation
+Dupont Circle Historic District,designated,1977-06-17,,,inventory_2009,49,high,
+Dupont Circle Historic District,expanded,1983-06-30,1985-01-04,,inventory_2009,49,high,
+Dupont Circle Historic District,expanded,2005-02-24,2005-05-22,,inventory_2009,49,high,
+East and West Potomac Parks Historic District,dc_listing,1964-11-08,,,inventory_2009,50,high,
+Emerald Street Historic District,designated,2017-05-25,,Advisory Neighborhood Commission 6A,inventory_update_fy2017,,high,
+Federal Triangle Historic District,dc_listing,1968-03-07,,,inventory_2009,58,high,
+Financial Historic District,designated,1981-07-31,1984-10-05,,inventory_2009,59,high,designated as the Fifteenth Street Financial Historic District; NR listing blocked by owner objection 1984
+Financial Historic District,expanded,2016-07-28,,D.C. Preservation League,inventory_update_fy2016,2,high,renamed Financial Historic District; adds seventeen buildings
+Foggy Bottom Historic District,designated,1986-10-15,1987-10-13,,inventory_2009,60,high,
+Ford's Theatre National Historic Site,designated,1973-06-19,,,inventory_2009,61,high,Ford's Theatre building itself DC-listed 1964-11-08 (p60)
+Fort Circle Parks Historic District,dc_listing,1964-11-08,,,inventory_2009,39,medium,listed as Civil War Fort Sites
+Fort Circle Parks Historic District,amended,1973-06-19,,,inventory_2009,39,medium,amended to specify inclusion of the Fort Circle Park System; lots on connecting parkland may date from 1973
+Fort McNair (The Old Arsenal),dc_listing,1964-11-08,,,inventory_2009,61,high,
+Foxhall Village Historic District,designated,2007-07-26,2007-09-10,,inventory_2009,63,high,
+Gallaudet College Historic District,designated,1973-08-28,,,inventory_2009,66,high,
+George Washington University /Old West End Historic District,designated,2014-10-02,,DC Historic Preservation Office,inventory_update_fy2015,3,high,
+Georgetown Historic District,established_by_act,1950-09-22,,,inventory_2009,70,high,Old Georgetown Act
+Georgetown Historic District,dc_listing,1964-11-08,,,inventory_2009,70,high,
+Georgetown Historic District,amended,2003-02-27,,,inventory_2009,70,high,period of significance expanded; no boundary change
+Georgetown Visitation Convent and Preparatory School,dc_listing,1964-11-08,,,inventory_2009,71,medium,chapel listed 1964; monastery and academy building listed 1968-03-07; within Georgetown HD
+Glover-Archbold Park (Res 450 & 351),dc_listing,1964-11-08,,,inventory_2009,72,high,
+Grant Circle Historic District,designated,2015-04-02,,Off Boundary Preservation Brigade,inventory_update_fy2015,,high,
+Grant Road Historic District,designated,2002-02-28,2002-04-21,,inventory_2009,74,high,the exploratory pull listed this as unresolved (2006 vs ~2002); the Inventory text says 2002
+Greater Fourteenth Street Historic District,designated,1994-05-26,1994-08-22,,inventory_2009,63,high,designated as the Fourteenth Street Historic District
+Greater Fourteenth Street Historic District,expanded,2007-01-18,2007-03-11,,inventory_2009,63,high,
+Greater U Street Historic District,designated,1998-12-17,1999-01-11,,inventory_2009,75,high,
+Greystone Enclave,designated,1989-06-21,,,inventory_2009,75,high,
+Immaculata Seminary Historic District,designated,2011-10-27,,Tenleytown Historical Society,inventory_update_fy2012,3,high,printed as "Immaculate Seminary Historic District"
+Kalorama Triangle Historic District,preliminary_listing,1964-11-08,,,inventory_2009,86,high,preliminary identification; not a designation
+Kalorama Triangle Historic District,designated,1986-11-22,1987-04-27,,inventory_2009,86,high,
+Kingman Park Historic District,designated,2018-05-03,2018-06-24,Kingman Park Civic Association,inventory_update_fy2018,,high,
+Kingman Park Historic District,expanded,2020-09-24,2020-11-22,Kingman Park Civic Association,inventory_update_fy2020,3,high,period of significance extended to 1968
+Lafayette Square Historic District,designated,1973-06-19,,,inventory_2009,89,high,
+Lafayette Square Historic District,boundary_change,2022-09-29,,Office of the National Park Service Liaison to the White House,hpo_annual_report_fy2022,10,high,adds New Executive Office Building and National Grange; removes old National Savings & Trust bank (which remains in the Financial HD)
+Langston Golf Course Historic District,designated,2018-03-22,,National Park Service and National Capital Parks-East,inventory_update_fy2018,,high,NR-only before 2018
+LeDroit Park Historic District,designated,1973-11-27,,,inventory_2009,91,high,
+Logan Circle Historic District,preliminary_listing,1964-11-08,,,inventory_2009,94,high,preliminary listing; not a designation
+Logan Circle Historic District,designated,1972-03-28,,,inventory_2009,94,high,
+Marine Barracks Historic District,dc_listing,1964-11-08,,,inventory_2009,97,high,
+Marjorie Webster Historic District,designated,2011-09-22,,DC Preservation League,inventory_update_fy2011,3,high,
+Massachusetts Avenue Historic District,designated,1973-11-27,,,inventory_2009,98,high,
+McMillan Park Reservoir Historic District,designated,1991-08-21,,,inventory_2009,100,high,listed in the Inventory as McMillan Park Reservoir
+Meridian Hill Historic District,preliminary_listing,1964-11-08,,,inventory_2009,102,high,"Meridian Hill Area: preliminary identification, ""not subject to the D.C. Historic Protection Act"""
+Meridian Hill Historic District,designated,2014-03-06,2014-04-13,"Historic Preservation Office, Reed-Cooke Neighborhood Association, and Historic Mount Pleasant",inventory_update_fy2014,1,high,
+Montrose Park (Res 324),dc_listing,1979-03-03,,,inventory_2009,104,high,
+Mount Pleasant Historic District,designated,1986-10-15,1987-10-26,,inventory_2009,105,high,
+Mount Vernon Memorial Highway Historic District,dc_listing,1964-11-08,,,inventory_2009,105,high,
+Mount Vernon Seminary for Girls Historic District,designated,2016-05-26,,U.S. General Services Administration,inventory_update_fy2016,,high,
+Mount Vernon Square Historic District,designated,1999-07-22,1999-09-07,,inventory_2009,106,high,
+Mount Vernon Triangle Historic District,designated,2005-11-17,2006-03-26,,inventory_2009,106,high,
+Mount Vernon Triangle Historic District,expansion_denied,,,,hpo_annual_report_fy2021,,high,HPRB denied a proposed expansion in FY2021 (date not given in report)
+National Arboretum,dc_listing,1968-03-07,,,inventory_2009,108,high,
+National Mall,dc_listing,1964-11-08,,,inventory_2009,109,high,original listing covered only the Capitol Grounds to 14th Street (except Agriculture)
+National Mall,expanded,2016-12-15,,National Park Service,inventory_update_fy2017,2,high,"boundaries extended west to the Lincoln Memorial, south to the Jefferson Memorial, and north to the White House grounds"
+National Zoological Park,dc_listing,1964-11-08,,,inventory_2009,110,high,
+Observatory Hill Historic District,designated,2016-10-27,,General Services Administration and D.C. Preservation League,inventory_update_fy2017,1,high,
+Pennsylvania Avenue National Historic Site,designated,1973-06-19,,,inventory_2009,126,high,
+"Potomac Gorge, The  (Potomac Palisades)",dc_listing,1964-11-08,,,inventory_2009,132,high,listed in the Inventory as The Potomac Gorge (Potomac Palisades)
+Rock Creek & Potomac Parkway (Res 360),dc_listing,1964-11-08,,,inventory_2009,140,high,
+Rock Creek Park Historic District,dc_listing,1964-11-08,,,inventory_2009,140,high,
+Saint Elizabeths Hospital Historic District,designated,2005-05-26,,,inventory_2009,143,high,
+Seventeenth Street Historic District,dc_listing,1968-03-07,,,inventory_2009,147,high,listed as undated in the exploratory pull
+Shaw Historic District,designated,1999-07-22,1999-09-07,,inventory_2009,148,high,designated as part of an expanded district with Blagden Alley; amended 1999-12-16 to create separate Shaw HD
+Sheridan-Kalorama Historic District,preliminary_listing,1964-11-08,,,inventory_2009,149,high,preliminary identification; not a designation
+Sheridan-Kalorama Historic District,designated,1989-08-16,1989-09-25,,inventory_2009,149,high,
+Sixteenth Street Historic District,preliminary_listing,1964-11-08,,,inventory_2009,150,high,preliminary identification; not a designation
+Sixteenth Street Historic District,designated,1977-03-09,,,inventory_2009,150,high,
+Sixteenth Street Historic District,expanded,2007-01-18,2007-03-11,,inventory_2009,150,high,extended south of Scott Circle
+Soldier's Home National Historic Site,dc_listing,1979-03-03,,,inventory_2009,151,high,Lincoln Cottage within it DC-listed 1964-11-08 (p91)
+Strivers' Section Historic District,designated,1983-06-30,1985-01-04,,inventory_2009,155,high,
+Takoma Park Historic District,designated,1980-09-18,1980-11-28,,inventory_2009,157,high,
+Theodore Roosevelt Island National Memorial (Analostan Island),dc_listing,1964-11-08,,,inventory_2009,141,high,
+U.S. Naval Observatory,designated,2023-01-01,,,hp_plan_implementation_2025,,medium,"""US Naval Observatory Historic District, designated 2023""; month and day unknown, date set to Jan 1; 2009 Inventory listed it as NR/NHL-eligible only"
+Union Market Historic District,designated,2016-11-03,,D.C. Preservation League,inventory_update_fy2017,,high,
+Walter Reed Army Medical Center Historic District,designated,2014-04-24,2014-06-22,DC Preservation League and US Army (separately),inventory_update_fy2014,3,high,"""Nominated separately by the DC Preservation League and US Army"""
+Washington Heights Historic District,designated,2006-07-27,2006-09-10,,inventory_2009,172,high,
+Washington Monument and Grounds Historic District,designated,2016-12-15,,National Park Service,inventory_update_fy2017,2,high,previous Inventory listing cited only the monument itself
+Washington National Cathedral and Close Historic District,dc_listing,1968-03-07,,,inventory_2009,171,medium,listed in the Inventory as Washington Cathedral
+Washington Navy Yard Historic District,dc_listing,1964-11-08,,,inventory_2009,175,high,
+Washington Navy Yard Historic District,expanded,2008-02-28,,,inventory_2009,175,high,to include the former Navy Yard Annex
+Woodley Park Historic District,designated,1990-04-18,1990-06-11,,inventory_2009,183,high,
+"Young, Brown, Phelps and Spingarn Educational Campus Historic District",designated,2015-05-28,,Kingman Park Civic Association,inventory_update_fy2015,6,high,

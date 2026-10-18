@@ -2,8 +2,9 @@
 
 from datetime import date
 
-from historic_preservation.config import ARCGIS_LAYERS, RAW
+from historic_preservation.config import ARCGIS_LAYERS, DOCUMENTS, RAW
 from historic_preservation.fetch.arcgis import fetch_layer
+from historic_preservation.fetch.documents import fetch_document
 from historic_preservation.fetch.http import PoliteClient
 
 
@@ -15,6 +16,8 @@ def run() -> None:
     try:
         for layer in ARCGIS_LAYERS:
             fetch_layer(client, layer, dest / "arcgis")
+        for doc in DOCUMENTS:
+            fetch_document(client, doc, dest / "documents")
     finally:
         client.close()
     (dest / "SNAPSHOT_COMPLETE").touch()

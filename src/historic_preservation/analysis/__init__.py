@@ -11,6 +11,7 @@ import json
 
 import pandas as pd
 
+from historic_preservation.analysis import eras
 from historic_preservation.config import ANALYSIS, JOINED, NORMALIZED
 from historic_preservation.join import STRICT_METHODS
 
@@ -73,4 +74,19 @@ def run() -> None:
         "zoning_lookup": zoning_lookup_counts(zl),
     }
     (ANALYSIS / "gis_summary.json").write_text(json.dumps(summary, indent=2))
-    print("analysis: wrote designated_shares.csv, designated_shares_by_ward.csv, gis_summary.json")
+
+    firsts = eras.district_first_dates()
+    firsts.to_csv(ANALYSIS / "district_first_dates.csv", index=False)
+    lots = eras.lot_first_dates(j, firsts)
+    eras.value_by_era(lots).to_csv(ANALYSIS / "value_by_designation_era.csv", index=False)
+    eras.value_by_era(lots[~lots["status_inferred"]]).to_csv(
+        ANALYSIS / "value_by_designation_era_strict.csv", index=False
+    )
+
+    inv = pd.read_csv(NORMALIZED / "inventory_2009_entries.csv")
+    inventory = {
+        "entries": len(inv),
+        "entries_dc_listed_1964_11_08": int(inv["dc_listing"].fillna("").str.contains("November 8, 1964").sum()),
+    }
+    (ANALYSIS / "inventory_summary.json").write_text(json.dumps(inventory, indent=2))
+    print("analysis: wrote designated shares, district eras, inventory summary")
