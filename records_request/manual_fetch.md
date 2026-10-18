@@ -8,7 +8,7 @@ What the pipeline does with each folder today:
 - `dcpl_990/`: archived, OCR'd, and the figures recorded in `inputs/dcpl_990_lines.csv`. The 990s are scanned images, so I check each OCR'd figure by eye rather than trusting it blind.
 - `mayors_agent/`, `hprb_box/`, `icg_settlement/`: parsers will be written once the files arrive, since their formats aren't known yet.
 
-Status as of 2026-10-17. Ordered by how much each item unlocks.
+Status as of 2026-10-18. Ordered by how much each item unlocks.
 
 ## 1. DCPL Form 990 filings (H10, governance)
 
@@ -62,8 +62,12 @@ If the collection is large, start with decisions from 2000 on. HPO annual report
 **Save to:** `data/raw/manual/hprb_box/<year>/`. Keep box's folder and file names.
 **URL:** https://app.box.com/s/t5gnx7p29jtpzv6on4khbiyl1p00owzh
 
-**What's already covered:** HPRB actions for 2006–2026 from planning.dc.gov's publications (330 designation actions on 288 cases), but with gaps.
-**Most useful from box:** meeting "Actions" PDFs for **1979–2005**, which aren't online elsewhere, plus any months missing from 2006–2012. Staff reports for designation cases would add HPO's recommendation for H7. Permit-case staff reports aren't needed.
+**What's already covered:** HPRB actions for 2006–2026 from planning.dc.gov's publications (342 designation actions), but with gaps.
+**Most useful from box:**
+- Meeting "Actions" PDFs for **1979–2005**, which aren't online elsewhere.
+- Actions for months missing from the planning.dc.gov crawl: **September 2008, June 2011, September 2012, and the January 26 / February 2, 2017 meeting**. Designations from those meetings have no HPRB record yet (see `data/joined/reconciliation.csv`).
+- **Staff reports for designation cases, especially FY2006–09 and FY2025–26.** Their header table names the applicant, which fills the "unknown filer" years in the nominations-by-entity chart. HPO's annual updates name nominators only for FY2010–22, and the crawl has staff reports only for FY2023–24. Staff reports also give HPO's recommendation, for H7.
+- Permit-case staff reports aren't needed.
 
 ## 5. Missing HPO annual reports (coverage table)
 
@@ -74,6 +78,6 @@ FY1989, 1990, 1991, 1992, 1995, 2010, 2011, 2013, 2014, 2016, 2019. For FY2010�
 
 ## Not needed from you
 
-- **Court opinions:** your CourtListener token unblocked them, and they're downloading, rate-limited to 50 requests/hour.
+- **Court opinions:** your CourtListener token unblocked them. 123 of 126 are saved and coded (`inputs/court_cases.csv`). The last three are zoning cases with incidental preservation mentions. They, and the RECAP search for the Third Church docket, wait on CourtListener's 125-requests-per-day quota; rerunning the court fetch picks them up.
 - **dccourts.gov PDFs:** the CourtListener text replaces them.
 - **Zoning Commission exhibit lists:** fetched for 2000–2026 (48,872 exhibits in 823 cases). BZA cases aren't covered yet. That's a scope decision rather than a block, and it can be scripted.
