@@ -19,9 +19,9 @@ import pymupdf
 
 from historic_preservation.normalize.inventory import DATE
 
-ATTRIBUTION = re.compile(rf"(?:[Nn]ominated by\b.*?)?\b(?:re-?)?designated\s+(?:on\s+)?{DATE}", re.S)
+ATTRIBUTION = re.compile(rf"(?:[Nn]ominated by\b.*?)?\b(?:(?:re-?)?designated|designation amended)\s+(?:on\s+)?{DATE}", re.S)
 NOMINATOR = re.compile(r"[Nn]ominated (?:jointly |separately )?by\s+(.*?)(?:,?\s+and|;)\s+(?:re-?)?designated", re.S)
-DESIGNATED = re.compile(rf"(?:re-?)?designated\s+(?:on\s+)?({DATE})")
+DESIGNATED = re.compile(rf"(?:(?:re-?)?designated|designation amended)\s+(?:on\s+)?({DATE})")
 EFFECTIVE = re.compile(rf"effective\s+(?:on\s+)?({DATE})")
 SKIP_HEADINGS = re.compile(r"^(Ward \d|Historic Landmarks and Districts|Recognizing Our Heritage|National Register|Survey|.*ANNUAL REPORT.*)$", re.I)
 
@@ -49,19 +49,28 @@ class Item:
         }
 
 
+FOOTER_PT = 40  # running footer and page number; dropped so wrapped text stays contiguous
+COLUMN_PT = 250  # column starts are ~276pt apart (36, 312, 648, ...); body text doesn't cross a boundary
+
+
 def _lines(doc):
     for pno, page in enumerate(doc, start=1):
-        for block in page.get_text("dict")["blocks"]:
-            for line in block.get("lines", []):
-                spans = [s for s in line["spans"] if s["text"].strip()]
-                if spans:
-                    text = re.sub(r"\s+", " ", "".join(s["text"] for s in line["spans"])).strip()
-                    yield pno, spans, text
+        footer = page.rect.height - FOOTER_PT
+        blocks = [b for b in page.get_text("dict")["blocks"] if b["bbox"][1] < footer]
+        # Block order isn't reading order on some two-page spreads (FY2022 report p9), so sort
+        # blocks by column, then top; lines keep their order within a block.
+        blocks = sorted(blocks, key=lambda b: (int(b["bbox"][0] // COLUMN_PT), b["bbox"][1]))
+        for line in (l for b in blocks for l in b.get("lines", [])):
+            spans = [s for s in line["spans"] if s["text"].strip()]
+            if spans:
+                text = re.sub(r"\s+", " ", "".join(s["text"] for s in line["spans"])).strip()
+                yield pno, spans, text
 
 
 OCR_FIXES = ((re.compile(r"\b(\d{3}) (\d)\b"), r"\1\2"),  # "201 1" -> "2011"
              (re.compile(r"\bMorch\b"), "March"),
-             (re.compile(r"(\d),(\d{4})\b"), r"\1, \2"))  # "28,2016" -> "28, 2016"
+             (re.compile(r"(\d),(\d{4})\b"), r"\1, \2"),  # "28,2016" -> "28, 2016"
+             (re.compile(r"\b(\d{1,2})\. (\d{4})\b"), r"\1, \2"))  # "June 30. 2011" -> "June 30, 2011"
 
 
 def clean_ocr(text: str) -> str:

@@ -16,11 +16,18 @@ from pathlib import Path
 
 import pandas as pd
 
-CASE = re.compile(r"\b(?:Case|HP|HPA)\s*(?:No\.?|#)?\s*(\d{2})-(\d{2})(?!\d)")
+# "Case 11-07", "HPA #12-616", a bare "#08-10" (2011 lists), or "Case #13-013" (late 2012).
+CASE = re.compile(r"\b(?:Case|HP|HPA)\s*(?:No\.?|#)?\s*(\d{2})-0?(\d{2})(?!\d)"
+                  r"|(?<![A-Za-z] )(?<![A-Za-z])#(\d{2})-(\d{2})(?!\d)")  # bare "#" not after a word ("Raze #07-58")
+
+
+def case_no(m: re.Match) -> str:
+    return f"{m.group(1) or m.group(3)}-{m.group(2) or m.group(4)}"
 VOTE = re.compile(r"Vote:?\s*(\d+)\s*[-–]\s*(\d+)")
 OUTCOMES = (  # first match wins; order matters
     ("withdrawn", r"withdr[ae]w|was withdrawn"),
-    ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"),
+    ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"
+               r"|denying the (?:application|nomination|designation)"),
     ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"
                   r"|prior to deliberating|nomination be revised|return to the Board"),
     ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"),
@@ -65,6 +72,14 @@ def items(text: str) -> list[dict]:
     hits = [m for m in CASE.finditer(flat) if not re.match(r"\s*HPA", m.group(0))]
     for i, m in enumerate(hits):
         line_start = flat.rfind("\n", 0, m.start()) + 1
+        # Headers that wrap start on earlier flush-left lines; action text is indented.
+        for _ in range(3):
+            prev_start = flat.rfind("\n", 0, max(line_start - 1, 0)) + 1
+            prev = flat[prev_start: line_start - 1]
+            if (not prev.strip() or prev[:1].isspace() or prev.strip().isupper() or VOTE.search(prev)
+                    or prev.rstrip().endswith(".") or CASE.search(prev)):
+                break
+            line_start = prev_start
         header = flat[line_start: flat.find("\n", m.end()) if "\n" in flat[m.end():] else len(flat)].strip()
         end = hits[i + 1].start() if i + 1 < len(hits) else len(flat)
         nxt_permit = re.search(r"\n[^\n]*HPA\s*#?\s*\d{2}-\d{3}", flat[m.end():end])
@@ -94,7 +109,7 @@ def items(text: str) -> list[dict]:
                         break
         rec = STAFF_REC.search(body)
         out.append({
-            "case_no": f"{m.group(1)}-{m.group(2)}",
+            "case_no": case_no(m),
             "header": re.sub(r"\s+", " ", header)[:300],
             "action_text": body[:1500],
             "outcome": outcome,

@@ -29,11 +29,26 @@ OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6
 DATE_FMT = "%B %d, %Y"
 
 
+def aliases(s) -> str:
+    """Names given in parentheses, e.g. 'Park Vista and Pine Manor (Concord Apartments)'."""
+    return norm(" ".join(re.findall(r"\((.*?)\)", str(s or ""))))
+
+
 def norm(s) -> str:
     s = str(s or "").lower().replace("’", "'")
     s = re.sub(r"\(.*?\)|\[.*?\]", " ", s)
     s = re.sub(r"\b(the|and|of|historic|landmark|nomination)\b|[^a-z0-9 ]", " ", s)
     return re.sub(r"\s+", " ", s).strip()
+
+
+ADDR_MIN_SCORE = 50  # token_set_ratio; lowest true address match seen is 50, highest false 41
+ADDR_START = r",\s*(?=\d|Case|Squares?\b|including|vicinity|all properties|federal)"
+
+
+def addr_key(s) -> str:
+    """'1518 K Street, NW' -> '1518 k'; '' unless the text starts with a house number."""
+    m = re.match(r"\s*(\d+)[-\d]*\s+(?:(\d+)(?:st|nd|rd|th)?|([A-Za-z]+))", str(s or ""))
+    return f"{m.group(1)} {(m.group(2) or m.group(3)).lower()}" if m else ""
 
 
 def fy(date) -> int | None:
@@ -47,16 +62,21 @@ def records() -> pd.DataFrame:
     recs = []
     acts = pd.read_csv(NORMALIZED / "hprb_designation_actions.csv", parse_dates=["meeting_date"])
     for r in acts.itertuples():
-        name, _, rest = r.header.partition(",")
-        recs.append({"source": "hprb", "case_no": r.case_no, "name": re.sub(r"^[A-Z0-9]+\.\s+", "", name).strip(),
-                     "address": re.sub(r",?\s*Case.*$", "", rest).strip(), "date": r.meeting_date,
-                     "outcome": r.outcome, "vote": f"{r.vote_for:.0f}-{r.vote_against:.0f}" if pd.notna(r.vote_for) else "",
+        name, rest = (re.split(ADDR_START, r.header, maxsplit=1) + [""])[:2]
+        name = re.sub(r"^[A-Z0-9]+\.\s+", "", name).strip()
+        if re.search(r"\bamendment\b", r.header, re.I) and not re.search(r"\bamend", name, re.I):
+            name += " (amendment)"  # e.g. "All Souls Church, Unitarian, ..., Case 20-10 (amendment)"; read by kind()
+        outcome = "amended" if re.search(r"\bamend", name, re.I) and r.outcome == "designated" else r.outcome
+        address = re.sub(r",?\s*Case.*$", "", rest).strip() or (name if name[:1].isdigit() else "")
+        recs.append({"source": "hprb", "case_no": r.case_no, "name": name, "address": address, "date": r.meeting_date,
+                     "outcome": outcome, "vote": f"{r.vote_for:.0f}-{r.vote_against:.0f}" if pd.notna(r.vote_for) else "",
                      "staff_recommendation": r.staff_recommendation, "nominated_by": "", "ref": r.source_file})
     upd = pd.read_csv(NORMALIZED / "inventory_update_items.csv")
     upd = upd[upd["designated"].notna()]
     for r in upd.itertuples():
         recs.append({"source": "update", "case_no": "", "name": r.name, "address": r.address if isinstance(r.address, str) else "",
-                     "date": pd.to_datetime(r.designated, format=DATE_FMT, errors="coerce"), "outcome": "designated",
+                     "date": pd.to_datetime(r.designated, format=DATE_FMT, errors="coerce"),
+                     "outcome": "amended" if "designation amended" in str(r.attribution) else "designated",
                      "nominated_by": r.nominated_by if isinstance(r.nominated_by, str) else "", "ref": f"{r.source_doc} p{r.page}"})
     man = pd.read_csv(INPUTS / "manual_designations.csv", parse_dates=["designated"])
     for r in man.itertuples():
@@ -90,17 +110,51 @@ def records() -> pd.DataFrame:
                          "outcome": "pending", "nominated_by": "", "ref": "hpo_pending_nominations.html"})
     df = pd.DataFrame(recs)
     df["key"] = df["name"].map(norm)
+    df["alt"] = df["name"].map(aliases)
+    df["addr"] = df["address"].map(addr_key)
+    df["link"] = links(df)
     return df
+
+
+def links(df: pd.DataFrame) -> pd.Series:
+    """Hand-reviewed links (inputs/nomination_links.csv) for records the matcher can't pair."""
+    out = pd.Series("", index=df.index)
+    for r in pd.read_csv(INPUTS / "nomination_links.csv", dtype=str).fillna("").itertuples():
+        hit = (df["source"] == r.source) & ((df["case_no"] == r.case_no) if r.case_no else (df["name"] == r.name))
+        if not hit.any():
+            raise ValueError(f"nomination_links.csv: no {r.source} record for {r.case_no or r.name!r}")
+        out[hit] = r.link_id
+    return out
 
 
 def _case_year(case_no: str) -> int | None:
     return 2000 + int(case_no[:2]) if case_no and int(case_no[:2]) < 50 else (1900 + int(case_no[:2]) if case_no else None)
 
 
+def _numbers(key: str) -> set[str]:
+    return set(re.findall(r"\b\d+\b", key))
+
+
+def _score(a, b) -> float:
+    pairs = [(a.key, b.key)] + [(x, y) for x, y in ((a.alt, b.key), (a.key, b.alt)) if len(x) >= 6 and len(y) >= 6]
+    return max(fuzz.token_set_ratio(x, y) for x, y in pairs)
+
+
 def _same(a, b) -> bool:
+    score = _score(a, b)
+    same_addr = bool(a.addr) and a.addr == b.addr
     if a.case_no and b.case_no:
-        return a.case_no == b.case_no
-    if fuzz.token_set_ratio(a.key, b.key) < 90 or min(len(a.key), len(b.key)) < 6:
+        # HPRB action lists occasionally print one case number for two properties
+        # (e.g. #10-04 for both The Flagler and Milton Hall), so names must also fit.
+        generic = any(len(k) < 6 or k.startswith("case") for k in (a.key, b.key))
+        return a.case_no == b.case_no and (score >= ADDR_MIN_SCORE or same_addr or generic)
+    na, nb = _numbers(a.key), _numbers(b.key)
+    if na and nb and not (na <= nb or nb <= na):
+        return False  # Engine Company No. 22 vs No. 26
+    # Same street address needs both records dated and a loosely similar name: HPO's
+    # reports sometimes print a neighbouring item's address (Cotton Annex / Young-Browne).
+    by_addr = same_addr and pd.notna(a.date) and pd.notna(b.date) and score >= ADDR_MIN_SCORE
+    if not by_addr and (score < 90 or min(len(a.key), len(b.key)) < 6):
         return False
     # A numbered case can't be an earlier, dated record (e.g. a 2009 Inventory entry vs case 26-12).
     for x, y in ((a, b), (b, a)):
@@ -120,6 +174,10 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
     df = df.assign(_o=df["source"].map(SOURCE_ORDER.index)).sort_values(["_o", "date"], kind="stable").drop(columns="_o")
     groups: list[list[int]] = []
     for i, a in df.iterrows():
+        linked = next((g for g in groups if a.link and a.link in {df.loc[j, "link"] for j in g}), None)
+        if linked is not None:
+            linked.append(i)
+            continue
         for g in groups:
             cases = {df.loc[j, "case_no"] for j in g} - {""}
             if a.case_no and cases and a.case_no not in cases:
@@ -140,7 +198,11 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
     for n, g in enumerate(groups):
         sub = df.loc[g]
         best = sub.loc[sub["outcome"].map(OUTCOME_RANK).fillna(0).idxmax()]
-        dated = sub[sub["outcome"] == best["outcome"]]["date"].dropna()
+        same = sub[sub["outcome"] == best["outcome"]]
+        # The board's own record of its vote wins over a later report's date.
+        dated = (same[same["source"] == "hprb"] if (same["source"] == "hprb").any() else same)["date"].dropna()
+        exact = same[same.get("fy_only", pd.Series(False, index=same.index)).ne(True)].dropna(subset=["date"])
+        conflict = (exact["date"].max() - exact["date"].min()).days > 120 if len(exact) > 1 else False
         nominators = [x for x in sub["nominated_by"] if isinstance(x, str) and x]
         filer = classify(nominators[0], rules) if nominators else classify("", rules)
         rows.append({
@@ -152,6 +214,7 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
             "outcome_date": dated.max() if len(dated) else pd.NaT,
             "fy": fy(dated.max()) if len(dated) else None,
             "first_seen": sub["date"].min(),
+            "date_conflict": "; ".join(f"{s}:{d:%Y-%m-%d}" for s, d in zip(exact["source"], exact["date"])) if conflict else "",
             "vote": next((v for v in sub.get("vote", []) if isinstance(v, str) and v), ""),
             "staff_recommendation": next((s for s in sub.get("staff_recommendation", []) if isinstance(s, str) and s), ""),
             "nominated_by_raw": nominators[0] if nominators else "",
@@ -200,6 +263,6 @@ def run() -> None:
     noms.insert(3, "kind", noms["name"].map(kind))
     noms["expected_missing"] = noms.apply(expected_missing, axis=1)
     noms.to_csv(JOINED / "nominations.csv", index=False, date_format="%Y-%m-%d")
-    review = noms[noms["expected_missing"] != ""]
+    review = noms[(noms["expected_missing"] != "") | (noms["date_conflict"] != "")]
     review.to_csv(JOINED / "reconciliation.csv", index=False, date_format="%Y-%m-%d")
     print(f"nominations: {len(noms)} rows; {len(review)} missing an expected source (reconciliation.csv)")

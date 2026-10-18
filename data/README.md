@@ -51,6 +51,15 @@ majority status of the record's square+suffix), `none` (treated as not designate
 document key and PDF page. Rules: a 1964 "preliminary identification" is not a
 designation; a plain DC listing is; "effective" dates are recorded separately.
 
+`nomination_links.csv` — hand-reviewed links between records the matcher
+can't pair (different names, or dates more than 120 days apart), one row per
+record with the reason. A link whose record can't be found stops the build.
+`joined/nominations.csv` keeps the HPRB meeting date as `outcome_date` when
+there is one; `date_conflict` lists every source's date when they differ by
+more than 120 days (e.g. case 11-16: HPRB 2011-08-04, FY2011 update
+2010-11-18). Rows with a conflict or a missing expected source go to
+`reconciliation.csv`.
+
 `court_cases.csv` — coding of DC Court of Appeals preservation cases.
 `preservation_side` is the outcome for whoever argued for preservation
 (`prevailed`, `lost`, `remanded`, `mixed`); it is a coding judgment, with the

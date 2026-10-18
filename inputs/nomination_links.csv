@@ -1,0 +1,13 @@
+link_id,source,case_no,name,reason
+L001,hprb,11-21,,"HPRB action for case 11-21 (headed 'Old Naval Observatory') reads: The Board designated Observatory Hill, at 2300 E Street NW/2301 Constitution Avenue NW, as a historic district (HPRB actions Oct 27 / Nov 3, 2016)"
+L001,update,,Observatory Hill Historic District,same designation as case 11-21
+L002,hprb,15-14,,HPRB lists case 15-14 by address only (3020 Albemarle Street NW); the FY2015 update lists Colonel Davis House at 3020 Albemarle Street NW designated July 23 2015 (HPRB meeting of July 23 and 30 2015)
+L002,update,,Colonel Davis House,same designation as case 15-14
+L003,hprb,22-13,,HPRB case 22-13 (Lafayette Square Historic District amendment and boundary alterations) and the FY2022 report's 'Lafayette Square Historic District Expansion' carry the same date (September 29 2022)
+L003,update,,Lafayette Square Historic District Expansion,same designation as case 22-13
+L004,hprb,21-13,,"HPRB case 21-13 (1145 17th Street, 1146 16th Street and 1600 M Street NW; meeting March 24 and 31 2022) is the National Geographic Society campus that the FY2022 report lists as designated March 24 2022; without this link the update row joins case 21-09 (Schlitz Brewing / National Geographic Society Warehouse) by name subset"
+L004,update,,National Geographic Society,same designation as case 21-13
+L005,hprb,11-16,,"Same property and outcome; dates conflict: HPRB actions (July 28 / Aug 4 2011) designate case 11-16, the FY2011 update says designated November 18 2010; a 2011 case number makes the 2010 date unlikely"
+L005,update,,Margaret Murray Washington School,same property as case 11-16 (date conflict kept in date_conflict)
+L006,hprb,13-19,,"Same property and outcome; dates conflict: HPRB actions (Oct 24 / 31 2013) designate case 13-19, the FY2014 update says designated May 22 2014"
+L006,update,,Metropolitan Apartments,same property as case 13-19 (date conflict kept in date_conflict)
