@@ -173,7 +173,7 @@ L_0179,Elizabeth Arden Building,Designated,Elizabeth Arden Building,1993-11-23,d
 L_0181,Fletcher Chapel (Church of God & Saints of Christ),Designated,Fletcher Chapel (Church of God and Saints of Christ),1996-09-26,designated,,,inventory_2009,60,100.0,auto,high,
 L_0182,City Tavern,Designated,City Tavern,1964-11-08,dc_listing,,,inventory_2009,39,100.0,auto,high,
 L_0183,Old Engine Company No. 5 (Bank of Columbia; Georgetown Town Hall & Mayor's Office),Designated,Old Engine Company No. 5 (Bank of Columbia; Georgetown Town Hall & Mayor’s Office),1964-11-08,dc_listing,,,inventory_2009,118,100.0,auto,high,
-L_0184,Georgetown Commercial Buildings - Reckert House,Designated,,,,,,,,76.8,reject,unmatched,
+L_0184,Georgetown Commercial Buildings - Reckert House,Designated,,,,,,,,76.8,unmatched,unmatched,"GIS status Designated; its lot (3236 M Street) is not among the addresses listed in the 1964 Inventory entry for Georgetown Commercial Buildings; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: The Six Buildings [demolished]"
 L_0185,Georgetown Market,Designated,Georgetown Market,1964-11-08,dc_listing,,,inventory_2009,70,100.0,auto,high,
 L_0186,Church of the Ascension and Saint Agnes,Designated,Church of the Ascension and Saint Agnes,1964-11-08,dc_listing,,,inventory_2009,38,100.0,auto,high,
 L_0187,"Carleton, Joseph House",Designated,Joseph Carleton House,1973-01-23,designated,,,inventory_2009,32,100.0,auto,high,
@@ -494,7 +494,7 @@ L_0527,Friendship Baptist Church,Designated,Friendship Baptist Church,2004-05-27
 L_0528,Old Engine Company No. 11 (Truck Company F; Old Columbia Heights Firehouse),Designated,Truck Company F (Old Engine Company No. 11; Old Columbia Heights Firehouse),2004-07-22,designated,,,inventory_2009,162,100.0,auto,high,
 L_0529,"Red Lion Row (I Street, NW, South Side of 2000 Block)",Designated,"Red Lion Row (I Street, NW, South Side of 2000 Block)",1977-01-24,designated,,,inventory_2009,138,100.0,auto,high,
 L_0530,"Miller, Joaquin Cabin",Designated,Joaquin Miller Cabin,1964-11-08,dc_listing,,,inventory_2009,103,100.0,auto,high,
-L_0532,Boulder Bridge,Designated,,,,,,,,70.0,reject,unmatched,
+L_0532,Boulder Bridge,Designated,,,,,,,,70.0,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Key Bridge"
 L_0533,"Wiley, Emily, House",Designated,Emily Wiley House,2005-11-17,designated,,,inventory_2009,181,100.0,auto,high,
 L_0534,Blair House (Blair-Lee House; President's Guest House),Designated,Blair House (Blair-Lee House; President’s Guest House),1964-11-08,dc_listing,,,inventory_2009,22,100.0,auto,high,
 L_0535,"Immaculate Conception Church, School, Rectory, & Residence",Designated,"Immaculate Conception Church, School, Rectory, and Residence",1968-07-24,dc_listing,,,inventory_2009,82,100.0,auto,high,
@@ -561,7 +561,7 @@ L_0627,Congressional Cemetery,Designated,Congressional Cemetery,1964-11-08,dc_li
 L_0628,Mount Zion Cemetery (Methodist Episcopal Burying Grounds; Female Union Band Society Graveyard),Designated,Mount Zion Cemetery (Methodist Episcopal Burying Grounds; Female Union Band Society Graveyard),1975-04-29,designated,,,inventory_2009,107,100.0,auto,high,
 L_0632,Prospect Hill Cemetery,Designated,Prospect Hill Cemetery,2005-03-24,designated,,,inventory_2009,133,100.0,auto,high,
 L_0635,"Johnson, Lyndon Baines, Memorial Grove",Designated,Lyndon Baines Johnson Memorial Grove,1979-03-03,dc_listing,,,inventory_2009,84,100.0,auto,high,
-L_0639,"4628 48th Street, NW",Designated,,,,,,,,68.6,reject,unmatched,
+L_0639,"4628 48th Street, NW",Designated,"• 4628 48th Street, NW",2011-03-24,designated,,,hprb_actions,case 10-01 (2011_03_HPRB_ACTIONS.pdf),68.6,override,high,"HPRB lists the case by address; FY2011 update: Walde-Carter House; auto-match rejected: 2225 N Street, NW"
 L_0640,"Janney, Bernard T., School",Designated,Bernard T. Janney Elementary School,2009-11-19,designated,,Tenleytown Historical Society,inventory_update_fy2010,2,95.0,auto,high,
 L_0641,Billy Simpson's House of Seafood and Steak,Designated,Billy Simpson’s House of Seafood and Steaks,2008-09-25,designated,,,inventory_2009,21,98.6,auto,high,
 L_0642,"Cavalier, The (Hilltop Manor)",Designated,The Cavalier (Hilltop Manor),2007-06-28,designated,,,inventory_2009,34,100.0,auto,high,
@@ -572,7 +572,7 @@ L_0647,Danzansky Funeral Home,Designated,Danzansky Funeral Home,2007-04-26,desig
 L_0648,Eldbrooke Methodist Church,Designated,Eldbrooke Methodist Church,2008-04-24,designated,,,inventory_2009,52,100.0,auto,high,
 L_0649,"Randall, Elizabeth G., Junior High School",Designated,Elizabeth G. Randall Junior High School (Cardozo School),2007-03-22,designated,,,inventory_2009,137,95.0,auto,high,
 L_0650,Engine Company No. 19 (Randle Highlands Firehouse),Designated,Engine Company No. 19 (Randle Highlands Firehouse),2009-07-23,designated,,,inventory_2009,55,100.0,auto,high,
-L_0651,Engine Company No. 16/Truck Company No. 3,Designated,,,,,,,,95.0,reject,unmatched,
+L_0651,Engine Company No. 16/Truck Company No. 3,Designated,"Engine Company 16/Truck Company 3, 1018 13th Street, NW",2011-01-27,designated,,,hprb_actions,case 02-17 (2011_01_HPRB_ACTIONS.pdf),95.0,override,high,auto-match rejected: Engine Company No. 3
 L_0652,Engine Company No. 22,Designated,Engine Company No. 22,2011-01-27,designated,,the Capitol Fire Museum,inventory_update_fy2011,3,100.0,auto,high,
 L_0653,Engine Company No. 26,Designated,Engine Company No. 26,2011-02-24,designated,,the Capital Fire Museum,inventory_update_fy2011,4,100.0,override,high,
 L_0654,Engine Company No. 27,Designated,Engine Company No. 27,2011-01-27,designated,,Capital Fire Museum,inventory_update_fy2011,4,100.0,override,medium,"OCR: ""designated on I January 27"" (year from the FY2011 report)"
@@ -605,7 +605,7 @@ L_0682,"Gompers, Samuel, Memorial",Designated,Samuel Gompers Memorial,2007-02-22
 L_0683,"Hahnemann, Samuel, Memorial",Designated,Samuel Hahnemann Memorial,2007-02-22,designated,,,inventory_2009,76,100.0,auto,high,
 L_0684,Social Security Administration (Wilbur Cohen Building),Designated,Social Security Administration (Wilbur J. Cohen Building),2007-04-26,designated,,,inventory_2009,150,98.1,auto,high,
 L_0685,Temperance Fountain,Designated,Temperance Fountain,2007-02-22,designated,,,inventory_2009,158,100.0,auto,high,
-L_0686,Civil Service Commission,Designated,Civil Service Commission,2011-01-27,designated,,the Capitol Fire Museum,inventory_update_fy2011,2,100.0,auto,high,
+L_0686,Civil Service Commission,Designated,Civil Service Commission,2011-06-30,designated,,the General Services Administration.,inventory_update_fy2011,2,100.0,auto,high,
 L_0687,Congressional Club,Designated,Congressional Club,2011-07-28,designated,,the Congressional Club,inventory_update_fy2011,1,100.0,auto,high,
 L_0688,"Everglades, The",Designated,The Everglades,2010-01-28,designated,,George Washington University,inventory_update_fy2010,3,100.0,auto,high,owner (GWU) nominated as part of campus plan update
 L_0689,First Baptist Church of Deanwood,Designated,First Baptist Church of Deanwood,2008-02-28,designated,,,inventory_2009,59,100.0,auto,high,
@@ -613,7 +613,7 @@ L_0690,"Flagler, The",Designated,The Flagler,2010-01-28,designated,,George Washi
 L_0691,"Keystone, The",Designated,The Keystone,2010-01-28,designated,,George Washington University,inventory_update_fy2010,3,100.0,auto,high,owner (GWU) nominated as part of campus plan update
 L_0694,"Chappell, N. Webster, House",Designated,N. Webster Chappell House,2011-03-24,designated,,Tenleytown Historical Society (with the homeowners),inventory_update_fy2011,2,100.0,override,medium,same shared attribution as Stone House
 L_0695,"Stone, Robert and Lillie May, House",Designated,Robert and Lillie May Stone House,2011-03-24,designated,,Tenleytown Historical Society (with the homeowners),inventory_update_fy2011,2,100.0,override,medium,"text: houses ""nominated by THS in cooperation with the homeowners, and designated by HPRB on the same date"" as the Tenleytown MPD adoption (March 24, 2011)"
-L_0696,"Burrows, Samuel and Harriet America, House",Designated,,,,,,,,70.0,reject,unmatched,
+L_0696,"Burrows, Samuel and Harriet America, House",Designated,"• Samuel and Harriet Burrows House, 4624 Verplanck Place, NW",2011-03-24,designated,,,hprb_actions,case 10-20 (2011_03_HPRB_ACTIONS.pdf),70.0,override,high,auto-match rejected: Samuel Gompers House
 L_0697,Strand Theater,Designated,Strand Theater,2008-06-26,designated,,,inventory_2009,154,100.0,auto,high,
 L_0698,Waffle Shop (and interior),Designated,Waffle Shop (and interior),2008-03-27,designated,,,inventory_2009,168,100.0,auto,high,
 L_0699,Third Baptist Church,Designated,Third Baptist Church,2008-09-25,designated,,,inventory_2009,159,100.0,auto,high,
@@ -658,18 +658,18 @@ L_1371,Augusta & Louisa Apartment Buildings,Designated,The Augusta and The Louis
 L_1373,Brickyard Hill House,Designated,Brickyard Hill House,1973-01-23,designated,,,inventory_2009,26,100.0,auto,high,
 L_1378,Potomac Boat Club,Designated,Potomac Boat Club,1973-01-23,designated,,,inventory_2009,131,100.0,auto,high,
 L_1380,Tiber Island,Designated,Tiber Island,2012-05-24,designated,,the Southwest Neighborhood Assembly,inventory_update_fy2012,4,100.0,auto,high,
-L_1381,The Maycroft,Designated,,,,,,,,46.2,reject,unmatched,
-L_1382,Peyser Building,Designated,Peyser Building (Security Savings and Commercial Bank),2011-11-17,designated,,the DC PreseNation League,inventory_update_fy2012,2,95.0,auto,high,
+L_1381,The Maycroft,Designated,"Maycroft Apartments, 1474 Columbia Road, NW, #12-02.",2011-12-15,designated,,,hprb_actions,case 12-02 (2011_12_HPRB_ACTIONS.pdf),100.0,override,high,auto-match rejected: The Cairo
+L_1382,Peyser Building,Designated,Peyser Building (Security Savings and Commercial Bank),2012-06-28,designated,,the DC rresetvotion League,inventory_update_fy2012,2,95.0,auto,high,
 L_1383,Park Road Courts,Designated,Park Road Courts,2012-03-22,designated,,the property owner,inventory_update_fy2012,1,100.0,auto,high,
-L_1384,Dorsch's White Cross Bakery,Designated,,,,,,,,58.2,reject,unmatched,
+L_1384,Dorsch's White Cross Bakery,Designated,"Dorsch’s White Cross (Wonderbread) Bakery, 641 S Street NW, #11-18.",2011-11-17,designated,,,hprb_actions,case 11-18 (2011_11_HPRB_Actions_Final.pdf),95.0,override,high,auto-match rejected: Reeves Bakery [demolished]
 L_1385,Bunker Hill Elementary School,Designated,Bunker Hill Elementary School,2012-04-26,designated,,the DC Preservof'on League,inventory_update_fy2012,4,100.0,auto,high,
 L_1386,Park View School (and Auditorium),Designated,Park View School (and Auditorium Interior),2012-03-22,designated,,Advisory Neighborhood Commission 1A and property owner,inventory_update_fy2012,1,95.0,override,medium,two-column OCR; attribution follows the auditorium text
-L_1387,Westory Building,Designated,Westory Building,2012-06-28,designated,,the DC rresetvotion League,inventory_update_fy2012,2,100.0,auto,high,
+L_1387,Westory Building,Designated,Westory Building,2012-06-28,designated,,the DC Ptesetvotiot: League,inventory_update_fy2012,2,100.0,auto,high,
 L_1388,Main Sewerage Pumping Station,Designated,Main Sewerage Pumping Station,2012-01-26,designated,,the DC Pteservctior: League,inventory_update_fy2012,4,100.0,auto,high,
 L_1389,Fish Market Lunchroom & Oyster Shucking Shed,Pending,"Municipal Fish Market, Lunch Room and Oyster Shucking Shed",2015-11-19,designated,,the owner (the Government of the District of Columbia),inventory_update_fy2016,6,83.4,accept,medium,
 L_1390,"Scriven, George P., House",Designated,George P. Scriven House,2013-02-28,designated,,the National Society Colonial Dames XVII Century,inventory_update_fy2013,3,100.0,auto,high,
 L_1391,Harbour Square,Designated,Harbour Square,2013-02-28,designated,,"Harbour Square Owners, Inc.",inventory_update_fy2013,6,100.0,auto,high,
-L_1392,York Theater,Designated,,,,,,,,68.7,reject,unmatched,
+L_1392,York Theater,Designated,,,,,,,,68.7,unmatched,unmatched,"GIS status Designated, but HPRB voted 5-3 not to designate the York Theater (case 12-06, Nov 2012 actions); no later designation found; auto-match rejected: Newton Theater"
 L_1394,B.F. Saul Building,Pending,B.F. Saul Building,2016-07-28,designated,,the D.C. Preservation League,inventory_update_fy2016,2,100.0,auto,high,
 L_1395,Hamilton Hotel,Designated,Hamilton Hotel,2012-11-29,designated,,the DC Preservation League,inventory_update_fy2013,3,100.0,auto,high,
 L_1396,Southern Railway Company,Pending,Southern Railway Building,2016-02-25,designated,,the D.C. Preservation League,inventory_update_fy2016,3,75.0,auto,high,
@@ -683,10 +683,10 @@ L_1403,Suter Properties,Pending,,,,,,,,71.9,reject,unmatched,
 L_1405,"C & P Telephone, Cleveland-Emerson Exchange",Designated,Cleveland-Emerson Exchange,2016-11-17,designated,,the Tenleytown Historical Society,inventory_update_fy2017,3,100.0,auto,high,
 L_1406,Brookland Bowling Alley,Pending,Brookland Bowling Alleys,2016-07-28,designated,,the D.C. Preservation League,inventory_update_fy2016,5,97.9,override,medium,
 L_1407,Dunblane,Designated,Dumblane,2005-04-28,designated,,,inventory_2009,48,87.5,accept,medium,
-L_1408,"First Church of Christ, Scientist",Designated,,,,,,,,95.0,reject,unmatched,
+L_1408,"First Church of Christ, Scientist",Designated,"First Church of Christ, Scientist, 1770 Euclid Street NW",2014-10-02,designated,,,hprb_actions,case 08-13 (HPRB_ACTIONS_09_2014_1.pdf),95.0,override,high,auto-match rejected: Christ Church
 L_1409,Sheridan Theater,Pending,,,,,,,,80.0,reject,unmatched,
 L_1410,Western Bus Garage,Pending,,,,,,,,72.8,reject,unmatched,
-L_1411,Decatur Street Car Barn,Designated,,,,,,,,73.9,reject,unmatched,
+L_1411,Decatur Street Car Barn,Designated,Capital Traction Company Car Barn,2012-09-27,designated,,the DC Preservation League,inventory_update_fy2012,3,73.9,override,high,"same building (4615 14th Street NW): the WMATA Northern Bus Garage, formerly the Capital Traction car barn; auto-match rejected: East Capitol Street Car Barn (Metropolitan Railroad Company Car Barn)"
 L_1412,"Washington Aqueduct, Dalecarlia Reservoir",Designated,Washington Aqueduct,1979-03-03,dc_listing,,,inventory_2009,170,95.0,accept,medium,
 L_1413,"Washington Aqueduct, Masonry Conduit",Designated,Washington Aqueduct,1979-03-03,dc_listing,,,inventory_2009,170,100.0,auto,high,
 L_1414,"Washington Aqueduct, Georgetown Reservoir",Designated,Washington Aqueduct,1979-03-03,dc_listing,,,inventory_2009,170,95.0,accept,medium,
@@ -702,14 +702,14 @@ L_1433,Springarn Senior High School,Designated,Joel Elias Spingarn Senior High S
 L_1434,Metropolitan Apartments,Designated,Metropolitan Apartments,2014-05-22,designated,,the property owner,inventory_update_fy2014,4,100.0,auto,high,
 L_1435,Parkview Playground and Field House,Designated,Park View Playground and Field House,2013-07-25,designated,,Advisory Neighborhood Commission 1A,inventory_update_fy2013,2,93.4,accept,medium,
 L_1436,George M. Lightfoot House,Designated,George M. Lightfoot House,2013-06-27,designated,,Carol Lightfoot Walker,inventory_update_fy2013,4,100.0,auto,high,
-L_1437,Washington Railway and Electric Company Garage,Designated,,,,,,,,71.9,reject,unmatched,
+L_1437,Washington Railway and Electric Company Garage,Designated,"Washington Railway and Electric Company Garage, 2112 Georgia Avenue NW",2013-05-30,designated,,,hprb_actions,case 13-12 (HPRB_ACTIONS_05_2013.pdf),71.9,override,high,auto-match rejected: Hotel Washington
 L_1438,General Baking Company Bakery (Bond Bread Factory),Designated,Bond Bread Bakery,2013-05-23,designated,,the D.C. Preservation League,inventory_update_fy2013,1,95.0,accept,medium,
 L_1439,Grace Evangelical Lutheran Church,Designated,Grace Evangelical Lutheran Church,2013-05-23,designated,,Grace Evangelical Lutheran Church,inventory_update_fy2013,4,100.0,auto,high,
 L_1440,Chapman Coal Company Stable and Garage,Designated,Chapman Coal Company Stable and Garage,2013-03-28,designated,,the DC Preservation League,inventory_update_fy2013,5,100.0,auto,high,
 L_1441,Hebrew Home for the Aged & Jewish Social Service Agency,Designated,Hebrew Home for the Aged and Jewish Social Service Agency,2014-06-26,designated,,Historic Washington Architecture,inventory_update_fy2014,3,100.0,auto,high,
 L_1442,District of Columbia War Memorial,Designated,District of Columbia War Memorial,2013-05-23,designated,,the National Park Service,inventory_update_fy2013,2,100.0,auto,high,
 L_1443,Town Center East,Designated,Town Center East,2013-06-27,designated,,the Southwest Neighborhood Assembly and the Waterfront Tower Condo Association Board,inventory_update_fy2013,6,100.0,auto,high,
-L_1444,Capitol Park Towers,Designated,,,,,,,,95.0,reject,unmatched,
+L_1444,Capitol Park Towers,Designated,"Capitol Park Towers, 301 G Street SW",2014-07-10,designated,,,hprb_actions,case 13-05 (HPRB_ACTIONS_06_2014.pdf),95.0,override,high,auto-match rejected: The Capitol
 L_1445,District of Columbia Pound,Designated,District of Columbia Pound,2014-06-26,designated,,the Southwest Neighborhood Assembly,inventory_update_fy2014,4,100.0,auto,high,
 L_1446,Gyro Motor Company/ Standard Material Company,Designated,Standard Material Company/Gyro Motor Company,2014-06-26,designated,,the Off Boundary Preservation Brigade,inventory_update_fy2014,2,100.0,auto,high,
 L_1447,Park View Christian Church,Designated,Park View Christian Church,2014-06-26,designated,,Historic Washington Architecture,inventory_update_fy2014,2,100.0,auto,high,
@@ -719,17 +719,17 @@ L_1450,The Ethelhurst,Designated,The Ethelhurst,2014-10-23,designated,,Honeybee 
 L_1451,Van View,Designated,Van View,2014-10-30,designated,,property owners Charisse and Mario Brossard,inventory_update_fy2015,5,100.0,auto,high,
 L_1452,James Ormond Wilson Normal School,Designated,James Ormond Wilson Normal School,2014-11-20,designated,,"Historic Washington Architecture, Inc.",inventory_update_fy2015,1,100.0,auto,high,
 L_1453,Editors Building,Designated,Editors Building,2014-12-18,designated,,DC Preservation League,inventory_update_fy2015,2,100.0,auto,high,
-L_1454,Emory United Methodist Church,Designated,,,,,,,,85.2,reject,unmatched,
+L_1454,Emory United Methodist Church,Designated,"Emory United Methodist Church, 6100 (and 6104 and 6120) Georgia Avenue NW",2015-04-30,designated,,,hprb_actions,case 15-06 (HPRB_ACTIONS_04_2015.pdf),85.2,override,high,auto-match rejected: Ebenezer United Methodist Church
 L_1455,Sedgwick Gardens Apartment House (and Interiors),Designated,Sedgwick Gardens and Interiors,2015-05-28,designated,,Cleveland Park Historical Society and Art Deco Society of Washington,inventory_update_fy2015,4,95.0,auto,high,
 L_1456,Tilden Hall,Designated,Tilden Hall,2015-06-25,designated,,Tilden Hall Corporation,inventory_update_fy2015,4,100.0,auto,high,
 L_1457,Heurich-Parks House,Designated,Heurich-Parks House,2015-07-23,designated,,Massachusetts Avenue Heights Citizens Association,inventory_update_fy2015,4,100.0,auto,high,
 L_1458,US Dept of Agriculture Cotton Annex,Designated,"US Department of Agriculture, Cotton Annex",2015-07-23,designated,,US General Services Administration,inventory_update_fy2015,6,91.4,auto,high,
-L_1459,3020 Albemarle Street,Designated,,,,,,,,57.1,reject,unmatched,
+L_1459,3020 Albemarle Street,Designated,3020 Albemarle Street NW,2015-07-30,designated,,,hprb_actions,case 15-14 (HPRB_ACTIONS_July_23_and_30_2015_REVISED.pdf),57.1,override,high,"Colonel Davis House; auto-match rejected: 22 D Street, SE [demolished]"
 L_1460,Davidson Building,Pending,Davidson Building,2016-07-28,designated,,the D.C. Preservation League,inventory_update_fy2016,2,100.0,auto,high,
 L_1461,Dunblane 2,Pending,Dumblane,2005-04-28,designated,,,inventory_2009,48,77.8,accept,medium,
 L_1462,Furies Collective,Pending,The Furies Collective,2016-01-28,designated,,the property owner,inventory_update_fy2016,7,100.0,auto,high,
 L_1464,GSA Regional Office Building,Pending,,,,,,,,71.2,reject,unmatched,
-L_1466,INTELSAT Building,Pending,,,,,,,,75.0,reject,unmatched,
+L_1466,INTELSAT Building,Pending,"INTELSAT, 3400 International Drive/4000 Connecticut Avenue NW",2019-04-25,designated,,,hprb_actions,case 14-06 (HPRB_ACTIONS_April_25_2019.pdf),75.0,override,high,"GIS status Pending, but HPRB designated INTELSAT (case 14-06); auto-match rejected: Winder Building"
 L_1467,Interstate Building,Pending,,,,,,,,76.5,reject,unmatched,
 L_1468,Kelsey Temple Church of God in Christ,Pending,Kelsey Temple Church of God in Christ,2016-04-28,designated,,"D.C. Prese,vation League",inventory_update_fy2016,1,100.0,auto,high,
 L_1469,Lexington Apartments,Pending,Lexington Apartments,2015-11-19,designated,,the property owner,inventory_update_fy2016,6,100.0,auto,high,
@@ -746,15 +746,15 @@ L_1479,Railway Express Building,Pending,,,,,,,,75.0,reject,unmatched,
 L_1480,Washington Animal Rescue League,Pending,Washington Animal Rescue League Shelter and Hospital,2018-12-20,designated,,the DC Preservation League,inventory_update_fy2019,4,95.0,auto,high,
 L_1481,Saint James Mutual Homes,Designated,Saint James Mutual Homes,2015-10-22,designated,,the property owner,inventory_update_fy2016,7,100.0,auto,high,
 L_1482,Ambassador Romuald Spasowski House,Designated,Ambassador Romuald Spasowski House,2017-04-27,designated,,the Forest Hills Neighborhood Alliance,inventory_update_fy2017,4,100.0,auto,high,
-L_1483,Valencia Apartments,Pending,,,,,,,,74.3,reject,unmatched,
+L_1483,Valencia Apartments,Pending,"Valencia Apartments, 5922 13th Street NW",2016-09-29,designated,,,hprb_actions,case 16-15 (HPRB_ACTIONS_09_2016_Revised.pdf),74.3,override,high,"GIS status Pending, but HPRB approved the designation on the Sept 22 2016 consent calendar; auto-match rejected: Glade Apartments"
 L_1484,Vizcaya Apartments,Pending,Chilchester Arms Apartments (Vizcaya Apartments),2016-07-28,designated,,property owners,inventory_update_fy2016,4,95.0,override,medium,"""designated July 28 and September 22, 2016"" shared with Park Vista and Pine Manor; split not stated"
-L_1485,Union Market Terminal,Pending,,,,,,,,95.0,reject,unmatched,
+L_1485,Union Market Terminal,Pending,"Union Market Terminal, parts of 1200 and 1300 blocks of 4th and 5th Streets and of the 400 and 500",2016-11-03,designated,,,hprb_actions,case 16-18 (HPRB_ACTIONS_10_2016_REVISED_0.pdf),95.0,override,high,GIS status Pending; HPRB designated Union Market Terminal as a historic district; auto-match rejected: Union Market Historic District
 L_1486,Glade Apartments,Pending,Glade Apartments,2016-11-17,designated,,the property owner,inventory_update_fy2017,5,100.0,auto,high,
 L_1487,Perna Brothers Chesapeake Street Houses,Pending,Perna Brothers Chesapeake Street Houses,2017-02-23,designated,,the Tenleytown Historical Society,inventory_update_fy2017,4,100.0,auto,high,
 L_1488,US Post Office Department Mail Equipment Shops,Designated,U.S. Post Office Department Mail Equipment Shops,2016-05-26,designated,,the property owner,inventory_update_fy2016,5,96.8,auto,high,
 L_1489,Concord Apartments,Designated,Park Vista and Pine Manor (Concord Apartments),2016-07-28,designated,,property owners,inventory_update_fy2016,4,95.0,override,low,shared attribution with Chilchester Arms; which date applies is not stated
 L_1490,Lafayette Elementary School,Designated,Layfayette Elementary School,2017-05-25,designated,,the D.C. Department of General Services,inventory_update_fy2017,5,98.2,auto,high,
-L_1491,National Geographic Society,Pending,,,,,,,,95.0,reject,unmatched,
+L_1491,National Geographic Society,Pending,"1145 17th Street, 1146 16th Street and 1600 M Street NW",2022-03-31,designated,,,hprb_actions,case 21-13 (HPRB_ACTIONS_March_24_and_March_31_2022_.pdf),100.0,override,medium,"GIS status Pending; matched to the 17th Street headquarters campus (cases 17-09/21-13), not the R Street warehouse (21-09); GIS location not checked; auto-match rejected: Schlitz Brewing Company Washington Branch / National Geographic Society Warehouse"
 L_1493,Carnegie Atomic Physics Laboratory,Pending,,,,,,,,66.7,reject,unmatched,
 L_1494,American Theater,Pending,American Theater (Sylvan Theater),2019-04-25,designated,,the DC Preservation League,inventory_update_fy2019,5,95.0,accept,medium,
 L_1495,US Department of State,Designated,U.S. Department of State,2017-07-27,designated,,the General Services Administration,inventory_update_fy2017,3,92.3,auto,high,
@@ -792,8 +792,8 @@ L_1531,Slowe-Burrill House,Designated,Slowe-Burrill House,2020-04-30,designated,
 L_1532,Tabard Inn,Designated,Tabard Inn,2020-02-27,designated,,property owner Fritzi Cohen & Employees (ESOP),inventory_update_fy2020,2,100.0,auto,high,
 L_1533,3020 University Terrace,Pending,,,,,,,,58.6,reject,unmatched,
 L_1535,Annie's Paramount Steakhouse,Pending,Annie’s Paramount Steak House,2020-12-17,designated,,the DC Preservation League,hpo_annual_report_fy2021,17,80.7,auto,high,
-L_1536,Capitol Power Plant Pump House,Designated,,,,,,,,95.0,reject,unmatched,
-L_1537,PEPCO Harrison Street Substation,Designated,,,,,,,,55.0,reject,unmatched,
+L_1536,Capitol Power Plant Pump House,Designated,"Capitol Power Plant Pump House, 1520 1st Street SE",2026-03-26,designated,,,hprb_actions,case 21-05 (HPRB_Actions_March_2026.pdf),95.0,override,high,auto-match rejected: The Capitol
+L_1537,PEPCO Harrison Street Substation,Designated,"PEPCO Harrison Street Substation, 5210 Wisconsin Avenue NW",2017-11-16,designated,,,hprb_actions,case 17-23 (HPRB_ACTIONS_-_November_16_2017.pdf),55.0,override,high,"auto-match rejected: 22 D Street, SE [demolished]"
 L_1538,Thomas Jefferson Junior High School,Pending,Jefferson Junior High School,2021-01-28,designated,,the DC Department of General Services,hpo_annual_report_fy2021,19,95.0,override,high,
 L_1539,Episcopal Home for Children,Pending,Episcopal Home for Children,2021-02-25,designated,,the property owner,hpo_annual_report_fy2021,18,100.0,auto,high,
 L_1540,Pan American Health Organization,Pending,,,,,,,,82.7,reject,unmatched,
@@ -805,36 +805,36 @@ L_1547,Lucy Diggs Slowe Elementary School,Designated,Lucy Diggs Slowe Elementary
 L_1548,Nixon-Mounsey House,Pending,Nixon-Mounsey House,2022-03-24,designated,,,hpo_annual_report_fy2022,10,100.0,auto,high,
 L_1549,Seafarers Yacht Club,Pending,Seafarers Yacht Club,2022-02-24,designated,,the owner and DC Historic Preservation Office,hpo_annual_report_fy2022,11,100.0,auto,high,
 L_1550,Hampshire Apartments,Designated,The Hampshire,2021-12-16,designated,,the owner,hpo_annual_report_fy2022,10,95.0,auto,high,
-L_1551,Northeast Savings Bank,Pending,,,,,,,,71.1,reject,unmatched,
+L_1551,Northeast Savings Bank,Pending,"Northeast Savings Bank, 800 H Street NE",2023-11-02,designated,,,hprb_actions,case 22-04 (HPRB_ACTIONS_October_26_and_November_2_2023.pdf),71.1,override,high,"GIS status Pending, but HPRB designated (case 22-04); auto-match rejected: Mercantile Savings Bank"
 L_1552,Lord & Taylor Chevy Chase Branch Store,Pending,,,,,,,,68.5,reject,unmatched,
 L_1553,Ntl Assn for the Relief of Destitute Colored Women and Children,Pending,National Association for the Relief of Destitute Colored Women and Children (Meriwether Home for Children),2022-07-28,designated,,the DC Preservation League,hpo_annual_report_fy2022,9,86.5,auto,high,
-L_1554,Chevy Chase Savings Bank,Pending,,,,,,,,61.7,reject,unmatched,
-L_1556,Holy Name College and Sherwood Farmhouse,Designated,,,,,,,,67.7,reject,unmatched,
+L_1554,Chevy Chase Savings Bank,Pending,"Chevy Chase Savings Bank, 5530 Connecticut Avenue NW",2023-01-26,designated,,,hprb_actions,case 22-10 (HPRB_ACTIONS_January_26_2023.pdf),61.7,override,high,auto-match rejected: Chevy Chase Playground
+L_1556,Holy Name College and Sherwood Farmhouse,Designated,,,,,,,,67.7,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Holy Redeemer College"
 L_1557,Founding Church of Scientology,Pending,Founding Church of Scientology,2022-06-30,designated,,the owner,hpo_annual_report_fy2022,10,100.0,auto,high,
-L_1558,Randle Highlands School,Designated,,,,,,,,77.1,reject,unmatched,
-L_1559,Eastern High School,Pending,,,,,,,,68.3,reject,unmatched,
-L_1560,Little Tavern Store No. 27,Pending,,,,,,,,65.6,reject,unmatched,
+L_1558,Randle Highlands School,Designated,"A. Randle Highlands School, 1650 30th Street SE",2025-01-23,designated,,,hprb_actions,case 23-07 (HPRB_Board_Actions_January_2025.pdf),77.1,override,high,auto-match rejected: Engine Company No. 19 (Randle Highlands Firehouse)
+L_1559,Eastern High School,Pending,"Eastern High School, 1700 East Capitol Street NE",2023-08-03,designated,,,hprb_actions,case 23-08 (HPRB_ACTIONS_July_27_and_August_3_2023_Revised_.pdf),68.3,override,high,"GIS status Pending, but HPRB designated (case 23-08); auto-match rejected: Paul Lawrence Dunbar High School [demolished]"
+L_1560,Little Tavern Store No. 27,Pending,"Little Tavern Shop No. 27, 530 Morse Street NE",2023-09-28,designated,,,hprb_actions,case 23-06 (HPRB_ACTIONS_September_28_2023_.pdf),65.6,override,high,"GIS status Pending, but HPRB designated (case 23-06); auto-match rejected: City Tavern"
 L_1561,Uptown Theater,Designated,Uptown Theater,2022-05-26,designated,,,hpo_annual_report_fy2022,10,100.0,auto,high,
-L_1562,Smothers Elementary School,Designated,,,,,,,,74.1,reject,unmatched,
-L_1563,Buchanan School Plaza,Designated,,,,,,,,62.2,reject,unmatched,
-L_1564,Marist College,Designated,,,,,,,,61.7,reject,unmatched,
-L_1565,Swedish Ambassador’s Residence,Pending,,,,,,,,67.0,reject,unmatched,
+L_1562,Smothers Elementary School,Designated,"Smothers Elementary School, 4400 Brooks Street NE",2023-03-30,designated,,,hprb_actions,case 23-05 (HPRB_ACTIONS_March_23_and_March_30_2023.pdf),74.1,override,high,auto-match rejected: Lucy Diggs Slowe Elementary School
+L_1563,Buchanan School Plaza,Designated,"Buchanan School Plaza, 1320 E Street SE",2022-11-17,designated,,,hprb_actions,case 22-14 (HPRB_ACTIONS_November_17_2022.pdf),62.2,override,high,auto-match rejected: Chain Bridge Road School
+L_1564,Marist College,Designated,Marist College (Hall) 405 Fort Slemmer Drive NE,2025-07-24,designated,,,hprb_actions,case 23-02 (2025-07_Board_Actions.pdf),61.7,override,high,auto-match rejected: Army War College (National Defense University)
+L_1565,Swedish Ambassador’s Residence,Pending,"Swedish Ambassador’s Residence, 3900 Nebraska Avenue NW",2023-12-21,designated,,,hprb_actions,case 23-10 (HPRB_ACTIONS_December_21_2023.pdf),67.0,override,high,"GIS status Pending, but HPRB designated (case 23-10); auto-match rejected: Morris Residence"
 L_1566,"The University Club of Washington, D.C.",Pending,United Mine Workers of America (The University Club),1999-04-22,designated,,,inventory_2009,165,95.0,accept,medium,
-L_1567,Old Chinese Legation,Designated,,,,,,,,64.9,reject,unmatched,
-L_1568,Old Korean Legation,Designated,,,,,,,,57.1,reject,unmatched,
-L_1569,Federal Office Building 10A,Pending,,,,,,,,87.0,reject,unmatched,
-L_1570,Federal Office Building 10B,Pending,,,,,,,,87.0,reject,unmatched,
-L_1571,Sofia Reyes de Veyra Residence,Designated,,,,,,,,67.0,reject,unmatched,
-L_1572,Pauline “Polly” Shackleton Residence,Designated,,,,,,,,67.0,reject,unmatched,
-L_1573,John J. Earley House (and interiors),Designated,,,,,,,,75.9,reject,unmatched,
-L_1574,Latin American Youth Center,Designated,,,,,,,,69.2,reject,unmatched,
-L_1575,Euram Building,Designated,,,,,,,,78.6,reject,unmatched,
-L_1576,Francis Junior High School,Designated,,,,,,,,76.8,reject,unmatched,
-L_1577,Department of Education Lyndon Baines Johnson Building,Designated,,,,,,,,71.2,reject,unmatched,
-L_1578,Department of Health & Human Services Hubert H Humphrey Building,Designated,,,,,,,,71.2,reject,unmatched,
-L_1579,The Ritz Apartments,Designated,,,,,,,,75.0,reject,unmatched,
-L_1580,The Mozart Apartments,Designated,,,,,,,,75.7,reject,unmatched,
-L_1581,Doris Fleeson House,Designated,,,,,,,,61.7,reject,unmatched,
+L_1567,Old Chinese Legation,Designated,,,,,,,,64.9,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: National Archives"
+L_1568,Old Korean Legation,Designated,,,,,,,,57.1,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Old Engine Company No. 6"
+L_1569,Federal Office Building 10A,Pending,"A. Federal Office Buildings 10A and 10B, 600 and 800 Independence Avenue SW",2024-10-24,designated,,,hprb_actions,case 24-12 (HPRB_Actions_October_2024.pdf),87.0,override,high,designated with FOB 10B; auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1570,Federal Office Building 10B,Pending,"A. Federal Office Buildings 10A and 10B, 600 and 800 Independence Avenue SW",2024-10-24,designated,,,hprb_actions,case 24-12 (HPRB_Actions_October_2024.pdf),87.0,override,high,designated with FOB 10A; auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1571,Sofia Reyes de Veyra Residence,Designated,"Sofia Reyes de Veyra Residence, 2610 Cathedral Avenue NW",2024-10-24,designated,,,hprb_actions,case 24-10 (HPRB_Actions_October_2024.pdf),67.0,override,high,auto-match rejected: Morris Residence
+L_1572,Pauline “Polly” Shackleton Residence,Designated,"Pauline “Polly” Shackleton Residence, 3232 Reservoir Road NW",2024-10-24,designated,,,hprb_actions,case 24-11 (HPRB_Actions_October_2024.pdf),67.0,override,high,auto-match rejected: Morris Residence
+L_1573,John J. Earley House (and interiors),Designated,"1. John Joseph Earley House, 1710 Lamont Street NW",2025-02-27,designated,,,hprb_actions,case 25-01 (HPRB_Actions_February_2025.pdf),75.9,override,high,auto-match rejected: Barney Studio House (and Interiors)
+L_1574,Latin American Youth Center,Designated,"Latin American Youth Center, 3045 15th Street NW",2025-05-22,designated,,,hprb_actions,case 25-06 (HPRB_Actions_May_2025.pdf),69.2,override,high,auto-match rejected: American Federation of Labor
+L_1575,Euram Building,Designated,"Euram Building, 21 Dupont Circle NW",2025-05-01,designated,,,hprb_actions,case 25-03 (HPRB_Actions_April_2025.pdf),78.6,override,high,auto-match rejected: Homer Building
+L_1576,Francis Junior High School,Designated,,,,,,,,76.8,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: John Philip Sousa Junior High School"
+L_1577,Department of Education Lyndon Baines Johnson Building,Designated,,,,,,,,71.2,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Bond Building"
+L_1578,Department of Health & Human Services Hubert H Humphrey Building,Designated,,,,,,,,71.2,unmatched,unmatched,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Bond Building"
+L_1579,The Ritz Apartments,Designated,"The Ritz Apartments, 1631 Euclid Street, NW",2026-05-28,designated,,,hprb_actions,case 26-05 (2026-5_Board_Actions.pdf),75.0,override,high,auto-match rejected: Capitol Park Apartments
+L_1580,The Mozart Apartments,Designated,"The Mozart Apartments, 1630 Fuller Street NW",2026-05-28,designated,,,hprb_actions,case 26-04 (2026-5_Board_Actions.pdf),75.7,override,high,auto-match rejected: Fort View Apartments
+L_1581,Doris Fleeson House,Designated,"Fleeson House, 3344 P Street NW",2026-04-23,designated,,,hprb_actions,case 26-03 (2026-04_Board_Actions.pdf),61.7,override,high,auto-match rejected: Cady-Lee House
 L_1582,Dorothy I. Height Elementary School,Pending,,,,,,,,72.1,reject,unmatched,
 L_1583,Vermont Avenue Baptist Church,Pending,,,,,,,,79.0,reject,unmatched,
 L_1584,National Theatre,Pending,,,,,,,,95.0,reject,unmatched,

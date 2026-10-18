@@ -95,6 +95,23 @@ def update_candidates() -> pd.DataFrame:
     return pd.concat([out, out10], ignore_index=True)
 
 
+def hprb_candidates() -> pd.DataFrame:
+    """HPRB designation actions, for explicit overrides only (not automatic matching)."""
+    acts = pd.read_csv(NORMALIZED / "hprb_designation_actions.csv", parse_dates=["meeting_date"])
+    acts = acts[acts["outcome"] == "designated"]
+    return pd.DataFrame({
+        "cand_name": acts["header"].str.replace(r",?\s*(?:Cases?|HP Case)\s*(?:No\.?|#)?\s*\d.*$", "", regex=True).str.strip(),
+        "address": acts["header"],
+        "first_date": acts["meeting_date"],
+        "basis": "designated",
+        "effective": pd.NaT,
+        "nominated_by": "",
+        "source_doc": "hprb_actions",
+        "source_page": "case " + acts["case_no"] + " (" + acts["source_file"] + ")",
+        "flags": "",
+    })
+
+
 def gis_landmarks() -> pd.DataFrame:
     pts = pd.read_csv(NORMALIZED / "landmark_points.csv")
     polys = pd.read_csv(NORMALIZED / "landmark_polygons.csv")
@@ -187,7 +204,7 @@ def landmarks() -> None:
     out.to_csv(DRAFTS / "landmark_dates_draft.csv", index=False, date_format="%Y-%m-%d")
     print(out["confidence"].value_counts().to_string())
 
-    final = apply_review(out, pd.concat([inv, upd], ignore_index=True))
+    final = apply_review(out, pd.concat([inv, upd, hprb_candidates()], ignore_index=True))
     final.to_csv(INPUTS / "landmark_dates.csv", index=False, date_format="%Y-%m-%d")
     print(f"wrote inputs/landmark_dates.csv: {final['first_date'].notna().sum()} of {len(final)} dated")
 
@@ -197,8 +214,14 @@ REVIEW_COLS = ["uniqueid", "gis_name", "gis_status", "matched_name", "first_date
 
 
 def apply_review(draft: pd.DataFrame, cands: pd.DataFrame) -> pd.DataFrame:
-    """Apply inputs/landmark_match_review.csv (accept / reject / override) to the draft."""
-    review = pd.read_csv(INPUTS / "landmark_match_review.csv").set_index("uniqueid")
+    """Apply inputs/landmark_match_review.csv (accept / reject / override / unmatched) to the draft.
+
+    "unmatched" is a checked absence: no source has a designation record; the note says what was searched.
+    """
+    review = pd.read_csv(INPUTS / "landmark_match_review.csv")
+    if review["uniqueid"].duplicated().any():
+        raise ValueError(f"landmark_match_review.csv: duplicate rows for {sorted(review.loc[review['uniqueid'].duplicated(), 'uniqueid'])}")
+    review = review.set_index("uniqueid")
     out = draft.astype({"source_page": "object", "flags": "object", "nominated_by": "object"})
     out["match_decision"] = "auto"
     for uid, r in review.iterrows():
@@ -209,11 +232,13 @@ def apply_review(draft: pd.DataFrame, cands: pd.DataFrame) -> pd.DataFrame:
         out.loc[i, "match_decision"] = r["decision"]
         if r["decision"] == "accept":
             out.loc[i, "confidence"] = r["confidence"]
-        elif r["decision"] == "reject":
+        elif r["decision"] in ("reject", "unmatched"):
             for col in ("matched_name", "basis", "nominated_by", "source_doc", "source_page", "flags"):
                 out.loc[i, col] = ""
             out.loc[i, ["first_date", "effective"]] = pd.NaT
             out.loc[i, "confidence"] = "unmatched"
+            if r["decision"] == "unmatched":
+                out.loc[i, "flags"] = r["note"]
         else:
             c = cands[(cands["cand_name"] == r["candidate_name"]) & (cands["source_doc"] == r["candidate_source"])]
             c = c.tail(1)  # hand-read rows (inputs/manual_designations.csv) come last and win

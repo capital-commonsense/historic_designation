@@ -75,7 +75,8 @@ def pdf_text(path: Path) -> str:
 
 
 def meeting_date(slug: str, text: str):
-    m = re.search(rf"({MONTHS})[ -](\d{{1,2}})(?:,| )+(\d{{4}})", f"{slug.replace('-', ' ')} {text[:600]}", re.I)
+    # Two-day meetings are dated by their last day: "October 24 and October 31, 2013", "April 23 and 30, 2015".
+    m = re.search(rf"({MONTHS})[ -](?:\d{{1,2}} and )?(\d{{1,2}})(?:,| )+(\d{{4}})", f"{slug.replace('-', ' ')} {text[:600]}", re.I)
     if m:
         try:
             return datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%B %d %Y").date()

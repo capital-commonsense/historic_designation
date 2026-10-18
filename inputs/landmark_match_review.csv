@@ -14,7 +14,6 @@ L_0146,"Ward, Artemas, Statue",accept,Artemas Ward Statue,inventory_2009,medium,
 L_0172,"Georgetown Commercial Buildings-M St, NW",accept,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,
 L_0176,Georgetown Commercial Buildings - Sims House,accept,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,
 L_0178,Georgetown Commercial Buildings - Thomas Cramphin Building,override,"Georgetown Commercial Buildings, M Street and Wisconsin Avenue",inventory_2009,medium,Cramphin Building listed within the Georgetown Commercial Buildings entry (HABS DC-118)
-L_0184,Georgetown Commercial Buildings - Reckert House,reject,,,,auto-match rejected: The Six Buildings [demolished]
 L_0219,Masonic Temple (Nat'l Museum of Women in the Arts),accept,Masonic Temple (Museum of Women in the Arts),inventory_2009,medium,
 L_0230,"George Washington University, Corcoran Hall",override,"George Washington University, Corcoran Hall",inventory_2009,high,
 L_0266,Octagon House (John Tayloe House),accept,Octagon House (The Octagon; John Tayloe House),inventory_2009,medium,
@@ -75,18 +74,15 @@ L_0516,"Capitol Grounds, Spring Grotto",accept,Capitol Grounds,inventory_2009,me
 L_0518,Arts Club of Washington (Caldwell-Monroe; Cleveland Abbe House),accept,Arts Club of Washington,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
 L_0521,"Hale, Nathan, Statue",accept,Nathan Hale Statue,inventory_2009,medium,matched entry carries no DC date (statue/memorial on a reservation)
 L_0524,"Archbold, Anne Hall",accept,Anne Archbold Hall (Gallinger Hospital Nurses’ Residence; Capital City School of Nursing),inventory_2009,medium,
-L_0532,Boulder Bridge,reject,,,,auto-match rejected: Key Bridge
 L_0546,"Spring Valley Shopping Center, Massachusetts Ave Parking Shops",accept,Spring Valley Shopping Center (Massachusetts Avenue Parking Shops and Square 1500),inventory_2009,medium,
 L_0549,"Spring Valley Shopping Center, Garfinckel's, Spring Valley Branch",override,Spring Valley Shopping Center (Massachusetts Avenue Parking Shops and Square 1500),inventory_2009,medium,Garfinckel's Spring Valley branch is part of the shopping center designation
 L_0552,Soldiers' Home NHS-Anderson Cottage (Corn Rigs; President Lincoln & Soldiers' Home Nat'l Monument),accept,Lincoln Cottage (President Lincoln and Soldiers’ Home National Monument),inventory_2009,medium,
 L_0579,"Washington Cathedral, Saint Alban's Church, Guild Hall, Rectory, & Satterlee Hall",override,Washington Cathedral (Cathedral Church of Saint Peter and Saint Paul and Close; National Cathedral),inventory_2009,medium,component of the Cathedral listing
 L_0584,Church of Jesus Christ of Latter Day Saints,accept,Church of Jesus Christ of Latter Day Saints (Washington Chapel),inventory_2009,medium,
 L_0587,Civil War Fort Sites-Fort Stanton,accept,Civil War Fort Sites and Fort Circle Park System,inventory_2009,medium,
-L_0639,"4628 48th Street, NW",reject,,,,"auto-match rejected: 2225 N Street, NW"
 L_0643,Christian Science Monitor Building,accept,"Third Church of Christ, Scientist, and Christian Science Monitor Building",inventory_2009,medium,
 L_0644,Dahlgreen Courts,accept,Dahlgreen Courts,inventory_update_fy2010,medium,matched entry carries no DC date (statue/memorial on a reservation)
 L_0646,"Webster, Daniel, Memorial",override,Daniel Webster Statue,inventory_2009,high,
-L_0651,Engine Company No. 16/Truck Company No. 3,reject,,,,auto-match rejected: Engine Company No. 3
 L_0653,Engine Company No. 26,override,Engine Company No. 26,inventory_update_fy2011,high,
 L_0654,Engine Company No. 27,override,Engine Company No. 27,inventory_update_fy2011,medium,
 L_0664,"Longfellow, Henry Wadsworth, Memorial",accept,Henry Wadsworth Longfellow Statue,inventory_2009,medium,
@@ -94,7 +90,6 @@ L_0677,"Morris, Edgar and Beronica, House",override,Morris Residence,inventory_u
 L_0678,Munson Hall,override,The Euclid,inventory_update_fy2010,medium,"GWU's Munson Hall is the former Euclid apartments, 2212 I St NW"
 L_0694,"Chappell, N. Webster, House",override,N. Webster Chappell House,inventory_update_fy2011,medium,
 L_0695,"Stone, Robert and Lillie May, House",override,Robert and Lillie May Stone House,inventory_update_fy2011,medium,
-L_0696,"Burrows, Samuel and Harriet America, House",reject,,,,auto-match rejected: Samuel Gompers House
 L_0700,"Third Church of Christ, Scientist",accept,"Third Church of Christ, Scientist, and Christian Science Monitor Building",inventory_2009,medium,
 L_0704,U.S. Government Central Heating Plant,accept,Central Heating Plant,inventory_2009,medium,
 L_0705,Public Health Service,accept,Public Health Service (Department of the Interior South Building),inventory_2009,medium,
@@ -108,80 +103,85 @@ L_0733,Pine Crest Manor,override,"Greystone Enclave (Porter Street, NW, North Si
 L_1144,"Square 38 - 23rd St, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
 L_1147,"Square 38 - Pennsylvania Ave, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
 L_1155,"Square 38 - 24th St, NW",override,"Square 38, Designated Properties",inventory_2009,medium,GIS splits Square 38 by street
-L_1381,The Maycroft,reject,,,,auto-match rejected: The Cairo
-L_1384,Dorsch's White Cross Bakery,reject,,,,auto-match rejected: Reeves Bakery [demolished]
 L_1386,Park View School (and Auditorium),override,Park View School (and Auditorium Interior),inventory_update_fy2012,medium,
 L_1389,Fish Market Lunchroom & Oyster Shucking Shed,accept,"Municipal Fish Market, Lunch Room and Oyster Shucking Shed",inventory_update_fy2016,medium,
-L_1392,York Theater,reject,,,,auto-match rejected: Newton Theater
 L_1400,Denrike Building,override,Denrike Building,inventory_update_fy2016,high,
 L_1402,Baker House,accept,Thomas Beall House (Newton D. Baker House),inventory_2009,medium,
 L_1403,Suter Properties,reject,,,,"auto-match rejected: Square 38, Designated Properties"
 L_1406,Brookland Bowling Alley,override,Brookland Bowling Alleys,inventory_update_fy2016,medium,
 L_1407,Dunblane,accept,Dumblane,inventory_2009,medium,
-L_1408,"First Church of Christ, Scientist",reject,,,,auto-match rejected: Christ Church
 L_1409,Sheridan Theater,reject,,,,auto-match rejected: Strand Theater
 L_1410,Western Bus Garage,reject,,,,auto-match rejected: Central Bus Garage
-L_1411,Decatur Street Car Barn,reject,,,,auto-match rejected: East Capitol Street Car Barn (Metropolitan Railroad Company Car Barn)
 L_1412,"Washington Aqueduct, Dalecarlia Reservoir",accept,Washington Aqueduct,inventory_2009,medium,
 L_1414,"Washington Aqueduct, Georgetown Reservoir",accept,Washington Aqueduct,inventory_2009,medium,
 L_1418,Boundary Stones,accept,Boundary Stones of the District of Columbia,inventory_2009,medium,
 L_1433,Springarn Senior High School,accept,Joel Elias Spingarn Senior High School,inventory_update_fy2013,medium,
 L_1435,Parkview Playground and Field House,accept,Park View Playground and Field House,inventory_update_fy2013,medium,
-L_1437,Washington Railway and Electric Company Garage,reject,,,,auto-match rejected: Hotel Washington
 L_1438,General Baking Company Bakery (Bond Bread Factory),accept,Bond Bread Bakery,inventory_update_fy2013,medium,
-L_1444,Capitol Park Towers,reject,,,,auto-match rejected: The Capitol
-L_1454,Emory United Methodist Church,reject,,,,auto-match rejected: Ebenezer United Methodist Church
-L_1459,3020 Albemarle Street,reject,,,,"auto-match rejected: 22 D Street, SE [demolished]"
 L_1461,Dunblane 2,accept,Dumblane,inventory_2009,medium,
 L_1464,GSA Regional Office Building,reject,,,,auto-match rejected: Bond Building
-L_1466,INTELSAT Building,reject,,,,auto-match rejected: Winder Building
 L_1467,Interstate Building,reject,,,,auto-match rejected: Winder Building
 L_1476,Anderson Tire Manufacturing Company,reject,,,,auto-match rejected: District of Columbia Paper Manufacturing Company (Paper Mill)
 L_1477,King David Masonic Lodge #28,reject,,,,auto-match rejected: Potomac Masonic Lodge No. 5
 L_1479,Railway Express Building,reject,,,,auto-match rejected: Southern Railway Building
-L_1483,Valencia Apartments,reject,,,,auto-match rejected: Glade Apartments
 L_1484,Vizcaya Apartments,override,Chilchester Arms Apartments (Vizcaya Apartments),inventory_update_fy2016,medium,
-L_1485,Union Market Terminal,reject,,,,auto-match rejected: Union Market Historic District
 L_1489,Concord Apartments,override,Park Vista and Pine Manor (Concord Apartments),inventory_update_fy2016,low,
-L_1491,National Geographic Society,reject,,,,auto-match rejected: Schlitz Brewing Company Washington Branch / National Geographic Society Warehouse
 L_1493,Carnegie Atomic Physics Laboratory,reject,,,,"auto-match rejected: Carnegie Institution of Washington, Geophysical Laboratory"
 L_1494,American Theater,accept,American Theater (Sylvan Theater),inventory_update_fy2019,medium,
 L_1509,PEPCO Substation 61,reject,,,,auto-match rejected: Potomac Electric Power Company Substation No. 13
 L_1513,MacFarland Junior High School,override,MacFarland Junior High School,inventory_update_fy2018,high,
 L_1528,Twin Oaks Playground,override,Twin Oaks Playground and Field House,inventory_update_fy2017,medium,two-column layout; attribution placement checked by eye
 L_1533,3020 University Terrace,reject,,,,auto-match rejected: Clifton Terrace
-L_1536,Capitol Power Plant Pump House,reject,,,,auto-match rejected: The Capitol
-L_1537,PEPCO Harrison Street Substation,reject,,,,"auto-match rejected: 22 D Street, SE [demolished]"
 L_1538,Thomas Jefferson Junior High School,override,Jefferson Junior High School,hpo_annual_report_fy2021,high,
 L_1540,Pan American Health Organization,reject,,,,auto-match rejected: Pan American Union (Organization of American States)
 L_1546,Calvin Coolidge High School,accept,Calvin Coolidge Senior High School,hpo_annual_report_fy2021,medium,
-L_1551,Northeast Savings Bank,reject,,,,auto-match rejected: Mercantile Savings Bank
 L_1552,Lord & Taylor Chevy Chase Branch Store,reject,,,,auto-match rejected: Chevy Chase Theater (Avalon Theater)
-L_1554,Chevy Chase Savings Bank,reject,,,,auto-match rejected: Chevy Chase Playground
-L_1556,Holy Name College and Sherwood Farmhouse,reject,,,,auto-match rejected: Holy Redeemer College
-L_1558,Randle Highlands School,reject,,,,auto-match rejected: Engine Company No. 19 (Randle Highlands Firehouse)
-L_1559,Eastern High School,reject,,,,auto-match rejected: Paul Lawrence Dunbar High School [demolished]
-L_1560,Little Tavern Store No. 27,reject,,,,auto-match rejected: City Tavern
-L_1562,Smothers Elementary School,reject,,,,auto-match rejected: Lucy Diggs Slowe Elementary School
-L_1563,Buchanan School Plaza,reject,,,,auto-match rejected: Chain Bridge Road School
-L_1564,Marist College,reject,,,,auto-match rejected: Army War College (National Defense University)
-L_1565,Swedish Ambassador’s Residence,reject,,,,auto-match rejected: Morris Residence
 L_1566,"The University Club of Washington, D.C.",accept,United Mine Workers of America (The University Club),inventory_2009,medium,
-L_1567,Old Chinese Legation,reject,,,,auto-match rejected: National Archives
-L_1568,Old Korean Legation,reject,,,,auto-match rejected: Old Engine Company No. 6
-L_1569,Federal Office Building 10A,reject,,,,auto-match rejected: Federal Office Building #6 (Department of Education)
-L_1570,Federal Office Building 10B,reject,,,,auto-match rejected: Federal Office Building #6 (Department of Education)
-L_1571,Sofia Reyes de Veyra Residence,reject,,,,auto-match rejected: Morris Residence
-L_1572,Pauline “Polly” Shackleton Residence,reject,,,,auto-match rejected: Morris Residence
-L_1573,John J. Earley House (and interiors),reject,,,,auto-match rejected: Barney Studio House (and Interiors)
-L_1574,Latin American Youth Center,reject,,,,auto-match rejected: American Federation of Labor
-L_1575,Euram Building,reject,,,,auto-match rejected: Homer Building
-L_1576,Francis Junior High School,reject,,,,auto-match rejected: John Philip Sousa Junior High School
-L_1577,Department of Education Lyndon Baines Johnson Building,reject,,,,auto-match rejected: Bond Building
-L_1578,Department of Health & Human Services Hubert H Humphrey Building,reject,,,,auto-match rejected: Bond Building
-L_1579,The Ritz Apartments,reject,,,,auto-match rejected: Capitol Park Apartments
-L_1580,The Mozart Apartments,reject,,,,auto-match rejected: Fort View Apartments
-L_1581,Doris Fleeson House,reject,,,,auto-match rejected: Cady-Lee House
 L_1582,Dorothy I. Height Elementary School,reject,,,,auto-match rejected: Bunker Hill Elementary School
 L_1583,Vermont Avenue Baptist Church,reject,,,,auto-match rejected: Mount Olivet Lutheran Church (Vermont Avenue Christian Church)
 L_1584,National Theatre,reject,,,,auto-match rejected: Ford’s Theatre National Historic Site
+L_0639,"4628 48th Street, NW",override,"• 4628 48th Street, NW",hprb_actions,high,"HPRB lists the case by address; FY2011 update: Walde-Carter House; auto-match rejected: 2225 N Street, NW"
+L_0651,Engine Company No. 16/Truck Company No. 3,override,"Engine Company 16/Truck Company 3, 1018 13th Street, NW",hprb_actions,high,auto-match rejected: Engine Company No. 3
+L_0696,"Burrows, Samuel and Harriet America, House",override,"• Samuel and Harriet Burrows House, 4624 Verplanck Place, NW",hprb_actions,high,auto-match rejected: Samuel Gompers House
+L_1381,The Maycroft,override,"Maycroft Apartments, 1474 Columbia Road, NW, #12-02.",hprb_actions,high,auto-match rejected: The Cairo
+L_1384,Dorsch's White Cross Bakery,override,"Dorsch’s White Cross (Wonderbread) Bakery, 641 S Street NW, #11-18.",hprb_actions,high,auto-match rejected: Reeves Bakery [demolished]
+L_1408,"First Church of Christ, Scientist",override,"First Church of Christ, Scientist, 1770 Euclid Street NW",hprb_actions,high,auto-match rejected: Christ Church
+L_1437,Washington Railway and Electric Company Garage,override,"Washington Railway and Electric Company Garage, 2112 Georgia Avenue NW",hprb_actions,high,auto-match rejected: Hotel Washington
+L_1444,Capitol Park Towers,override,"Capitol Park Towers, 301 G Street SW",hprb_actions,high,auto-match rejected: The Capitol
+L_1454,Emory United Methodist Church,override,"Emory United Methodist Church, 6100 (and 6104 and 6120) Georgia Avenue NW",hprb_actions,high,auto-match rejected: Ebenezer United Methodist Church
+L_1459,3020 Albemarle Street,override,3020 Albemarle Street NW,hprb_actions,high,"Colonel Davis House; auto-match rejected: 22 D Street, SE [demolished]"
+L_1466,INTELSAT Building,override,"INTELSAT, 3400 International Drive/4000 Connecticut Avenue NW",hprb_actions,high,"GIS status Pending, but HPRB designated INTELSAT (case 14-06); auto-match rejected: Winder Building"
+L_1483,Valencia Apartments,override,"Valencia Apartments, 5922 13th Street NW",hprb_actions,high,"GIS status Pending, but HPRB approved the designation on the Sept 22 2016 consent calendar; auto-match rejected: Glade Apartments"
+L_1485,Union Market Terminal,override,"Union Market Terminal, parts of 1200 and 1300 blocks of 4th and 5th Streets and of the 400 and 500",hprb_actions,high,GIS status Pending; HPRB designated Union Market Terminal as a historic district; auto-match rejected: Union Market Historic District
+L_1491,National Geographic Society,override,"1145 17th Street, 1146 16th Street and 1600 M Street NW",hprb_actions,medium,"GIS status Pending; matched to the 17th Street headquarters campus (cases 17-09/21-13), not the R Street warehouse (21-09); GIS location not checked; auto-match rejected: Schlitz Brewing Company Washington Branch / National Geographic Society Warehouse"
+L_1536,Capitol Power Plant Pump House,override,"Capitol Power Plant Pump House, 1520 1st Street SE",hprb_actions,high,auto-match rejected: The Capitol
+L_1537,PEPCO Harrison Street Substation,override,"PEPCO Harrison Street Substation, 5210 Wisconsin Avenue NW",hprb_actions,high,"auto-match rejected: 22 D Street, SE [demolished]"
+L_1551,Northeast Savings Bank,override,"Northeast Savings Bank, 800 H Street NE",hprb_actions,high,"GIS status Pending, but HPRB designated (case 22-04); auto-match rejected: Mercantile Savings Bank"
+L_1554,Chevy Chase Savings Bank,override,"Chevy Chase Savings Bank, 5530 Connecticut Avenue NW",hprb_actions,high,auto-match rejected: Chevy Chase Playground
+L_1558,Randle Highlands School,override,"A. Randle Highlands School, 1650 30th Street SE",hprb_actions,high,auto-match rejected: Engine Company No. 19 (Randle Highlands Firehouse)
+L_1559,Eastern High School,override,"Eastern High School, 1700 East Capitol Street NE",hprb_actions,high,"GIS status Pending, but HPRB designated (case 23-08); auto-match rejected: Paul Lawrence Dunbar High School [demolished]"
+L_1560,Little Tavern Store No. 27,override,"Little Tavern Shop No. 27, 530 Morse Street NE",hprb_actions,high,"GIS status Pending, but HPRB designated (case 23-06); auto-match rejected: City Tavern"
+L_1562,Smothers Elementary School,override,"Smothers Elementary School, 4400 Brooks Street NE",hprb_actions,high,auto-match rejected: Lucy Diggs Slowe Elementary School
+L_1563,Buchanan School Plaza,override,"Buchanan School Plaza, 1320 E Street SE",hprb_actions,high,auto-match rejected: Chain Bridge Road School
+L_1564,Marist College,override,Marist College (Hall) 405 Fort Slemmer Drive NE,hprb_actions,high,auto-match rejected: Army War College (National Defense University)
+L_1565,Swedish Ambassador’s Residence,override,"Swedish Ambassador’s Residence, 3900 Nebraska Avenue NW",hprb_actions,high,"GIS status Pending, but HPRB designated (case 23-10); auto-match rejected: Morris Residence"
+L_1569,Federal Office Building 10A,override,"A. Federal Office Buildings 10A and 10B, 600 and 800 Independence Avenue SW",hprb_actions,high,designated with FOB 10B; auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1570,Federal Office Building 10B,override,"A. Federal Office Buildings 10A and 10B, 600 and 800 Independence Avenue SW",hprb_actions,high,designated with FOB 10A; auto-match rejected: Federal Office Building #6 (Department of Education)
+L_1571,Sofia Reyes de Veyra Residence,override,"Sofia Reyes de Veyra Residence, 2610 Cathedral Avenue NW",hprb_actions,high,auto-match rejected: Morris Residence
+L_1572,Pauline “Polly” Shackleton Residence,override,"Pauline “Polly” Shackleton Residence, 3232 Reservoir Road NW",hprb_actions,high,auto-match rejected: Morris Residence
+L_1573,John J. Earley House (and interiors),override,"1. John Joseph Earley House, 1710 Lamont Street NW",hprb_actions,high,auto-match rejected: Barney Studio House (and Interiors)
+L_1574,Latin American Youth Center,override,"Latin American Youth Center, 3045 15th Street NW",hprb_actions,high,auto-match rejected: American Federation of Labor
+L_1575,Euram Building,override,"Euram Building, 21 Dupont Circle NW",hprb_actions,high,auto-match rejected: Homer Building
+L_1579,The Ritz Apartments,override,"The Ritz Apartments, 1631 Euclid Street, NW",hprb_actions,high,auto-match rejected: Capitol Park Apartments
+L_1580,The Mozart Apartments,override,"The Mozart Apartments, 1630 Fuller Street NW",hprb_actions,high,auto-match rejected: Fort View Apartments
+L_1581,Doris Fleeson House,override,"Fleeson House, 3344 P Street NW",hprb_actions,high,auto-match rejected: Cady-Lee House
+L_1411,Decatur Street Car Barn,override,Capital Traction Company Car Barn,inventory_update_fy2012,high,"same building (4615 14th Street NW): the WMATA Northern Bus Garage, formerly the Capital Traction car barn; auto-match rejected: East Capitol Street Car Barn (Metropolitan Railroad Company Car Barn)"
+L_0532,Boulder Bridge,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Key Bridge"
+L_0184,Georgetown Commercial Buildings - Reckert House,unmatched,,,,"GIS status Designated; its lot (3236 M Street) is not among the addresses listed in the 1964 Inventory entry for Georgetown Commercial Buildings; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: The Six Buildings [demolished]"
+L_1556,Holy Name College and Sherwood Farmhouse,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Holy Redeemer College"
+L_1567,Old Chinese Legation,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: National Archives"
+L_1568,Old Korean Legation,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Old Engine Company No. 6"
+L_1576,Francis Junior High School,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: John Philip Sousa Junior High School"
+L_1577,Department of Education Lyndon Baines Johnson Building,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Bond Building"
+L_1578,Department of Health & Human Services Hubert H Humphrey Building,unmatched,,,,"GIS status Designated; no designation record in the 2009 Inventory, the FY2010-2022 updates, or the HPRB actions crawl; auto-match rejected: Bond Building"
+L_1392,York Theater,unmatched,,,,"GIS status Designated, but HPRB voted 5-3 not to designate the York Theater (case 12-06, Nov 2012 actions); no later designation found; auto-match rejected: Newton Theater"
