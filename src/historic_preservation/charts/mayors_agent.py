@@ -42,9 +42,8 @@ def outcomes() -> None:
     data = pd.concat(tables, names=["panel"])
     save(fig, "mayors_agent_outcomes", data,
          "Mayor's Agent decisions by decade of the order, from Georgetown Law Library's collection (202 decisions, "
-         "1978–2024; not a certified census). Case basis from the library's subject tags; a decision can carry both; "
-         f"{int(d['subjects'].isna().sum())} decisions, including every one from the 2020s, have no tags and appear only in "
-         "'All decisions'. "
+         "1978–2024; not a certified census). Case basis from the library's subject tags, or read from the decision for "
+         f"the {int(d['subjects'].isna().sum())} it left untagged (all of the 2020s); a decision can carry both. "
          "Shares exclude withdrawn, delayed and dismissed matters. Outcomes from the library's descriptions or, where "
          "silent, the decision PDFs. Approvals with conditions count as granted. Source: "
          "data/normalized/mayors_agent_decisions.csv.")

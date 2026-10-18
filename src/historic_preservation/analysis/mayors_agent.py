@@ -47,10 +47,10 @@ def run() -> None:
         "years": [int(d["order_date"].dt.year.min()), int(d["order_date"].dt.year.max())],
         "disposition_source": d["disposition_source"].str.split(":").str[0].value_counts().to_dict(),
         "date_conflicts": int(d["date_conflict"].sum()),
-        "untagged_by_decade": {str(k): int(v) for k, v in d[d["subjects"].isna()].groupby("decade").size().items()},
+        "untagged_by_library_by_decade": {str(k): int(v) for k, v in d[d["subjects"].isna()].groupby("decade").size().items()},
         "caveats": [
             "Georgetown Law's collection aims to be as complete as possible; it is not a certified census of decisions.",
-            "Basis flags are the library's subject tags; a tag can mark an issue discussed, not only the ground claimed.",
+            "Basis flags are the library's subject tags (a tag can mark an issue discussed, not only the ground claimed); for decisions the library left untagged, the grounds the applicant claimed, read from the decision (inputs/mayors_agent_basis_review.csv).",
             "Dispositions: library descriptions where stated, otherwise read from the decision PDF with a checked quote.",
             "Approvals with conditions count as granted; 'partial' is a split decision.",
         ],

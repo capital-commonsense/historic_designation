@@ -98,12 +98,37 @@ def decisions(folder: Path) -> pd.DataFrame:
         })
     df = pd.DataFrame(rows)
     df["order_date"] = df["date_of_order_text"].map(parse_date)
-    catalog = pd.to_datetime(df["date_issued_catalog"], errors="coerce")
+    # Catalog dates mix "1985-01-24", "1980-05" and "2015"; parse each on its own (no inferred single format).
+    catalog = pd.to_datetime(df["date_issued_catalog"], errors="coerce", format="mixed")
     # The description's own order date wins; the catalog date fills gaps and is flagged when they differ.
     df["date_conflict"] = (df["order_date"].notna() & catalog.notna()
                            & ((df["order_date"] - catalog).abs().dt.days > 30))
     df["order_date"] = df["order_date"].fillna(catalog)
-    return apply_review(df, folder)
+    df = apply_review(df, folder)
+    return apply_basis_review(df, folder)
+
+
+def apply_basis_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    """Basis flags read from the PDFs for decisions the library left untagged
+    (inputs/mayors_agent_basis_review.csv); quotes are checked like the disposition review."""
+    df["basis_source"] = df["subjects"].map(lambda s: "library subject tags" if s else "")
+    path = INPUTS / "mayors_agent_basis_review.csv"
+    if not path.exists():
+        return df
+    for r in pd.read_csv(path, dtype=str).fillna("").itertuples():
+        if re.sub(r"\s+", " ", r.quote) not in pdf_text(folder / r.pdf):
+            raise ValueError(f"mayors_agent_basis_review.csv: quote not found in {r.pdf}: {r.quote[:60]!r}")
+        hit = df["work_id"] == r.work_id
+        if not hit.any() or df.loc[hit, "subjects"].iloc[0]:
+            raise ValueError(f"mayors_agent_basis_review.csv: {r.work_id} is unknown or already tagged by the library")
+        bases = {b.strip() for b in r.bases.split(";") if b.strip()}
+        unknown = bases - set(BASIS)
+        if unknown:
+            raise ValueError(f"mayors_agent_basis_review.csv: unknown basis {unknown}")
+        for b in BASIS:
+            df.loc[hit, b] = b in bases
+        df.loc[hit, "basis_source"] = f"PDF review: {r.pdf}" + (f" ({r.note})" if r.note else "")
+    return df
 
 
 DATE = re.compile(r"\d{1,2}/\d{1,2}/\d{2,4}|\d{1,2}-[A-Za-z]{3}-\d{2,4}|[A-Z][a-z]+\.? \d{1,2},? \d{4}")
