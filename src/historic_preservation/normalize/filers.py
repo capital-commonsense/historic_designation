@@ -18,11 +18,13 @@ SPLIT = re.compile(r",?\s+and\s+|,\s+|\s+on behalf of\s+|;\s*", re.I)
 # Phrases whose internal "and"/"," must not split a filer name.
 PROTECT = re.compile(
     r"Parks and Recreation|Planning and Economic Development|Tenants and Allies|,\s*Inc\.|& Employees"
+    r"|Supreme Council, 33rd Degree, Southern Jurisdiction"
     r"|owners?\s+[A-Z][\w’']+\s+and\s+[A-Z][\w’']+(?:\s+[A-Z][\w’']+)?",
     re.I,
 )
 INSTITUTION = re.compile(r"\b(llc|lp|inc|corp|corporation|partners|partnership|church|university|library|club|"
-                         r"institute|society|hospitality|esop|redemptorists|government|owners, inc)\b", re.I)
+                         r"institute|institution|society|hospitality|esop|redemptorists|government|owners, inc|"
+                         r"convention|association|council|museum|foundation|trust|company|bank|navy|army|service)\b", re.I)
 PERSON = re.compile(r"^[A-Z][a-z’']+(?:\s+[A-Z]\.?)?(?:\s+[A-Z][\w’']+)*(?:\s+and\s+[A-Z][a-z’']+(?:\s+[A-Z][\w’']+)*)?$")
 
 
@@ -45,7 +47,8 @@ def classify_one(name: str, rules: pd.DataFrame) -> tuple[str, str, int | None]:
                 cid = re.search(r"(\d)\s*-?\s*([A-G])\b", clean)
                 canonical = f"ANC {cid.group(1)}{cid.group(2)}" if cid else "ANC"
             if r.filer_type == "owner":
-                canonical = re.sub(r"^(property\s+)?owners?\s*", "", clean, flags=re.I).strip("() ") or "owner"
+                canonical = re.sub(r"\s*\((?:property\s+)?owners?\)", "", clean, flags=re.I)  # "LCOR (owner)"
+                canonical = re.sub(r"^(property\s+)?owners?\s*", "", canonical, flags=re.I).strip("() ") or "owner"
                 if _private(canonical):
                     canonical = "private owner"
             return r.filer_type, canonical, int(r.order)

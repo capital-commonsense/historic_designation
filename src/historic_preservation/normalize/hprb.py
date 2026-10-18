@@ -46,6 +46,7 @@ OUTCOMES = (  # first match wins; order matters
                   r"|prior to deliberating|nomination be revised|return to the Board|abeyance|wishes to proceed"),
     ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"
                 r"|boundaries (?:increased|expanded|extended)|voted to expand the (?:boundar|period)"),
+    ("de-designated", r"revoked the designation|de-?designat"),  # Yellow Tavern, Dec 2022
     ("designated", r"designat|nomination (?:was )?approved|approve[ds]? the nomination|voted to approve"
                    r"|approved the (?:landmark|historic district|application)|\blisted\b.{0,80}?Inventory"),
 )

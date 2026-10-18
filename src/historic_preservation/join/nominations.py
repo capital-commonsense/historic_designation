@@ -21,7 +21,7 @@ import re
 import pandas as pd
 from rapidfuzz import fuzz
 
-from historic_preservation.config import INPUTS, JOINED, NORMALIZED
+from historic_preservation.config import INPUTS, JOINED, NORMALIZED, snapshot_dir
 from historic_preservation.normalize.filers import classify, load_rules
 
 OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6, "amended": 4,
@@ -135,6 +135,21 @@ def links(df: pd.DataFrame) -> pd.Series:
     return out
 
 
+def filer_review() -> dict[str, str]:
+    """Applicants named in HPO staff reports (inputs/filer_review.csv), for cases no other source attributes.
+
+    Each quote must appear in its staff report or nomination PDF from the HPRB crawl.
+    """
+    import subprocess
+    review = pd.read_csv(INPUTS / "filer_review.csv", dtype=str)
+    attachments = snapshot_dir() / "hprb" / "attachments"
+    for r in review.itertuples():
+        text = subprocess.run(["pdftotext", str(attachments / r.source_file), "-"], capture_output=True, text=True).stdout
+        if re.sub(r"\s+", " ", r.quote) not in re.sub(r"\s+", " ", text):
+            raise ValueError(f"filer_review.csv: quote not found in {r.source_file}: {r.quote[:60]!r}")
+    return dict(zip(review["case_no"], review["nominated_by"]))
+
+
 def _case_year(case_no: str) -> int | None:
     return 2000 + int(case_no[:2]) if case_no and int(case_no[:2]) < 50 else (1900 + int(case_no[:2]) if case_no else None)
 
@@ -206,6 +221,7 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
         else:
             groups.append([i])
     rules = load_rules()
+    reviewed = filer_review()
     rows = []
     for n, g in enumerate(groups):
         sub = df.loc[g]
@@ -216,6 +232,9 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
         exact = same[same.get("fy_only", pd.Series(False, index=same.index)).ne(True)].dropna(subset=["date"])
         conflict = (exact["date"].max() - exact["date"].min()).days > 120 if len(exact) > 1 else False
         nominators = [x for x in sub["nominated_by"] if isinstance(x, str) and x]
+        case = next((c for c in sub["case_no"] if c), "")
+        if not nominators and case in reviewed:
+            nominators = [reviewed[case]]
         filer = classify(nominators[0], rules) if nominators else classify("", rules)
         rows.append({
             "nomination_id": f"N{n:05d}",

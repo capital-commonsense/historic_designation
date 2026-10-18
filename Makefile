@@ -12,7 +12,7 @@ build:
 	$(PY) build
 
 charts:
-	@echo "charts: not yet implemented"
+	$(PY) charts
 
 test:
 	uv run pytest -q
