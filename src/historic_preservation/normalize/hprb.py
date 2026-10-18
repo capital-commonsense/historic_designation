@@ -16,7 +16,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from historic_preservation.config import INPUTS
+from historic_preservation.config import INPUTS, MANUAL
+
+BOX = MANUAL / "hprb_box" / "extracted"  # HPO's box.com archive (records_request/manual_fetch.md item 4)
+BOX_ACTIONS = re.compile(r"action|decision|result", re.I)
 
 # "Case 11-07", "Cases 17-14 and 17-21", "HPA #12-616", a bare "#08-10" (2011 lists),
 # "Case #13-013" (late 2012), or a header ending ", 22-09." (2022).
@@ -73,6 +76,37 @@ def html_text(path: Path) -> str:
 
 def pdf_text(path: Path) -> str:
     return subprocess.run(["pdftotext", "-layout", str(path), "-"], capture_output=True, text=True).stdout
+
+
+def doc_text(path: Path) -> str:
+    """Text of an archive file: PDF via pdftotext, .docx via pandoc, legacy .doc via macOS textutil."""
+    suffix = path.suffix.lower()
+    if suffix == ".pdf":
+        return pdf_text(path)
+    cmd = (["pandoc", "-t", "plain", "--wrap=none", str(path)] if suffix == ".docx"
+           else ["textutil", "-convert", "txt", "-stdout", str(path)])
+    return subprocess.run(cmd, capture_output=True, text=True).stdout
+
+
+def _day_with_year_from_hint(hint: str, text: str):
+    """'MAY 26 MEETING' in the text, year from the folder/file name ('May HPRB ACTIONS 05 2016')."""
+    day = re.search(rf"({MONTHS})\s+(\d{{1,2}})\b", text[:600], re.I)
+    year = re.search(r"\b(20\d{2})\b", hint)
+    if day and year:
+        return datetime.strptime(f"{day.group(1)} {day.group(2)} {year.group(1)}", "%B %d %Y").date()
+    return None
+
+
+def box_sources() -> list[tuple[str, str, str]]:
+    """(source name, date hint, text) for action documents in the box.com archive, if downloaded."""
+    if not BOX.exists():
+        return []
+    out = []
+    for p in sorted(BOX.rglob("*")):
+        if p.is_file() and p.suffix.lower() in (".pdf", ".docx", ".doc") and BOX_ACTIONS.search(p.name):
+            rel = p.relative_to(BOX)
+            out.append((f"box:{rel}", f"{p.parent.name} {p.stem}", doc_text(p)))
+    return out
 
 
 def meeting_date(slug: str, text: str):
@@ -187,6 +221,17 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
             date = meeting_date(slug, text)
             for it in items(text, anchors.get(source, [])):
                 rows.append({"meeting_date": date, "slug": slug, "source_file": source, **it})
+    crawled: dict[str, list] = {}
+    for r in rows:
+        crawled.setdefault(r["case_no"], []).append(r["meeting_date"])
+    for source, hint, text in box_sources():
+        date = meeting_date(hint, text) or _day_with_year_from_hint(hint, text)
+        for it in items(text, anchors.get(source, [])):
+            # The planning.dc.gov copy wins: the same case within 10 days is the same action
+            # (archive files date two-day meetings by the first day, the crawl by the last).
+            if date and any(d and abs((d - date).days) <= 10 for d in crawled.get(it["case_no"], [])):
+                continue
+            rows.append({"meeting_date": date, "slug": "box", "source_file": source, **it})
     df = pd.DataFrame(rows)
     df = df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df
     return apply_review(df, hprb_dir, index)

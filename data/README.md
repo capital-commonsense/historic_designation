@@ -61,6 +61,12 @@ more than 120 days (e.g. case 11-16: HPRB 2011-08-04, FY2011 update
 2010-11-18). Rows with a conflict or a missing expected source go to
 `reconciliation.csv`.
 
+**HPRB archive (box.com).** `normalize/hprb.py` also reads the action documents
+in `data/raw/manual/hprb_box/extracted/` (HPO's meeting-records archive,
+2006–2026; PDF, .docx via pandoc, legacy .doc via macOS `textutil`). An archive
+action for a case within 10 days of a planning.dc.gov action is treated as the
+same action and dropped; `source_file` starts with `box:` for archive rows.
+
 `hprb_case_anchors.csv` — designation items whose HPRB action prints no
 case number (Union Market Terminal, Capital Traction Company Union Station),
 with the case number and the HPO document that gives it. An anchor that can't
