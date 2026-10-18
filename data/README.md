@@ -42,6 +42,7 @@ majority status of the record's square+suffix), `none` (treated as not designate
 | `inventory_summary.json` | 2009 Inventory entry counts |
 | `court_mayors_agent_appeals.csv` | appeals of Mayor's Agent permit decisions: appellant (owner vs preservation/neighborhood side) × ruling × outcome for the preservation side. Appealed cases only, not approval rates |
 | `dcpl_governance.json` | DCPL board: roster sizes, share of trustees with a printed architecture credential (per person across rosters), turnover between rosters, current affiliation categories, Part VI policy answers by year. No names |
+| `mayors_agent_summary.json`, `mayors_agent_outcomes_by_decade.csv` | H6: Mayor's Agent grant rates overall, by basis (special merit, hardship, public interest, consistency) and decade; caveats |
 | `court_appeals_summary.json` | counts, order-to-opinion lag, designation challenges, opinions not yet fetched |
 
 ## Hand-curated inputs (`inputs/`)
@@ -84,6 +85,21 @@ coded `affiliation_category` exist only for the current page, whose lines
 are sometimes a title rather than an employer. Findings report aggregates
 only. Part VI answers are in `dcpl_990_lines.csv` (FY2011–2013 checkboxes
 read from page images).
+
+`mayors_agent_review.csv` — dispositions read from the decision PDFs for the
+64 Mayor's Agent decisions whose library description gives none; each quote is
+checked against the PDF (or its OCR copy for scans) at build time.
+
+**Mayor's Agent decisions** (`data/normalized/mayors_agent_decisions.csv`):
+one row per decision in Georgetown Law Library's collection (202, 1978–2024),
+collected through the user's browser into `data/raw/manual/mayors_agent/`
+(`mayors_agent_catalog.json`, the decision PDFs named `<work id>__<file>`, and
+`mayors_agent_download_log.json`). Disposition from the library's description
+("Disposition:" field) or the review file; basis flags from the library's
+subject tags (18 decisions, all eight from the 2020s, are untagged);
+`order_date` from the description's own date, else the catalog date
+(`date_conflict` marks differences over 30 days). Court decisions from the same
+collection are coded in `court_cases.csv` (`local_file`).
 
 `court_cases.csv` — coding of DC Court of Appeals preservation cases.
 `preservation_side` is the outcome for whoever argued for preservation

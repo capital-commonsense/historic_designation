@@ -1,0 +1,132 @@
+"""Mayor's Agent decisions from the Georgetown Law Library collection (manual download).
+
+The catalog (mayors_agent_catalog.json, one record per decision) carries the
+library's own metadata: issue date, HPA number, subject tags, and a description
+that usually has labeled fields ("Disposition: Granted", "Date of Order: ...")
+before a summary. Those summaries are the library's, a secondary source; the
+decision PDFs sit beside the catalog. Where the description gives no
+disposition, inputs/mayors_agent_review.csv supplies one read from the PDF,
+with a quote checked against its text.
+"""
+
+import html
+import json
+import re
+import subprocess
+from pathlib import Path
+
+import pandas as pd
+
+from historic_preservation.config import INPUTS, NORMALIZED
+
+LABELS = (r"(?:HPA Number|Case Name|Location(?: of Property)?|Date of (?:Decision|Order)|"
+          r"Type of (?:Case/Type of )?Permit Sought|Type of Case|Disposition|Subject Matter\(s\)|Issue Areas?(?:\(s\))?|"
+          r"Date of Case Summary(?:/Reviewer Name)?|Reviewer/Date of Case Summary|Reviewer|Summary(?: of Decision)?|"
+          r"Building Name|Applicant)")
+DISPOSITIONS = (  # first match wins
+    ("partial", r"in part"),  # split decisions; approvals with conditions count as granted
+    ("dismissed", r"dismiss"),
+    ("delayed", r"delay"),
+    ("withdrawn", r"withdrawn"),
+    ("denied", r"denied|rejected"),
+    ("granted", r"granted|approved|issued|cleared"),
+)
+BASIS = {  # subject tag -> flag
+    "special_merit": r"^Special Merit",
+    "economic_hardship": r"Economic Hardship",
+    "consistent_with_purposes": r"Consistent with Purposes",
+    "necessary_public_interest": r"Necessary in the Public Interest",
+}
+
+
+def description(work: dict) -> str:
+    raw = " ".join(work.get("description_tesim") or [])
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", raw))).strip()
+
+
+def field(text: str, name: str) -> str:
+    m = re.search(name + r"\s*:\s*(.*?)(?=\s" + LABELS + r"\s*:|$)", text)
+    return m.group(1).strip() if m else ""
+
+
+def classify(disposition: str) -> str:
+    for name, pat in DISPOSITIONS:
+        if re.search(pat, disposition, re.I):
+            return name
+    return "unclear" if disposition else ""
+
+
+def pdf_text(path: Path) -> str:
+    """Text layer, or for scans an OCR copy made once under data/normalized/ocr/mayors_agent/."""
+    text = subprocess.run(["pdftotext", str(path), "-"], capture_output=True, text=True).stdout
+    pages = int(re.search(r"Pages:\s+(\d+)", subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True).stdout).group(1))
+    if len(text.strip()) < 300 * pages:  # scans: some carry a text layer only on the certificate page
+        ocr = NORMALIZED / "ocr" / "mayors_agent" / path.name
+        if not ocr.exists():
+            ocr.parent.mkdir(parents=True, exist_ok=True)
+            subprocess.run(["ocrmypdf", "--force-ocr", "--quiet", str(path), str(ocr)], check=True)
+        text = subprocess.run(["pdftotext", str(ocr), "-"], capture_output=True, text=True).stdout
+    return re.sub(r"\s+", " ", text)
+
+
+def decisions(folder: Path) -> pd.DataFrame:
+    works = json.loads((folder / "mayors_agent_catalog.json").read_text())["works"]
+    pdfs: dict[str, list[str]] = {}
+    for p in sorted(folder.iterdir()):
+        if "__" in p.name and p.suffix.lower() == ".pdf":  # one attachment ends in ".PDF"
+            pdfs.setdefault(p.name.split("__", 1)[0], []).append(p.name)
+    rows = []
+    for w in works:
+        t = description(w)
+        subjects = w.get("subject_tesim") or []
+        disposition = field(t, "Disposition")
+        disposition = re.split(r"\s(?:Applicant|Issue Areas?|Date of|Reviewer)\b", disposition)[0].strip()
+        rows.append({
+            "work_id": w["id"],
+            "title": (w.get("title_tesim") or [""])[0],
+            "hpa_number": field(t, "HPA Number") or "; ".join(w.get("other_identifier_tesim") or []),
+            "date_issued_catalog": (w.get("date_issued_tesim") or [""])[0],
+            "date_of_order_text": field(t, "Date of (?:Decision|Order)")[:40],
+            "permit_type": field(t, "Type of (?:Case/Type of )?Permit Sought")[:120],
+            "disposition_text": disposition[:200],
+            "disposition": classify(disposition),
+            "disposition_source": "catalog description" if disposition else "",
+            "subjects": "; ".join(subjects),
+            **{k: any(re.search(p, s) for s in subjects) for k, p in BASIS.items()},
+            "pdfs": "; ".join(pdfs.get(w["id"], [])),
+            "handle": "; ".join(w.get("handle_tesim") or []),
+        })
+    df = pd.DataFrame(rows)
+    df["order_date"] = df["date_of_order_text"].map(parse_date)
+    catalog = pd.to_datetime(df["date_issued_catalog"], errors="coerce")
+    # The description's own order date wins; the catalog date fills gaps and is flagged when they differ.
+    df["date_conflict"] = (df["order_date"].notna() & catalog.notna()
+                           & ((df["order_date"] - catalog).abs().dt.days > 30))
+    df["order_date"] = df["order_date"].fillna(catalog)
+    return apply_review(df, folder)
+
+
+DATE = re.compile(r"\d{1,2}/\d{1,2}/\d{2,4}|\d{1,2}-[A-Za-z]{3}-\d{2,4}|[A-Z][a-z]+\.? \d{1,2},? \d{4}")
+
+
+def parse_date(text: str):
+    m = DATE.search(text or "")
+    return pd.to_datetime(m.group(0), errors="coerce") if m else pd.NaT
+
+
+def apply_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    path = INPUTS / "mayors_agent_review.csv"
+    if not path.exists():
+        return df
+    review = pd.read_csv(path, dtype=str).fillna("")
+    df["review_note"] = ""
+    for r in review.itertuples():
+        text = pdf_text(folder / r.pdf)
+        if re.sub(r"\s+", " ", r.quote) not in text:
+            raise ValueError(f"mayors_agent_review.csv: quote not found in {r.pdf}: {r.quote[:60]!r}")
+        hit = df["work_id"] == r.work_id
+        if not hit.any():
+            raise ValueError(f"mayors_agent_review.csv: unknown work {r.work_id}")
+        df.loc[hit, ["disposition", "disposition_text", "disposition_source", "review_note"]] = [
+            r.disposition, r.quote[:200], f"PDF: {r.pdf}", r.note]
+    return df

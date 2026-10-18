@@ -24,6 +24,7 @@ from historic_preservation.normalize import dcpl_grants
 from historic_preservation.normalize import hprb as hprb_records
 from historic_preservation.normalize import dcoz as dcoz_records
 from historic_preservation.normalize import courts
+from historic_preservation.normalize import mayors_agent
 
 ITSPE_DROP = ("OWNERNAME", "OWNNAME2")
 
@@ -201,6 +202,9 @@ def run() -> None:
     if (snapshot / "court_opinions" / "manifest.json").exists():
         courts.opinions(snapshot / "court_opinions").to_csv(NORMALIZED / "court_opinions.csv", index=False)
         courts.cases(snapshot / "court_opinions").to_csv(NORMALIZED / "court_cases.csv", index=False, date_format="%Y-%m-%d")
+    if (MANUAL / "mayors_agent" / "mayors_agent_catalog.json").exists():
+        mayors_agent.decisions(MANUAL / "mayors_agent").to_csv(
+            NORMALIZED / "mayors_agent_decisions.csv", index=False, date_format="%Y-%m-%d")
     if (snapshot / "web" / "hpo_pending_nominations.html").exists():
         hpo_pending_nominations(snapshot).to_csv(NORMALIZED / "hpo_pending_nominations.csv", index=False)
     if (snapshot / "web" / "dcpl_nominations_and_landmarks.html").exists():

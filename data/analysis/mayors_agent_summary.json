@@ -1,0 +1,115 @@
+{
+ "all": {
+  "decisions": 202,
+  "decided_on_merits": 196,
+  "granted": 116,
+  "partial": 4,
+  "denied": 76,
+  "granted_share": 0.592
+ },
+ "by_basis": {
+  "Special merit": {
+   "decisions": 61,
+   "decided_on_merits": 61,
+   "granted": 45,
+   "partial": 1,
+   "denied": 15,
+   "granted_share": 0.738
+  },
+  "Economic hardship": {
+   "decisions": 46,
+   "decided_on_merits": 45,
+   "granted": 6,
+   "partial": 2,
+   "denied": 37,
+   "granted_share": 0.133
+  },
+  "Necessary in the public interest": {
+   "decisions": 45,
+   "decided_on_merits": 43,
+   "granted": 36,
+   "partial": 0,
+   "denied": 7,
+   "granted_share": 0.837
+  },
+  "Consistent with the purposes of the Act": {
+   "decisions": 85,
+   "decided_on_merits": 85,
+   "granted": 54,
+   "partial": 1,
+   "denied": 30,
+   "granted_share": 0.635
+  }
+ },
+ "by_decade": {
+  "1970": {
+   "decisions": 3,
+   "decided_on_merits": 1,
+   "granted": 1,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "1980": {
+   "decisions": 33,
+   "decided_on_merits": 33,
+   "granted": 24,
+   "partial": 0,
+   "denied": 9,
+   "granted_share": 0.727
+  },
+  "1990": {
+   "decisions": 57,
+   "decided_on_merits": 54,
+   "granted": 26,
+   "partial": 0,
+   "denied": 28,
+   "granted_share": 0.481
+  },
+  "2000": {
+   "decisions": 67,
+   "decided_on_merits": 66,
+   "granted": 42,
+   "partial": 3,
+   "denied": 21,
+   "granted_share": 0.636
+  },
+  "2010": {
+   "decisions": 32,
+   "decided_on_merits": 32,
+   "granted": 16,
+   "partial": 1,
+   "denied": 15,
+   "granted_share": 0.5
+  },
+  "2020": {
+   "decisions": 8,
+   "decided_on_merits": 8,
+   "granted": 6,
+   "partial": 0,
+   "denied": 2,
+   "granted_share": 0.75
+  }
+ },
+ "years": [
+  1978,
+  2024
+ ],
+ "disposition_source": {
+  "catalog description": 138,
+  "PDF": 64
+ },
+ "date_conflicts": 9,
+ "untagged_by_decade": {
+  "1990": 3,
+  "2000": 1,
+  "2010": 6,
+  "2020": 8
+ },
+ "caveats": [
+  "Georgetown Law's collection aims to be as complete as possible; it is not a certified census of decisions.",
+  "Basis flags are the library's subject tags; a tag can mark an issue discussed, not only the ground claimed.",
+  "Dispositions: library descriptions where stated, otherwise read from the decision PDF with a checked quote.",
+  "Approvals with conditions count as granted; 'partial' is a split decision."
+ ]
+}

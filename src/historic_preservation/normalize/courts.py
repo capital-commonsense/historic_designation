@@ -10,11 +10,12 @@ module checks.
 import html
 import json
 import re
+import subprocess
 from pathlib import Path
 
 import pandas as pd
 
-from historic_preservation.config import INPUTS
+from historic_preservation.config import INPUTS, MANUAL
 
 TERMS = {
     "mayors_agent": r"Mayor['’]?s [Aa]gent",
@@ -67,15 +68,27 @@ def opinions(dest: Path) -> pd.DataFrame:
 
 
 def cases(dest: Path) -> pd.DataFrame:
-    """Hand-coded preservation cases, with docket/date from the search results and quotes verified."""
+    """Hand-coded preservation cases, with docket/date from the search results and quotes verified.
+
+    Cases CourtListener lacks (e.g. unpublished judgments from the Georgetown Law collection) have no
+    cluster_id; their `local_file` under data/raw/manual/mayors_agent/ supplies the text, and the
+    row gives `local_decided` and `local_docket`.
+    """
     coded = pd.read_csv(INPUTS / "court_cases.csv", dtype=str).fillna("")
     clusters = json.loads((dest / "search_results.json").read_text())
     body = texts(dest)
-    missing = [q for cid, q in zip(coded["cluster_id"], coded["holding_quote"]) if squash(q) not in body.get(cid, "")]
+    for f in coded.loc[coded["local_file"] != "", "local_file"]:
+        body[f] = squash(subprocess.run(["pdftotext", str(MANUAL / "mayors_agent" / f), "-"],
+                                        capture_output=True, text=True).stdout)
+    key = coded["cluster_id"].where(coded["cluster_id"] != "", coded["local_file"])
+    missing = [q for k, q in zip(key, coded["holding_quote"]) if squash(q) not in body.get(k, "")]
     if missing:
         raise ValueError(f"court_cases.csv: holding_quote not found in opinion text: {missing}")
-    coded.insert(1, "decided", coded["cluster_id"].map(lambda c: clusters[c].get("dateFiled")))
-    coded.insert(2, "docket", [comp or clusters[c].get("docketNumber") for c, comp in zip(coded["cluster_id"], coded["component"])])
+    local = coded["cluster_id"] == ""
+    coded.insert(1, "decided", [r.local_decided if l else clusters[r.cluster_id].get("dateFiled")
+                                for r, l in zip(coded.itertuples(), local)])
+    coded.insert(2, "docket", [r.local_docket if l else (r.component or clusters[r.cluster_id].get("docketNumber"))
+                               for r, l in zip(coded.itertuples(), local)])
     coded["agency_order_date"] = pd.to_datetime(coded["agency_order_date"], errors="coerce")
-    coded["days_order_to_opinion"] = (pd.to_datetime(coded["decided"]) - coded["agency_order_date"]).dt.days
-    return coded.drop(columns="component")
+    coded["days_order_to_opinion"] = (pd.to_datetime(coded["decided"], errors="coerce") - coded["agency_order_date"]).dt.days
+    return coded.drop(columns=["component", "local_decided", "local_docket"])

@@ -48,13 +48,9 @@ ProPublica lists no PDF for FY ending 2016-03 or for the 2019-20 change to calen
 - Scribd document 45707262 (partial settlement text): https://www.scribd.com/document/45707262
 - The court filing, c. Nov. 24, 2010. Press accounts say DC Court of Appeals, but the church's challenge may have been in federal court (U.S. District Court for D.C.). I couldn't search CourtListener's RECAP dockets because the API rate limit (50/hour) was exhausted. When it resets, the pipeline can run that search. If you have PACER access, search for *Third Church of Christ, Scientist v. District of Columbia*.
 
-## 3. Mayor's Agent decisions (H6)
+## 3. Mayor's Agent decisions (H6) — done 2026-10-18
 
-**Why blocked:** Georgetown Law's digital collection sits behind a Cloudflare browser challenge.
-**Save to:** `data/raw/manual/mayors_agent/`, one PDF per decision. Keep the collection's file names or use `YYYY-MM-DD_case-name.pdf`.
-**URL:** https://law.digital.georgetown.edu/collections/bdb751b4-23bc-44db-b7d7-cb2e188172ce
-
-If the collection is large, start with decisions from 2000 on. HPO annual reports already summarize some cases, and the 112 DC Court of Appeals cases are being fetched through your CourtListener token.
+Collected through your browser: all 202 decisions in Georgetown Law's collection (catalog, 233 decision PDFs, download log) are in `data/raw/manual/mayors_agent/`. The collection's court-case files you saved under `records_request/georgetown/` are archived there too.
 
 ## 4. HPRB meeting records on box.com (H1, H7)
 

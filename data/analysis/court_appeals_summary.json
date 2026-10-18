@@ -1,11 +1,11 @@
 {
- "mayors_agent_appeals": 22,
+ "mayors_agent_appeals": 23,
  "by_appellant": {
-  "preservation or neighborhood side": 14,
+  "preservation or neighborhood side": 15,
   "owner": 8
  },
  "preservation_side_outcome": {
-  "lost": 9,
+  "lost": 10,
   "prevailed": 9,
   "remanded": 3,
   "mixed": 1

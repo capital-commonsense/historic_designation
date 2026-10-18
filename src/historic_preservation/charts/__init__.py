@@ -40,7 +40,8 @@ def save(fig, name: str, data: pd.DataFrame, caption: str) -> None:
 
 
 def run() -> None:
-    from historic_preservation.charts import nominations
+    from historic_preservation.charts import mayors_agent, nominations
 
     nominations.by_entity_and_year()
+    mayors_agent.outcomes()
     print(f"charts: wrote {CHARTS_OUT}")
