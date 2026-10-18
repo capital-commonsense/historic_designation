@@ -129,6 +129,8 @@ holding quoted verbatim. Private individuals are masked in `case_label`;
 
 - `unheard_nominations.csv` — nominations an HPO monthly notice scheduled for a hearing that HPRB never acted on (withdrawn, or dropped from the agenda: outcome `not_heard`), with the notice quote (checked by the build). Found by listing every "Case YY-NN" in the HPRB agendas, actions and HPO notices (2006–2026) and checking it against `nominations.csv`; the other unmatched numbers were typos (13-03 for 13-13, 14-96 for 14-06), co-filed cases heard together (17-21 with 17-14, 21-13 with 17-09, 14-03 and 16-17 with 11-21), or folded into another case (18-17 into 19-01).
 
+- `mayors_agent_hearing_dates.csv` — for each Mayor's Agent decision, the last hearing session before the order, with the sentence that dates it (checked by the build). `basis`: `pattern` (found by a strict pattern that skips HPRB, CFA, zoning and ANC hearings; 25 spot-checked), `hand` (read from the decision), `no_hearing` (the decision says none was held), or blank (not stated legibly). Feeds `hearing_date`, `days_hearing_to_order`, `hpa_fy` and `fy_application_to_order` in `mayors_agent_decisions.csv` and `timing*` in `mayors_agent_summary.json`.
+
 ## Reconciliation with the exploratory figures
 
 - **Land value share (~42%)** reproduces only on strict matches; counting

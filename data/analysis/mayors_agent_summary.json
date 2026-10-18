@@ -281,6 +281,372 @@
   "JCL": 8
  },
  "decisions_mentioning_dcpl": 79,
+ "timing": {
+  "decisions": 202,
+  "hearing_dated": 137,
+  "hearing_after_order_excluded": 2,
+  "days_hearing_to_order": {
+   "n": 135,
+   "p25": 42.0,
+   "median": 92.0,
+   "p75": 185.5,
+   "over_180": 36,
+   "over_365": 8
+  },
+  "fiscal_years_application_to_order": {
+   "n": 201,
+   "median": 1.0,
+   "same_fy": 71,
+   "next_fy": 104,
+   "two_or_more": 26
+  }
+ },
+ "timing_by_case_type": {
+  "alteration": {
+   "decisions": 69,
+   "hearing_dated": 44,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 44,
+    "p25": 54.8,
+    "median": 110.5,
+    "p75": 196.2,
+    "over_180": 13,
+    "over_365": 3
+   },
+   "fiscal_years_application_to_order": {
+    "n": 69,
+    "median": 1.0,
+    "same_fy": 13,
+    "next_fy": 47,
+    "two_or_more": 9
+   }
+  },
+  "demolition": {
+   "decisions": 90,
+   "hearing_dated": 67,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 67,
+    "p25": 43.0,
+    "median": 90.0,
+    "p75": 179.5,
+    "over_180": 17,
+    "over_365": 3
+   },
+   "fiscal_years_application_to_order": {
+    "n": 90,
+    "median": 1.0,
+    "same_fy": 39,
+    "next_fy": 41,
+    "two_or_more": 10
+   }
+  },
+  "new_construction": {
+   "decisions": 12,
+   "hearing_dated": 9,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 8,
+    "p25": 66.8,
+    "median": 170.0,
+    "p75": 336.0,
+    "over_180": 4,
+    "over_365": 1
+   },
+   "fiscal_years_application_to_order": {
+    "n": 12,
+    "median": 1.0,
+    "same_fy": 5,
+    "next_fy": 5,
+    "two_or_more": 2
+   }
+  },
+  "procedural": {
+   "decisions": 4,
+   "hearing_dated": 0,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 0,
+    "p25": null,
+    "median": null,
+    "p75": null,
+    "over_180": 0,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 4,
+    "median": 1.0,
+    "same_fy": 1,
+    "next_fy": 2,
+    "two_or_more": 1
+   }
+  },
+  "subdivision": {
+   "decisions": 27,
+   "hearing_dated": 17,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 16,
+    "p25": 7.5,
+    "median": 45.5,
+    "p75": 105.2,
+    "over_180": 2,
+    "over_365": 1
+   },
+   "fiscal_years_application_to_order": {
+    "n": 26,
+    "median": 0.5,
+    "same_fy": 13,
+    "next_fy": 9,
+    "two_or_more": 4
+   }
+  }
+ },
+ "timing_by_decade": {
+  "1970": {
+   "decisions": 3,
+   "hearing_dated": 2,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 2,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.0,
+    "over_180": 0,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 3,
+    "median": 0.0,
+    "same_fy": 2,
+    "next_fy": 1,
+    "two_or_more": 0
+   }
+  },
+  "1980": {
+   "decisions": 34,
+   "hearing_dated": 30,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 29,
+    "p25": 31.0,
+    "median": 73.0,
+    "p75": 117.0,
+    "over_180": 6,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 34,
+    "median": 0.5,
+    "same_fy": 17,
+    "next_fy": 13,
+    "two_or_more": 4
+   }
+  },
+  "1990": {
+   "decisions": 57,
+   "hearing_dated": 38,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 38,
+    "p25": 57.2,
+    "median": 130.5,
+    "p75": 206.0,
+    "over_180": 15,
+    "over_365": 3
+   },
+   "fiscal_years_application_to_order": {
+    "n": 56,
+    "median": 1.0,
+    "same_fy": 17,
+    "next_fy": 29,
+    "two_or_more": 10
+   }
+  },
+  "2000": {
+   "decisions": 67,
+   "hearing_dated": 39,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 38,
+    "p25": 32.5,
+    "median": 55.0,
+    "p75": 118.8,
+    "over_180": 5,
+    "over_365": 3
+   },
+   "fiscal_years_application_to_order": {
+    "n": 67,
+    "median": 1.0,
+    "same_fy": 25,
+    "next_fy": 36,
+    "two_or_more": 6
+   }
+  },
+  "2010": {
+   "decisions": 33,
+   "hearing_dated": 20,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 20,
+    "p25": 61.8,
+    "median": 160.0,
+    "p75": 189.0,
+    "over_180": 6,
+    "over_365": 1
+   },
+   "fiscal_years_application_to_order": {
+    "n": 33,
+    "median": 1.0,
+    "same_fy": 10,
+    "next_fy": 19,
+    "two_or_more": 4
+   }
+  },
+  "2020": {
+   "decisions": 8,
+   "hearing_dated": 8,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 8,
+    "p25": 135.2,
+    "median": 184.0,
+    "p75": 219.0,
+    "over_180": 4,
+    "over_365": 1
+   },
+   "fiscal_years_application_to_order": {
+    "n": 8,
+    "median": 1.0,
+    "same_fy": 0,
+    "next_fy": 6,
+    "two_or_more": 2
+   }
+  }
+ },
+ "timing_by_disposition": {
+  "delayed": {
+   "decisions": 2,
+   "hearing_dated": 1,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 1,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.0,
+    "over_180": 0,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 2,
+    "median": 0.0,
+    "same_fy": 2,
+    "next_fy": 0,
+    "two_or_more": 0
+   }
+  },
+  "denied": {
+   "decisions": 76,
+   "hearing_dated": 45,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 44,
+    "p25": 74.8,
+    "median": 128.0,
+    "p75": 247.0,
+    "over_180": 19,
+    "over_365": 4
+   },
+   "fiscal_years_application_to_order": {
+    "n": 76,
+    "median": 1.0,
+    "same_fy": 15,
+    "next_fy": 48,
+    "two_or_more": 13
+   }
+  },
+  "dismissed": {
+   "decisions": 2,
+   "hearing_dated": 1,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 1,
+    "p25": 56.0,
+    "median": 56.0,
+    "p75": 56.0,
+    "over_180": 0,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 2,
+    "median": 1.0,
+    "same_fy": 0,
+    "next_fy": 2,
+    "two_or_more": 0
+   }
+  },
+  "granted": {
+   "decisions": 116,
+   "hearing_dated": 88,
+   "hearing_after_order_excluded": 1,
+   "days_hearing_to_order": {
+    "n": 87,
+    "p25": 31.5,
+    "median": 73.0,
+    "p75": 160.0,
+    "over_180": 16,
+    "over_365": 3
+   },
+   "fiscal_years_application_to_order": {
+    "n": 115,
+    "median": 1.0,
+    "same_fy": 52,
+    "next_fy": 51,
+    "two_or_more": 12
+   }
+  },
+  "partial": {
+   "decisions": 4,
+   "hearing_dated": 1,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 1,
+    "p25": 111.0,
+    "median": 111.0,
+    "p75": 111.0,
+    "over_180": 0,
+    "over_365": 0
+   },
+   "fiscal_years_application_to_order": {
+    "n": 4,
+    "median": 0.5,
+    "same_fy": 2,
+    "next_fy": 2,
+    "two_or_more": 0
+   }
+  },
+  "withdrawn": {
+   "decisions": 2,
+   "hearing_dated": 1,
+   "hearing_after_order_excluded": 0,
+   "days_hearing_to_order": {
+    "n": 1,
+    "p25": 752.0,
+    "median": 752.0,
+    "p75": 752.0,
+    "over_180": 1,
+    "over_365": 1
+   },
+   "fiscal_years_application_to_order": {
+    "n": 2,
+    "median": 1.5,
+    "same_fy": 0,
+    "next_fy": 1,
+    "two_or_more": 1
+   }
+  }
+ },
  "by_decade": {
   "1970": {
    "decisions": 3,
@@ -354,6 +720,7 @@
   "Approvals with conditions count as granted; 'partial' is a split decision.",
   "Reviewer position is what HPRB (Joint Committee on Landmarks before 1983; Commission of Fine Arts in Georgetown) recommended on the application, read from each decision with a checked quote (inputs/mayors_agent_hprb_review.csv); 'no_position' covers referrals for a special-merit hearing.",
   "mentions_dcpl is a text mention of DC Preservation League or Don't Tear It Down, not proof that the group was a party.",
+  "Timing: application year is the HPA number's fiscal-year prefix (earliest if several), so application-to-order is in whole fiscal years; reconsiderations and remands keep the original number and inflate it. Hearing-to-order runs from the last Mayor's Agent hearing session named in the decision (inputs/mayors_agent_hearing_dates.csv: found by pattern and spot-checked, or read by hand; quotes checked) to the order date; decisions whose catalog order date precedes the hearing are excluded.",
   "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv)."
  ]
 }

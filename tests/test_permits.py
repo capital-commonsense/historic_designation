@@ -48,3 +48,12 @@ def test_unheard_nominations_are_in_table(noms):
     assert noms.loc["18-05", "outcome"] == "not_heard"  # Clapper House, razed 2018
     assert noms.loc["17-11", "outcome"] == "withdrawn"  # Square 653 Rowhouses
     assert noms.loc["07-36", "outcome"] == "denied"  # "recommending the Board not designate"
+
+
+@pytest.mark.parametrize("numbers, year", [
+    ("1994-401", 1994), ("24-203", 2024), ("2003-586, S-01894 Name: In the Matter of", 2003),
+    ("1988-114, 1988-115", 1988), ("1990-418, 1991-418", 1990),
+])
+def test_hpa_year(numbers, year):
+    from historic_preservation.normalize.mayors_agent import hpa_year
+    assert hpa_year(numbers) == year

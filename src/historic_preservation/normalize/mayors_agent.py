@@ -117,7 +117,42 @@ def decisions(folder: Path) -> pd.DataFrame:
     df = apply_review(df, folder)
     df = apply_basis_review(df, folder)
     df = apply_type_review(df, folder)
-    return apply_hprb_review(df, folder)
+    df = apply_hprb_review(df, folder)
+    return apply_timing(df, folder)
+
+
+def hpa_year(numbers: str):
+    """Earliest HPA application year in 'HPA No. 1994-401' / '24-203' / '2003-586, S-01894'.
+
+    HPO numbers applications by fiscal year: at the Nov 1, 2012 HPRB meeting the Wire Building
+    raze was HPA 12-582 and an application filed that October was HPA 13-004."""
+    years = [int(y) if len(y) == 4 else 2000 + int(y) if int(y) < 50 else 1900 + int(y)
+             for y in re.findall(r"(?<![\w-])((?:19|20)\d\d|\d\d)-\d{2,4}\b", str(numbers))]
+    return min(years) if years else pd.NA
+
+
+def apply_timing(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    """Application fiscal year (from the HPA number) and the last Mayor's Agent hearing session
+    before the order (inputs/mayors_agent_hearing_dates.csv; quotes checked)."""
+    df["hpa_fy"] = df["hpa_number"].map(hpa_year).astype("Int64")
+    order_fy = df["order_date"].dt.year + (df["order_date"].dt.month >= 10)
+    df["fy_application_to_order"] = order_fy - df["hpa_fy"]
+    path = INPUTS / "mayors_agent_hearing_dates.csv"
+    if not path.exists():
+        return df
+    review = pd.read_csv(path, dtype=str).fillna("")
+    texts = {w: " ".join(pdf_text(folder / p) for p in str(ps).split("; ") if p)
+             for w, ps in zip(df["work_id"], df["pdfs"])}
+    for r in review.itertuples():
+        if r.work_id not in texts:
+            raise ValueError(f"mayors_agent_hearing_dates.csv: unknown work_id {r.work_id}")
+        if r.quote and re.sub(r"\s+", " ", r.quote) not in texts[r.work_id]:
+            raise ValueError(f"mayors_agent_hearing_dates.csv: quote not found for {r.work_id}: {r.quote[:60]!r}")
+    review = review.set_index("work_id")
+    df["hearing_date"] = pd.to_datetime(df["work_id"].map(review["hearing_date"]).replace("", pd.NA))
+    df["hearing_date_basis"] = df["work_id"].map(review["basis"])
+    df["days_hearing_to_order"] = (df["order_date"] - df["hearing_date"]).dt.days
+    return df
 
 
 POSITIONS = {"against", "favorable", "mixed", "no_position", "unknown"}
