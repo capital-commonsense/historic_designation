@@ -10,6 +10,7 @@ from historic_preservation.config import MIN_INTERVAL_S, USER_AGENT
 
 # Hosts that ask for a slower pace than the default.
 HOST_INTERVALS = {"www.courtlistener.com": 5.0}
+MAX_RETRY_AFTER = 600  # seconds; longer waits fail fast instead of blocking the build
 
 
 class PoliteClient:
@@ -40,6 +41,9 @@ class PoliteClient:
                     return resp
                 if resp.headers.get("Retry-After", "").isdigit():
                     delay = max(delay, int(resp.headers["Retry-After"]))
+                    # e.g. CourtListener's daily quota: record the failure and resume on a later run
+                    if delay > MAX_RETRY_AFTER:
+                        raise RuntimeError(f"{host} asks to wait {delay}s (Retry-After); try again later")
             except httpx.TransportError:
                 if attempt == self.retries - 1:
                     raise

@@ -10,3 +10,18 @@ tax_period,form_line,description_as_filed,value,source_file,pdf_page,method,note
 201503,Part X line 28,Temporarily restricted net assets (begin / end),708576 / 640752,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,12,OCR read and checked by eye,
 201503,Part X line 27,Unrestricted net assets (begin / end),225109 / 180361,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,12,OCR read and checked by eye,
 201503,Schedule O Part IX line 24f,LANDMARK FEES,1966,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,31,OCR read and checked by eye,
+200503,Part I line 21,Net assets or fund balances at end of year,44239,data/raw/manual/dcpl_990/52-1038849_990_200503.pdf,3,OCR read and checked by eye,"total net assets far below a $450K fund; relevant to the reported 2003 Monument payment"
+200603,Part I line 2,Program service revenue including government fees and contracts,96260,data/raw/manual/dcpl_990/52-1038849_990_200603.pdf,2,OCR read and checked by eye,
+200603,Part I line 21,Net assets or fund balances at end of year,46032,data/raw/manual/dcpl_990/52-1038849_990_200603.pdf,2,OCR read and checked by eye,
+201003,Part I line 2,Program service revenue including government fees and contracts (990-EZ),109378,data/raw/manual/dcpl_990/52-1038849_990EZ_201003.pdf,2,OCR read and checked by eye,
+201003,Part I line 21,Net assets or fund balances at end of year (990-EZ),64022,data/raw/manual/dcpl_990/52-1038849_990EZ_201003.pdf,2,OCR read and checked by eye,
+201103,Part VIII line 2a,PRESERVATION PROGRAM (business code 900099),81472,data/raw/manual/dcpl_990/52-1038849_990_201103.pdf,10,OCR read and checked by eye,
+201103,Part X line 28,Temporarily restricted net assets (begin / end),0 / 0,data/raw/manual/dcpl_990/52-1038849_990_201103.pdf,12,OCR read and checked by eye,lines blank on the form
+201103,Part X line 33,Total net assets (begin / end),64022 / 63795,data/raw/manual/dcpl_990/52-1038849_990_201103.pdf,12,OCR read and checked by eye,
+201203,Part VIII line 2a,PRESERVATION PROGRAMS (business code 900099),211385,data/raw/manual/dcpl_990/52-1038849_990_201203.pdf,10,OCR read and checked by eye,
+201203,Part X line 28,Temporarily restricted net assets (begin / end),0 / 175000,data/raw/manual/dcpl_990/52-1038849_990_201203.pdf,12,OCR read and checked by eye,first restricted balance; beginning value blank on the form
+201203,Part X line 33,Total net assets (begin / end),63795 / 278309,data/raw/manual/dcpl_990/52-1038849_990_201203.pdf,12,OCR read and checked by eye,
+201203,Schedule O / Schedule D Part XIV,Supplemental information,,data/raw/manual/dcpl_990/52-1038849_990_201203.pdf,22,OCR read and checked by eye,no explanation of restricted funds or program revenue
+201303,Part VIII line 2a,PRESERVATION PROGRAMS (business code 900099),101061,data/raw/manual/dcpl_990/52-1038849_990_201303.pdf,10,OCR read and checked by eye,
+201303,Part X line 28,Temporarily restricted net assets (begin / end),175000 / 175000,data/raw/manual/dcpl_990/52-1038849_990_201303.pdf,12,OCR read and checked by eye,
+201303,Part X line 33,Total net assets (begin / end),278309 / 308227,data/raw/manual/dcpl_990/52-1038849_990_201303.pdf,12,OCR read and checked by eye,
