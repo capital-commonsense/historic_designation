@@ -45,7 +45,7 @@ OUTCOMES = (  # first match wins; order matters
     ("withdrawn", r"withdr[ae]w|was withdrawn"),
     ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"
                r"|denying the (?:application|nomination|designation)"
-               r"|to not designate|did not meet the (?:\w+ )?(?:designation )?criteria"),  # Meads Row 2009; St. Paul's 2018
+               r"|not designate\b|did not meet the (?:\w+ )?(?:designation )?criteria"),  # Meads Row 2009, Schulteis 2007; St. Paul’s 2018
     ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"
                   r"|prior to deliberating|nomination be revised|return to the Board|abeyance|wishes to proceed"),
     ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"
@@ -87,6 +87,17 @@ def doc_text(path: Path) -> str:
     cmd = (["pandoc", "-t", "plain", "--wrap=none", str(path)] if suffix == ".docx"
            else ["textutil", "-convert", "txt", "-stdout", str(path)])
     return subprocess.run(cmd, capture_output=True, text=True).stdout
+
+
+def source_text(source_file: str, snapshot_hprb: Path) -> str:
+    """Whitespace-squashed text of an HPRB document named the way the review files name them:
+    a crawled attachment or page, or 'box:<path>' in the box.com archive."""
+    if source_file.startswith("box:"):
+        raw = doc_text(BOX / source_file[4:])
+    else:
+        pdf = snapshot_hprb / "attachments" / source_file
+        raw = doc_text(pdf) if pdf.exists() else html_text(snapshot_hprb / "pages" / source_file)
+    return re.sub(r"\s+", " ", re.sub(r"\^\((\w+)\)", r"\1", raw))
 
 
 def _day_with_year_from_hint(hint: str, text: str):

@@ -127,6 +127,8 @@ holding quoted verbatim. Private individuals are masked in `case_label`;
 
 - `h2_pending_applications.csv` — raze, alteration and new-construction applications that HPRB agendas and actions, HPO monthly notices or staff reports list alongside a pending landmark nomination (usually "(if designated)" or "[pending landmark]"). One row per case: application number, type, `order` (only where a document says which came first), source file (`box:` for the box.com archive), verbatim quote (checked by the build), note.
 
+- `unheard_nominations.csv` — nominations an HPO monthly notice scheduled for a hearing that HPRB never acted on (withdrawn, or dropped from the agenda: outcome `not_heard`), with the notice quote (checked by the build). Found by listing every "Case YY-NN" in the HPRB agendas, actions and HPO notices (2006–2026) and checking it against `nominations.csv`; the other unmatched numbers were typos (13-03 for 13-13, 14-96 for 14-06), co-filed cases heard together (17-21 with 17-14, 21-13 with 17-09, 14-03 and 16-17 with 11-21), or folded into another case (18-17 into 19-01).
+
 ## Reconciliation with the exploratory figures
 
 - **Land value share (~42%)** reproduces only on strict matches; counting

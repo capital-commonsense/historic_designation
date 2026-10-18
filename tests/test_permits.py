@@ -40,4 +40,11 @@ def test_house_number_list_is_not_a_name(noms):
 
 def test_pending_applications_link_to_nominations():
     p = pd.read_csv(JOINED / "h2_pending_applications.csv", dtype={"case_no": str})
-    assert set(p.loc[~p["in_nominations"], "case_no"]) == {"18-05"}  # Clapper House, never heard
+    assert p["in_nominations"].all()
+
+
+def test_unheard_nominations_are_in_table(noms):
+    # HPO notices: noticed for a hearing, never acted on (inputs/unheard_nominations.csv).
+    assert noms.loc["18-05", "outcome"] == "not_heard"  # Clapper House, razed 2018
+    assert noms.loc["17-11", "outcome"] == "withdrawn"  # Square 653 Rowhouses
+    assert noms.loc["07-36", "outcome"] == "denied"  # "recommending the Board not designate"

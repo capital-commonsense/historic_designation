@@ -12,6 +12,7 @@ import pandas as pd
 
 from historic_preservation import addresses
 from historic_preservation.config import INPUTS, JOINED, NORMALIZED, snapshot_dir
+from historic_preservation.normalize.hprb import source_text
 
 KINDS = ("landmark", "landmark_amendment")
 WINDOW_YEARS = 3
@@ -79,16 +80,6 @@ def matched_nominations(noms: pd.DataFrame, lots: pd.DataFrame) -> pd.DataFrame:
     })
 
 
-def _source_text(source_file: str) -> str:
-    from historic_preservation.normalize.hprb import BOX, doc_text, html_text
-
-    if source_file.startswith("box:"):
-        return doc_text(BOX / source_file[4:])
-    hprb = snapshot_dir() / "hprb"
-    pdf = hprb / "attachments" / source_file
-    return doc_text(pdf) if pdf.exists() else html_text(hprb / "pages" / source_file)
-
-
 def pending_applications(noms: pd.DataFrame) -> pd.DataFrame:
     """inputs/h2_pending_applications.csv, quotes checked, joined to nominations by case number.
 
@@ -100,7 +91,7 @@ def pending_applications(noms: pd.DataFrame) -> pd.DataFrame:
     texts: dict[str, str] = {}
     for r in review.itertuples():
         if r.source_file not in texts:
-            texts[r.source_file] = re.sub(r"\s+", " ", _source_text(r.source_file)).replace("^(st)", "st")
+            texts[r.source_file] = source_text(r.source_file, snapshot_dir() / "hprb")
         if re.sub(r"\s+", " ", r.quote) not in texts[r.source_file]:
             raise ValueError(f"h2_pending_applications.csv: quote not found in {r.source_file}: {r.quote[:60]!r}")
     dupes = review["case_no"].duplicated(keep=False)

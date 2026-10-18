@@ -82,6 +82,7 @@ def run() -> None:
         "documented_any_share": round(float((h["pending"] != "none").mean()), 3),
         "documented_raze_share": round(float((h["pending"] == "raze").mean()), 3),
         "pending_not_in_nominations": pending.loc[~pending["in_nominations"], ["case_no", "name", "note"]].to_dict("records"),
+        "pending_never_heard": pending.loc[pending["outcome"].eq("not_heard"), ["case_no", "name", "application_type", "note"]].to_dict("records"),
         "order_stated": pending.loc[pending["order"].notna(), ["case_no", "name", "order"]].to_dict("records"),
         "raze_after_denial_or_withdrawal": {
             "denied_or_withdrawn_since_2009": int(len(denied_withdrawn_2009)),
@@ -91,7 +92,7 @@ def run() -> None:
         "caveats": [
             "Documented counts are lower bounds: HPRB lists a raze application with a nomination only when HPO scheduled it 'if designated'.",
             "The documents show an application pending at the hearing; only two say the raze application came first.",
-            "Nominations withdrawn before a hearing are mostly missing from the nominations table (e.g. Clapper House, Case 18-05).",
+            "Nominations withdrawn or dropped before a hearing appear only if an agenda or HPO monthly notice listed them (inputs/unheard_nominations.csv); ones withdrawn before being scheduled are invisible.",
             "DOB open data lists issued permits from 2009 only, with no application date; a raze blocked by designation never appears.",
             "Permit-to-nomination links go through address text; 'permit timing' rows were matched by address or lot and are listed for review.",
         ],

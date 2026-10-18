@@ -8,6 +8,7 @@ There is no single docket. Each source contributes partial records:
   report     outcomes named in annual reports (inputs/report_outcomes.csv)
   dcpl       DCPL's posted list of its pending nominations
   hpo_pending HPO's list of pending nominations (case numbers)
+  notice     noticed nominations HPRB never acted on (inputs/unheard_nominations.csv)
 
 Records are merged on case number when both have one, otherwise on name
 similarity (token_set_ratio >= 90) within a date window. A merged row lists
@@ -25,7 +26,8 @@ from historic_preservation.config import INPUTS, JOINED, NORMALIZED, snapshot_di
 from historic_preservation.normalize.filers import classify, load_rules
 
 OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6, "amended": 4,
-                "pending": 1, "continued": 2, "unclear": 0, "adopted": 3, "nr_only": 3}
+                "pending": 1, "continued": 2, "unclear": 0, "adopted": 3, "nr_only": 3,
+                "not_heard": 2}
 DATE_FMT = "%B %d, %Y"
 
 
@@ -119,12 +121,27 @@ def records() -> pd.DataFrame:
             recs.append({"source": "hpo_pending", "case_no": r.case_no, "name": r.name,
                          "address": r.address if isinstance(r.address, str) else "", "date": pd.NaT,
                          "outcome": "pending", "nominated_by": "", "ref": "hpo_pending_nominations.html"})
+    recs += unheard()
     df = pd.DataFrame(recs)
     df["key"] = df["name"].map(norm)
     df["alt"] = df["name"].map(aliases)
     df["addr"] = df["address"].map(addr_key)
     df["link"] = links(df)
     return df
+
+
+def unheard() -> list[dict]:
+    """Nominations HPO noticed for a hearing that HPRB never acted on; quotes checked against the notice."""
+    from historic_preservation.normalize.hprb import source_text
+
+    out = []
+    for r in pd.read_csv(INPUTS / "unheard_nominations.csv", dtype=str).fillna("").itertuples():
+        if re.sub(r"\s+", " ", r.quote) not in source_text(r.source_file, snapshot_dir() / "hprb"):
+            raise ValueError(f"unheard_nominations.csv: quote not found in {r.source_file}: {r.quote[:60]!r}")
+        out.append({"source": "notice", "case_no": r.case_no, "name": r.name, "address": r.address,
+                    "date": pd.to_datetime(r.date) if r.date else pd.NaT, "outcome": r.outcome,
+                    "nominated_by": "", "ref": r.source_file})
+    return out
 
 
 def links(df: pd.DataFrame) -> pd.Series:
@@ -192,7 +209,7 @@ def _same(a, b) -> bool:
     return abs((pd.Timestamp(a.date) - pd.Timestamp(b.date)).days) <= window
 
 
-SOURCE_ORDER = ["hprb", "hpo_pending", "update", "manual", "report", "dcpl", "inventory"]
+SOURCE_ORDER = ["hprb", "hpo_pending", "notice", "update", "manual", "report", "dcpl", "inventory"]
 
 
 def reconcile(df: pd.DataFrame) -> pd.DataFrame:

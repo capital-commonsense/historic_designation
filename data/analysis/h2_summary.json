@@ -1,18 +1,18 @@
 {
   "window": "FY2007-FY2025, individual landmark nominations (and amendments) with an HPRB action",
   "heard": {
-    "n": 269,
-    "designated": 241,
-    "denied": 24,
+    "n": 271,
+    "designated": 242,
+    "denied": 25,
     "withdrawn": 4,
-    "designated_share": 0.896
+    "designated_share": 0.893
   },
   "documented_pending_raze": {
-    "n": 14,
-    "denied": 6,
+    "n": 15,
+    "denied": 7,
     "designated": 6,
     "withdrawn": 2,
-    "designated_share": 0.429
+    "designated_share": 0.4
   },
   "documented_pending_alteration_or_new_construction": {
     "n": 13,
@@ -21,18 +21,20 @@
     "designated_share": 0.846
   },
   "no_documented_pending_application": {
-    "n": 242,
-    "designated": 224,
+    "n": 243,
+    "designated": 225,
     "denied": 16,
     "withdrawn": 2,
     "designated_share": 0.926
   },
-  "documented_any_share": 0.1,
-  "documented_raze_share": 0.052,
-  "pending_not_in_nominations": [
+  "documented_any_share": 0.103,
+  "documented_raze_share": 0.055,
+  "pending_not_in_nominations": [],
+  "pending_never_heard": [
     {
       "case_no": "18-05",
       "name": "Raymond and Olive Clapper House",
+      "application_type": "raze",
       "note": "not heard: absent from the revised Dec 21 2017 agenda and actions; permit R1700219 issued 2018-03-27 (open data)"
     }
   ],
@@ -61,7 +63,7 @@
   "caveats": [
     "Documented counts are lower bounds: HPRB lists a raze application with a nomination only when HPO scheduled it 'if designated'.",
     "The documents show an application pending at the hearing; only two say the raze application came first.",
-    "Nominations withdrawn before a hearing are mostly missing from the nominations table (e.g. Clapper House, Case 18-05).",
+    "Nominations withdrawn or dropped before a hearing appear only if an agenda or HPO monthly notice listed them (inputs/unheard_nominations.csv); ones withdrawn before being scheduled are invisible.",
     "DOB open data lists issued permits from 2009 only, with no application date; a raze blocked by designation never appears.",
     "Permit-to-nomination links go through address text; 'permit timing' rows were matched by address or lot and are listed for review."
   ]
