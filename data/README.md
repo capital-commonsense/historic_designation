@@ -21,6 +21,8 @@ All tables are rebuilt by `make build` from the newest complete snapshot in
 | `historic_districts.csv`, `landmark_*.csv`, `potential_landmarks.csv`, `preservation_easements.csv`, `condo_one_to_many.csv` | GIS feature | attributes only |
 | `inventory_2009_entries.csv` | 2009 Inventory designation entry | date clauses extracted verbatim; no interpretation |
 | `inventory_update_items.csv` | item in an annual update / HPO report | name, address, `nominated_by`, `designated`, `effective`; FY2010 (scanned) not yet parsed |
+| `court_opinions.csv` | DC Court of Appeals opinion cluster (CourtListener search) | term counts; `relevant` = Mayor's Agent + HPRB + Act mentions >= 3; `coded` = in `inputs/court_cases.csv` (relevant but uncoded = zoning/BZA/FOIA cases with incidental mentions); `text_fetched` false where the daily API quota stopped the download |
+| `court_cases.csv` | hand-coded preservation case (two rows for a consolidated opinion) | from `inputs/court_cases.csv`; `holding_quote` is checked verbatim against the opinion text at build time; `days_order_to_opinion` only where the opinion states the agency order date |
 
 ## Joined (`data/joined/itspe_status.parquet`)
 
@@ -38,6 +40,8 @@ majority status of the record's square+suffix), `none` (treated as not designate
 | `district_first_dates.csv` | per GIS district: first DC date and basis, expansions, era |
 | `value_by_designation_era.csv` | value in districts by era of earliest covering district (`_strict`: exact matches only) |
 | `inventory_summary.json` | 2009 Inventory entry counts |
+| `court_mayors_agent_appeals.csv` | appeals of Mayor's Agent permit decisions: appellant (owner vs preservation/neighborhood side) × ruling × outcome for the preservation side. Appealed cases only, not approval rates |
+| `court_appeals_summary.json` | counts, order-to-opinion lag, designation challenges, opinions not yet fetched |
 
 ## Hand-curated inputs (`inputs/`)
 
@@ -46,6 +50,12 @@ majority status of the record's square+suffix), `none` (treated as not designate
 `expanded`, `boundary_change`, `amended`, `expansion_denied`), with source
 document key and PDF page. Rules: a 1964 "preliminary identification" is not a
 designation; a plain DC listing is; "effective" dates are recorded separately.
+
+`court_cases.csv` — coding of DC Court of Appeals preservation cases.
+`preservation_side` is the outcome for whoever argued for preservation
+(`prevailed`, `lost`, `remanded`, `mixed`); it is a coding judgment, with the
+holding quoted verbatim. Private individuals are masked in `case_label`;
+`cluster_id` links to the public opinion.
 
 ## Reconciliation with the exploratory figures
 

@@ -11,7 +11,7 @@ import json
 
 import pandas as pd
 
-from historic_preservation.analysis import coverage, eras
+from historic_preservation.analysis import courts, coverage, eras
 from historic_preservation.config import ANALYSIS, JOINED, NORMALIZED
 from historic_preservation.join import STRICT_METHODS
 
@@ -90,4 +90,5 @@ def run() -> None:
     }
     (ANALYSIS / "inventory_summary.json").write_text(json.dumps(inventory, indent=2))
     coverage.run()
-    print("analysis: wrote designated shares, district eras, inventory summary, coverage")
+    courts.run()
+    print("analysis: wrote designated shares, district eras, inventory summary, coverage, court appeals")

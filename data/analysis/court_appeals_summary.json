@@ -1,0 +1,48 @@
+{
+ "mayors_agent_appeals": 22,
+ "by_appellant": {
+  "preservation or neighborhood side": 14,
+  "owner": 8
+ },
+ "preservation_side_outcome": {
+  "lost": 9,
+  "prevailed": 9,
+  "remanded": 3,
+  "mixed": 1
+ },
+ "owner_appeals_preservation_side_prevailed": 8,
+ "days_order_to_opinion": {
+  "n": 11,
+  "median": 748.0,
+  "min": 346,
+  "max": 2043
+ },
+ "designation_challenges": [
+  {
+   "decided": "1982-07-28",
+   "case_label": "A & G Ltd. Partnership v. Joint Committee on Landmarks",
+   "preservation_side": "prevailed"
+  },
+  {
+   "decided": "1987-01-14",
+   "case_label": "Donnelly Associates v. HPRB",
+   "preservation_side": "prevailed"
+  },
+  {
+   "decided": "1998-09-03",
+   "case_label": "Metropolitan Baptist Church v. DCRA",
+   "preservation_side": "prevailed"
+  },
+  {
+   "decided": "2023-08-24",
+   "case_label": "Bowser v. Dupont East Civic Action Ass'n (Scottish Rite landmark boundary)",
+   "preservation_side": "lost"
+  }
+ ],
+ "opinions_not_fetched": [
+  "American University Park Citizens Ass'n v. Burka",
+  "Blagden Alley Ass'n v. District of Columbia Zoning Commission",
+  "French v. District of Columbia Board of Zoning Adjustment"
+ ],
+ "caveat": "Appealed cases only; not a sample of all Mayor's Agent decisions."
+}

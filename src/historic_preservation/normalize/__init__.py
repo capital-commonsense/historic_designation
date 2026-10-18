@@ -23,6 +23,7 @@ from historic_preservation.normalize.hpo_tables import extract_all as hpo_table_
 from historic_preservation.normalize import dcpl_grants
 from historic_preservation.normalize import hprb as hprb_records
 from historic_preservation.normalize import dcoz as dcoz_records
+from historic_preservation.normalize import courts
 
 ITSPE_DROP = ("OWNERNAME", "OWNNAME2")
 
@@ -197,6 +198,9 @@ def run() -> None:
         hprb_records.extract(snapshot / "hprb").to_csv(NORMALIZED / "hprb_designation_actions.csv", index=False)
     if (snapshot / "dcoz" / "index.json").exists():
         dcoz_records.exhibits(snapshot / "dcoz").to_csv(NORMALIZED / "zc_exhibits.csv", index=False)
+    if (snapshot / "court_opinions" / "manifest.json").exists():
+        courts.opinions(snapshot / "court_opinions").to_csv(NORMALIZED / "court_opinions.csv", index=False)
+        courts.cases(snapshot / "court_opinions").to_csv(NORMALIZED / "court_cases.csv", index=False, date_format="%Y-%m-%d")
     if (snapshot / "web" / "hpo_pending_nominations.html").exists():
         hpo_pending_nominations(snapshot).to_csv(NORMALIZED / "hpo_pending_nominations.csv", index=False)
     if (snapshot / "web" / "dcpl_nominations_and_landmarks.html").exists():
