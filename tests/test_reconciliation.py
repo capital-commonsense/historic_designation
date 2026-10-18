@@ -60,3 +60,15 @@ def test_numbered_names_do_not_merge(noms):
 def test_date_conflicts_are_flagged(noms):
     flagged = set(noms.loc[noms["date_conflict"].notna(), "case_no"])
     assert {"11-16", "13-19"} <= flagged
+
+
+def test_same_list_entries_stay_distinct(noms):
+    # 1964 Inventory: "Washington Monument" once merged into "Beall-Washington House" by name subset.
+    names = set(noms["name"])
+    assert {"Washington Monument", "The Capitol", "Capitol Grounds", "Oak Hill Cemetery Chapel"} <= names
+
+
+def test_generic_alias_does_not_match(noms):
+    # "(proposed)" once linked the Barney Circle district to DCPL's Folger amendment.
+    barney = noms[noms["name"].str.contains("Barney Circle", na=False)]
+    assert not barney["seen_in"].str.contains("dcpl").any()

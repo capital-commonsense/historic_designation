@@ -16,13 +16,27 @@ from pathlib import Path
 
 import pandas as pd
 
-# "Case 11-07", "HPA #12-616", a bare "#08-10" (2011 lists), or "Case #13-013" (late 2012).
-CASE = re.compile(r"\b(?:Case|HP|HPA)\s*(?:No\.?|#)?\s*(\d{2})-0?(\d{2})(?!\d)"
-                  r"|(?<![A-Za-z] )(?<![A-Za-z])#(\d{2})-(\d{2})(?!\d)")  # bare "#" not after a word ("Raze #07-58")
+from historic_preservation.config import INPUTS
+
+# "Case 11-07", "Cases 17-14 and 17-21", "HPA #12-616", a bare "#08-10" (2011 lists),
+# "Case #13-013" (late 2012), or a header ending ", 22-09." (2022).
+CASE = re.compile(r"\b(?:Cases?|HP|HPA)\s*(?:No\.?|#)?\s*(\d{2})-0?(\d{2})(?!\d)"
+                  r"|(?<![A-Za-z] )(?<![A-Za-z])#(\d{2})-(\d{2})(?!\d)"  # bare "#" not after a word ("Raze #07-58")
+                  r"|(?<=, )(\d{2})-(\d{2})(?=\.?[ \t]*$)", re.M)
 
 
 def case_no(m: re.Match) -> str:
-    return f"{m.group(1) or m.group(3)}-{m.group(2) or m.group(4)}"
+    groups = m.groups()
+    return next(f"{a}-{b}" for a, b in zip(groups[::2], groups[1::2]) if a)
+
+
+class Hit:
+    """A case header found in the text: by its printed number, or by a hand anchor (no number printed)."""
+
+    def __init__(self, start: int, end: int, case: str, text: str):
+        self.start, self.end, self.case, self.text = start, end, case, text
+
+
 VOTE = re.compile(r"Vote:?\s*(\d+)\s*[-–]\s*(\d+)")
 OUTCOMES = (  # first match wins; order matters
     ("withdrawn", r"withdr[ae]w|was withdrawn"),
@@ -37,6 +51,8 @@ OUTCOMES = (  # first match wins; order matters
 # Statements that apply one action to a following list of cases (consent calendars).
 BLOCK_ACTION = re.compile(r"(?:consent calendar|following (?:cases|items|nominations|properties) were|"
                           r"approved the following)[^.]*\.", re.I)
+# ... and statements that follow the list they apply to (March 2011 AU Park houses).
+BLOCK_AFTER = re.compile(r"designated the above[- ]listed[^.]*\.", re.I)
 STAFF_REC = re.compile(r"(?:The )?(?:HPO|staff|Historic Preservation Office) recommend\w*[^.]*\.", re.I)
 MONTHS = "january|february|march|april|may|june|july|august|september|october|november|december"
 
@@ -65,13 +81,20 @@ def meeting_date(slug: str, text: str):
     return datetime.strptime(f"{m.group(1)} 1 {m.group(2)}", "%B %d %Y").date() if m else None
 
 
-def items(text: str) -> list[dict]:
+def items(text: str, anchors: list[tuple[str, str]] = ()) -> list[dict]:
+    """anchors: (header start, case no.) for designation items printed without a case number."""
     flat = re.sub(r"[ \t]+", " ", text)
     flat = re.sub(r"\n\s*\d+\s*\n|1100 4 ?th Street SW.*?\n", "\n", flat)  # page numbers, letterhead
     out = []
-    hits = [m for m in CASE.finditer(flat) if not re.match(r"\s*HPA", m.group(0))]
+    hits = [Hit(m.start(), m.end(), case_no(m), m.group(0)) for m in CASE.finditer(flat) if not re.match(r"\s*HPA", m.group(0))]
+    for header_start, case in anchors:
+        a = re.search(r"\s+".join(map(re.escape, header_start.split())), flat)
+        if not a:
+            raise ValueError(f"hprb_case_anchors.csv: {header_start!r} not found")
+        hits.append(Hit(a.start(), flat.find("\n", a.end()), case, a.group(0)))
+    hits.sort(key=lambda h: h.start)
     for i, m in enumerate(hits):
-        line_start = flat.rfind("\n", 0, m.start()) + 1
+        line_start = flat.rfind("\n", 0, m.start) + 1
         # Headers that wrap start on earlier flush-left lines; action text is indented.
         for _ in range(3):
             prev_start = flat.rfind("\n", 0, max(line_start - 1, 0)) + 1
@@ -80,12 +103,12 @@ def items(text: str) -> list[dict]:
                     or prev.rstrip().endswith(".") or CASE.search(prev)):
                 break
             line_start = prev_start
-        header = flat[line_start: flat.find("\n", m.end()) if "\n" in flat[m.end():] else len(flat)].strip()
-        end = hits[i + 1].start() if i + 1 < len(hits) else len(flat)
-        nxt_permit = re.search(r"\n[^\n]*HPA\s*#?\s*\d{2}-\d{3}", flat[m.end():end])
+        header = flat[line_start: flat.find("\n", m.end) if "\n" in flat[m.end:] else len(flat)].strip()
+        end = hits[i + 1].start if i + 1 < len(hits) else len(flat)
+        nxt_permit = re.search(r"\n[^\n]*HPA\s*#?\s*\d{2}-\d{3}", flat[m.end:end])
         if nxt_permit:
-            end = m.end() + nxt_permit.start()
-        body = flat[m.end(): end]
+            end = m.end + nxt_permit.start()
+        body = flat[m.end: end]
         vote = VOTE.search(body)
         if vote:
             body = body[: vote.end()]
@@ -98,6 +121,13 @@ def items(text: str) -> list[dict]:
                 break
         basis = "item text" if outcome != "unclear" else ""
         if outcome == "unclear":
+            # A list's closing statement can follow several items, so read to the next section heading.
+            heading = re.search(r"\n[A-Z][A-Z ,/&'’-]{6,}\n", flat[m.end:])
+            after = flat[m.end: m.end + heading.start() if heading else len(flat)]
+            follow = BLOCK_AFTER.search(after)
+            if follow:
+                outcome, phrase, basis = "designated", follow.group(0)[:200], "following block statement (inferred)"
+        if outcome == "unclear":
             # Use a block statement (e.g. consent calendar) between the previous vote and this item.
             before = flat[max(0, line_start - 2500): line_start]
             last_vote = max((m2.end() for m2 in VOTE.finditer(before)), default=0)
@@ -109,7 +139,7 @@ def items(text: str) -> list[dict]:
                         break
         rec = STAFF_REC.search(body)
         out.append({
-            "case_no": case_no(m),
+            "case_no": m.case,
             "header": re.sub(r"\s+", " ", header)[:300],
             "action_text": body[:1500],
             "outcome": outcome,
@@ -129,6 +159,9 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
     for name, f in index["files"].items():
         if "sha256" in f:
             by_slug.setdefault(f["slug"], []).append(name)
+    anchors: dict[str, list[tuple[str, str]]] = {}
+    for r in pd.read_csv(INPUTS / "hprb_case_anchors.csv", dtype=str).itertuples():
+        anchors.setdefault(r.source_file, []).append((r.header_start, r.case_no))
     rows = []
     for slug, names in by_slug.items():
         actions = [n for n in names if n.lower().endswith(".pdf") and re.search(r"action", n, re.I)]
@@ -138,7 +171,7 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
             sources = [(page, html_text(hprb_dir / "pages" / page))]
         for source, text in sources:
             date = meeting_date(slug, text)
-            for it in items(text):
+            for it in items(text, anchors.get(source, [])):
                 rows.append({"meeting_date": date, "slug": slug, "source_file": source, **it})
     df = pd.DataFrame(rows)
     return df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df

@@ -60,6 +60,16 @@ more than 120 days (e.g. case 11-16: HPRB 2011-08-04, FY2011 update
 2010-11-18). Rows with a conflict or a missing expected source go to
 `reconciliation.csv`.
 
+`hprb_case_anchors.csv` — designation items whose HPRB action prints no
+case number (Union Market Terminal, Capital Traction Company Union Station),
+with the case number and the HPO document that gives it. An anchor that can't
+be found in its source file stops the build.
+
+**FY2008 count.** HPO's table reports 11 landmark designations approved in
+FY2008; the reconciled data has 17, 12 of them confirmed by both an HPRB
+action and the 2009 Inventory. The difference appears to be in HPO's table,
+not the scrape, and is reported as is.
+
 `court_cases.csv` — coding of DC Court of Appeals preservation cases.
 `preservation_side` is the outcome for whoever argued for preservation
 (`prevailed`, `lost`, `remanded`, `mixed`); it is a coding judgment, with the

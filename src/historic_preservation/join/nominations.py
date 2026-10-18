@@ -29,25 +29,33 @@ OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6
 DATE_FMT = "%B %d, %Y"
 
 
+GENERIC_ALIAS = re.compile(r"proposed|amend|expan|boundar|interior|demolish|revis|technical|additional|continu", re.I)
+
+
 def aliases(s) -> str:
-    """Names given in parentheses, e.g. 'Park Vista and Pine Manor (Concord Apartments)'."""
-    return norm(" ".join(re.findall(r"\((.*?)\)", str(s or ""))))
+    """Names given in parentheses, e.g. 'Park Vista and Pine Manor (Concord Apartments)'.
+
+    Only multi-word, non-generic ones: '(proposed)' or '(and Interiors)' would match anything.
+    """
+    found = [norm(a) for a in re.findall(r"\((.*?)\)", str(s or "")) if not GENERIC_ALIAS.search(a)]
+    return " ".join(a for a in found if len(a.split()) >= 2)
 
 
 def norm(s) -> str:
     s = str(s or "").lower().replace("’", "'")
     s = re.sub(r"\(.*?\)|\[.*?\]", " ", s)
-    s = re.sub(r"\b(the|and|of|historic|landmark|nomination)\b|[^a-z0-9 ]", " ", s)
+    s = re.sub(r"\b(the|and|of|historic|landmark|nomination|memorial|monument|statue)\b|[^a-z0-9 ]", " ", s)
     return re.sub(r"\s+", " ", s).strip()
 
 
 ADDR_MIN_SCORE = 50  # token_set_ratio; lowest true address match seen is 50, highest false 41
-ADDR_START = r",\s*(?=\d|Case|Squares?\b|including|vicinity|all properties|federal)"
+ADDR_START = r",\s*(?=\d|Case|Squares?\b|including|vicinity|all properties|federal|parts of)"
 
 
 def addr_key(s) -> str:
     """'1518 K Street, NW' -> '1518 k'; '' unless the text starts with a house number."""
-    m = re.match(r"\s*(\d+)[-\d]*\s+(?:(\d+)(?:st|nd|rd|th)?|([A-Za-z]+))", str(s or ""))
+    # "1132, 1140, and 1146 3rd Street" -> "1132 3": skip the rest of a house-number list.
+    m = re.match(r"\s*(\d+)[-\d]*(?:,?\s*(?:and\s+)?\d+[-\d]*(?=[,\s]))*,?\s+(?:(\d+)(?:st|nd|rd|th)?|([A-Za-z]+))", str(s or ""))
     return f"{m.group(1)} {(m.group(2) or m.group(3)).lower()}" if m else ""
 
 
@@ -63,7 +71,7 @@ def records() -> pd.DataFrame:
     acts = pd.read_csv(NORMALIZED / "hprb_designation_actions.csv", parse_dates=["meeting_date"])
     for r in acts.itertuples():
         name, rest = (re.split(ADDR_START, r.header, maxsplit=1) + [""])[:2]
-        name = re.sub(r"^[A-Z0-9]+\.\s+", "", name).strip()
+        name = re.sub(r"^(?:[A-Z0-9]+\.|•)\s+", "", name).strip()
         if re.search(r"\bamendment\b", r.header, re.I) and not re.search(r"\bamend", name, re.I):
             name += " (amendment)"  # e.g. "All Souls Church, Unitarian, ..., Case 20-10 (amendment)"; read by kind()
         outcome = "amended" if re.search(r"\bamend", name, re.I) and r.outcome == "designated" else r.outcome
@@ -120,7 +128,7 @@ def links(df: pd.DataFrame) -> pd.Series:
     """Hand-reviewed links (inputs/nomination_links.csv) for records the matcher can't pair."""
     out = pd.Series("", index=df.index)
     for r in pd.read_csv(INPUTS / "nomination_links.csv", dtype=str).fillna("").itertuples():
-        hit = (df["source"] == r.source) & ((df["case_no"] == r.case_no) if r.case_no else (df["name"] == r.name))
+        hit = (df["source"] == r.source) & (df["case_no"] == r.case_no if r.case_no else True) & (df["name"] == r.name if r.name else True)
         if not hit.any():
             raise ValueError(f"nomination_links.csv: no {r.source} record for {r.case_no or r.name!r}")
         out[hit] = r.link_id
@@ -179,6 +187,10 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
             linked.append(i)
             continue
         for g in groups:
+            # Entries in one list (Inventory, an update, DCPL's or HPO's pending list) are distinct
+            # by construction; only HPRB repeats a case across meetings.
+            if a.source != "hprb" and any(df.loc[j, "source"] == a.source for j in g):
+                continue
             cases = {df.loc[j, "case_no"] for j in g} - {""}
             if a.case_no and cases and a.case_no not in cases:
                 continue  # never merge different case numbers
@@ -241,6 +253,8 @@ def split_neighborhood(noms: pd.DataFrame) -> pd.DataFrame:
 
 def kind(name: str) -> str:
     n = str(name).lower()
+    if re.search(r"multiple[- ]property|thematic document", n):
+        return "thematic_document"  # a National Register framework, not a designation
     if re.search(r"historic district|\bhd\b", n):
         return "district_amendment" if re.search(r"expan|amend|boundar", n) else "district"
     return "landmark_amendment" if re.search(r"\bamend|additional documentation", n) else "landmark"

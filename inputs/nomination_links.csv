@@ -11,3 +11,11 @@ L005,hprb,11-16,,"Same property and outcome; dates conflict: HPRB actions (July 
 L005,update,,Margaret Murray Washington School,same property as case 11-16 (date conflict kept in date_conflict)
 L006,hprb,13-19,,"Same property and outcome; dates conflict: HPRB actions (Oct 24 / 31 2013) designate case 13-19, the FY2014 update says designated May 22 2014"
 L006,update,,Metropolitan Apartments,same property as case 13-19 (date conflict kept in date_conflict)
+L007,hprb,04-05,,"Western Union Telegraph Company, Washington Radio Terminal, 4623 41st Street NW, Case #04-05 was continued on April 24 2008 to the May 22 2008 hearing (2008-04_HPRB_Actions.pdf)"
+L007,hprb,08-05,Western Union Telegraph Company Tenley Site,"designated May 22 2008 at the same address under 'Case #08-05' (2008-05_Actions.pdf); 08-05 is the Navy Yard Annex case in the February 2008 actions, so this is the continued case 04-05"
+L008,hprb,16-18,,"HPRB designated 'Union Market Terminal' as a historic district on November 3 2016 (HPRB_ACTIONS_10_2016_REVISED_0.pdf); the FY2017 update lists Union Market Historic District designated November 3 2016"
+L008,update,,Union Market Historic District,same designation as case 16-18
+L009,hprb,10-05,,"HPRB Jan 28 2010: 'Munson Hall, 2212 I Street, NW, Case #10-05'; the FY2010 update (hand-read) lists The Euclid at 2212 I Street NW designated the same day"
+L009,manual,,The Euclid,same building and date as case 10-05
+L010,hprb,10-01,,"HPRB Mar 24 2011 lists case 10-01 by address only (4628 48th Street, NW); the FY2011 update gives Walde-Carter House at 4628 48th Street, NW"
+L010,manual,,Walde-Carter House,same designation as case 10-01
