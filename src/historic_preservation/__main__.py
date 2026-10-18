@@ -1,11 +1,11 @@
-"""CLI: python -m historic_preservation {fetch,build,charts,all}."""
+"""CLI: python -m historic_preservation {fetch,build,charts,report,all}."""
 
 import argparse
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="historic_preservation")
-    parser.add_argument("stage", choices=["fetch", "build", "charts", "all"])
+    parser.add_argument("stage", choices=["fetch", "build", "charts", "report", "all"])
     args = parser.parse_args()
 
     if args.stage == "fetch":
@@ -22,6 +22,10 @@ def main() -> None:
         from historic_preservation import charts
 
         charts.run()
+    if args.stage in ("report", "all"):
+        from historic_preservation import report
+
+        report.run()
 
 
 if __name__ == "__main__":

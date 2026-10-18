@@ -14,7 +14,7 @@ Districts with recorded expansions are listed in district_first_dates.csv
 
 import pandas as pd
 
-from historic_preservation.config import INPUTS
+from historic_preservation.config import INPUTS, JOINED, NORMALIZED
 
 FIRST_EVENTS = ("established_by_act", "dc_listing", "designated")
 ERA_ORDER = ["1950", "1964 list", "1960s other", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s", "undated"]
@@ -74,3 +74,41 @@ def value_by_era(lots: pd.DataFrame) -> pd.DataFrame:
         assessed_value_taxable=("assessment", lambda s: s[~lots.loc[s.index, "zero_tax"]].sum()),
     )
     return g.reindex([e for e in ERA_ORDER if e in g.index]).reset_index()
+
+
+def landmark_first_dates(joined: pd.DataFrame) -> pd.Series:
+    """First designation date for landmark tax records: the landmark's dated GIS feature, matched by
+    lot (join/spatial.py) or by the zoning lookup's exact landmark label. Condo units and labels the
+    lookup abbreviates ('Capitol Park Apts.') stay undated; no fuzzy matching."""
+    dates = pd.read_csv(INPUTS / "landmark_dates.csv", parse_dates=["first_date"]).set_index("uniqueid")["first_date"]
+    lots = pd.read_parquet(JOINED / "landmark_lots.parquet")
+    by_ssl = lots.assign(date=lots["feature_id"].map(dates)).groupby("ssl")["date"].min()
+    labels = pd.concat([pd.read_csv(NORMALIZED / f"{k}.csv")[["uniqueid", "label", "shortlabel", "name"]]
+                        for k in ("landmark_points", "landmark_polygons")])
+    by_label = (labels.melt(id_vars="uniqueid", value_name="text").dropna(subset=["text"])
+                .assign(date=lambda x: x["uniqueid"].map(dates), text=lambda x: x["text"].str.strip())
+                .groupby("text")["date"].min())
+    lm = joined[joined["is_landmark"]]
+    names = lm["landmark_label"].str.split(";").explode().str.strip()
+    from_label = names.map(by_label).groupby(level=0).min()
+    return pd.concat([lm["ssl"].map(by_ssl), from_label], axis=1).min(axis=1)
+
+
+def record_first_dates(joined: pd.DataFrame) -> pd.DataFrame:
+    """Every designated tax record with its first DC designation date (district or landmark, earlier wins)."""
+    districts = lot_first_dates(joined, district_first_dates())["first_date"]
+    landmarks = landmark_first_dates(joined)
+    out = joined[joined["designated"]].copy()
+    out["first_date"] = pd.concat([districts, landmarks], axis=1).min(axis=1).reindex(out.index)
+    return out
+
+
+def property_class(proptype: pd.Series) -> pd.Series:
+    """Tax-roll property type folded into residential / commercial / institutional / vacant."""
+    p = proptype.fillna("").str.split("-").str[0].str.strip()
+    out = pd.Series("commercial", index=p.index)
+    out[p.isin(["Residential", "Condominium", "Cooperative", "Dormitory", "Fraternity/Sorority House"])] = "residential"
+    out[p.isin(["Religious", "Educational", "Embassy", "Public Service", "Medical", "Museums", "Health Care Facility",
+                "Recreational", "Club", "Special Purpose (Memorial)", "Special Purpose (Miscellaneous"])] = "institutional"
+    out[p == "Vacant"] = "vacant"
+    return out

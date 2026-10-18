@@ -40,9 +40,18 @@ def save(fig, name: str, data: pd.DataFrame, caption: str) -> None:
 
 
 def run() -> None:
-    from historic_preservation.charts import mayors_agent, nominations
+    from historic_preservation.charts import coverage, dcpl, lots, mayors_agent, nominations
 
-    nominations.by_entity_and_year()
+    lots.designated_share_over_time()
+    lots.value_by_designation_era()
+    nominations.inventory_additions_per_year()
+    nominations.nomination_outcomes()
+    lots.designated_share_by_ward()
+    lots.top_districts_by_value()
+    dcpl.revenue_and_funds()
     mayors_agent.outcomes()
     mayors_agent.by_case_type()
+    coverage.by_year()
+    nominations.by_filer_type()
+    nominations.by_entity_and_year()
     print(f"charts: wrote {CHARTS_OUT}")

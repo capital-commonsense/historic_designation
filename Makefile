@@ -1,9 +1,9 @@
 PY := uv run python -m historic_preservation
 
-.PHONY: all fetch build charts test
+.PHONY: all fetch build charts report test
 
 # From the newest complete raw snapshot (or $HP_SNAPSHOT) to every output.
-all: build charts test
+all: build charts report test
 
 fetch:
 	$(PY) fetch
@@ -13,6 +13,9 @@ build:
 
 charts:
 	$(PY) charts
+
+report:
+	$(PY) report
 
 test:
 	uv run pytest -q
