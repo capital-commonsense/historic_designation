@@ -31,6 +31,16 @@ DISPOSITIONS = (  # first match wins
     ("denied", r"denied|rejected"),
     ("granted", r"granted|approved|issued|cleared"),
 )
+# Primary case type from the library's permit type, subject tags and title; first match wins, so a
+# demolition-plus-new-building project is "demolition". Decisions no rule settles are read
+# (inputs/mayors_agent_type_review.csv).
+CASE_TYPES = (
+    ("procedural", r"Request for hearing"),
+    ("demolition", r"Demoli|\braze"),
+    ("subdivision", r"Subdivi"),
+    ("new_construction", r"New Construction"),
+    ("alteration", r"Alteration|Window|Curb Cut|siding|Facade|storefront|planter|addition"),
+)
 BASIS = {  # subject tag -> flag
     "special_merit": r"^Special Merit",
     "economic_hardship": r"Economic Hardship",
@@ -105,7 +115,31 @@ def decisions(folder: Path) -> pd.DataFrame:
                            & ((df["order_date"] - catalog).abs().dt.days > 30))
     df["order_date"] = df["order_date"].fillna(catalog)
     df = apply_review(df, folder)
-    return apply_basis_review(df, folder)
+    df = apply_basis_review(df, folder)
+    return apply_type_review(df, folder)
+
+
+def rule_type(row) -> str:
+    text = " ".join(str(x) for x in (row["permit_type"], row["subjects"], row["title"]) if isinstance(x, str))
+    return next((name for name, pat in CASE_TYPES if re.search(pat, text)), "")
+
+
+def apply_type_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    df["case_type"] = df.apply(rule_type, axis=1)
+    df["case_type_source"] = df["case_type"].map(lambda t: "library permit type/subjects/title" if t else "")
+    path = INPUTS / "mayors_agent_type_review.csv"
+    if not path.exists():
+        return df
+    for r in pd.read_csv(path, dtype=str).fillna("").itertuples():
+        if re.sub(r"\s+", " ", r.quote) not in pdf_text(folder / r.pdf):
+            raise ValueError(f"mayors_agent_type_review.csv: quote not found in {r.pdf}: {r.quote[:60]!r}")
+        hit = df["work_id"] == r.work_id
+        if not hit.any():
+            raise ValueError(f"mayors_agent_type_review.csv: unknown work {r.work_id}")
+        if r.case_type not in {name for name, _ in CASE_TYPES}:
+            raise ValueError(f"mayors_agent_type_review.csv: unknown case type {r.case_type!r}")
+        df.loc[hit, ["case_type", "case_type_source"]] = [r.case_type, f"PDF review: {r.pdf}"]
+    return df
 
 
 def apply_basis_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:

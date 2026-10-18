@@ -97,6 +97,10 @@ collected through the user's browser into `data/raw/manual/mayors_agent/`
 `mayors_agent_download_log.json`). Disposition from the library's description
 ("Disposition:" field) or the review file; basis flags from the library's
 subject tags, or for the 20 the library left untagged (all eight from the 2020s) the grounds the applicant claimed, read from the decision (`inputs/mayors_agent_basis_review.csv`; `basis_source` says which);
+`case_type` is the primary permit sought (demolition > subdivision > new
+construction > alteration; plus procedural), from the library's permit type,
+tags and title or, for 26, read from the decision
+(`inputs/mayors_agent_type_review.csv`; `case_type_source` says which);
 `order_date` from the description's own date, else the catalog date
 (`date_conflict` marks differences over 30 days). Court decisions from the same
 collection are coded in `court_cases.csv` (`local_file`).

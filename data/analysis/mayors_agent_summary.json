@@ -41,6 +41,52 @@
    "granted_share": 0.643
   }
  },
+ "by_case_type": {
+  "alteration": {
+   "decisions": 69,
+   "decided_on_merits": 66,
+   "granted": 16,
+   "partial": 3,
+   "denied": 47,
+   "granted_share": 0.242
+  },
+  "demolition": {
+   "decisions": 90,
+   "decided_on_merits": 88,
+   "granted": 71,
+   "partial": 0,
+   "denied": 17,
+   "granted_share": 0.807
+  },
+  "new_construction": {
+   "decisions": 12,
+   "decided_on_merits": 12,
+   "granted": 6,
+   "partial": 1,
+   "denied": 5,
+   "granted_share": 0.5
+  },
+  "procedural": {
+   "decisions": 4,
+   "decided_on_merits": 3,
+   "granted": 0,
+   "partial": 0,
+   "denied": 3,
+   "granted_share": 0.0
+  },
+  "subdivision": {
+   "decisions": 27,
+   "decided_on_merits": 27,
+   "granted": 23,
+   "partial": 0,
+   "denied": 4,
+   "granted_share": 0.852
+  }
+ },
+ "case_type_source": {
+  "library permit type/subjects/title": 176,
+  "PDF review": 26
+ },
  "by_decade": {
   "1970": {
    "decisions": 3,
@@ -111,6 +157,7 @@
   "Georgetown Law's collection aims to be as complete as possible; it is not a certified census of decisions.",
   "Basis flags are the library's subject tags (a tag can mark an issue discussed, not only the ground claimed); for decisions the library left untagged, the grounds the applicant claimed, read from the decision (inputs/mayors_agent_basis_review.csv).",
   "Dispositions: library descriptions where stated, otherwise read from the decision PDF with a checked quote.",
-  "Approvals with conditions count as granted; 'partial' is a split decision."
+  "Approvals with conditions count as granted; 'partial' is a split decision.",
+  "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv)."
  ]
 }

@@ -44,4 +44,5 @@ def run() -> None:
 
     nominations.by_entity_and_year()
     mayors_agent.outcomes()
+    mayors_agent.by_case_type()
     print(f"charts: wrote {CHARTS_OUT}")
