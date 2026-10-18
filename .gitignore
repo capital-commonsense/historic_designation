@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Raw snapshots are large; derived outputs are rebuilt by `make all`
+data/raw/
+data/normalized/
+data/joined/

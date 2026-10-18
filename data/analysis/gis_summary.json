@@ -1,0 +1,19 @@
+{
+  "snapshot": "2026-10-17",
+  "itspe_records": 221667,
+  "itspe_extract_date_max": "2026-10-15",
+  "itspe_extract_date_mode": "2026-09-14",
+  "match_methods": {
+    "ssl": 133029,
+    "condo_relate": 67107,
+    "square_majority": 15036,
+    "pressl": 6011,
+    "none": 484
+  },
+  "zoning_lookup": {
+    "lots": 138594,
+    "lots_in_district": 29458,
+    "lots_with_landmark": 2695,
+    "lots_designated": 30794
+  }
+}
