@@ -77,6 +77,8 @@ def records() -> pd.DataFrame:
             rest = f"{name}, {rest}"
             name = re.sub(r",?\s*Case.*$", "", rest).strip()
         name = re.sub(r"^(?:[A-Z0-9]+\.|•)\s+", "", name).strip()
+        # "It was announced that consideration of the proposed Kingman Park Historic District (Case 16-19, ..."
+        name = re.sub(r"^(?:.*\bthe )?[Pp]roposed (.+?Historic District)\b.*$", r"\1", name)
         if re.search(r"\bamendment\b", r.header, re.I) and not re.search(r"\bamend", name, re.I):
             name += " (amendment)"  # e.g. "All Souls Church, Unitarian, ..., Case 20-10 (amendment)"; read by kind()
         outcome = "amended" if re.search(r"\bamend", name, re.I) and r.outcome == "designated" else r.outcome

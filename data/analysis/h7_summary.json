@@ -1,0 +1,50 @@
+{
+ "reports": 122,
+ "not_in_nominations": [
+  "16-17",
+  "17-21",
+  "21-13"
+ ],
+ "decided_with_position": 114,
+ "staff_grant": 107,
+ "staff_deny": 7,
+ "departures": 6,
+ "board_denied_staff_grant": [
+  {
+   "case_no": "14-04",
+   "name": "West Heating Plant"
+  },
+  {
+   "case_no": "15-09",
+   "name": "Charles Whitney Gilmore Residence"
+  },
+  {
+   "case_no": "17-16",
+   "name": "Harrison Street Flats"
+  },
+  {
+   "case_no": "18-09",
+   "name": "St. Paul\u2019s Methodist Episcopal Church South"
+  }
+ ],
+ "board_granted_staff_deny": [
+  {
+   "case_no": "19-07",
+   "name": "Barry Farm Dwellings"
+  },
+  {
+   "case_no": "20-03",
+   "name": "Kingman Park Historic District amendment (boundary expansion)"
+  }
+ ],
+ "staff_deny_followed": 5,
+ "fiscal_years": [
+  2015,
+  2024
+ ],
+ "caveats": [
+  "One staff report per case; where HPO revised its recommendation, the latest report is used (Barry Farm).",
+  "Three crawled reports carry another case's number in their header and are excluded; the Hadley House report (header 15-15) is matched to Case 15-17 by name and address.",
+  "Withdrawn, continued and pending nominations are not scored; partial designations (Barry Farm: 40 units of the complex) count as granted."
+ ]
+}

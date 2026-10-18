@@ -107,13 +107,24 @@ def h5(n: pd.DataFrame, cov: pd.DataFrame) -> str:
     owner = known["filer_type"].isin(["owner", "owner_cosponsor"])
     gov = known["filer_type"].eq("government")
     third = ~owner & ~gov
+    links = pd.read_csv(JOINED / "nomination_lots.csv")
+    roll = pd.read_parquet(JOINED / "itspe_status.parquet", columns=["ssl", "assessment"]).groupby("ssl")["assessment"].sum()
+    value = links.assign(v=links["ssl"].map(roll)).groupby("nomination_id")["v"].sum()
+    des = known[known["outcome"] == "designated"].assign(value=lambda x: x["nomination_id"].map(value))
+    vt = des.groupby(des["filer_type"].replace({"owner_cosponsor": "owner"}))["value"].sum()
+    top = des.nlargest(3, "value")
     c = cov[cov["fy"].between(2007, 2022)]
     ap, dn = c["hpo_approved_owner_opposed"].sum(), c["hpo_denied_owner_opposed"].sum()
     return (
         f"**First half supported; second half not.** For decisions in FY2010–22, when HPO's updates name nominators, "
         f"{len(known)} of {len(d)} nominations have a known filer: third parties (preservation and neighborhood groups, "
         f"ANCs, others) filed {frac(third.sum(), len(known))}, owners filed or co-filed {frac(owner.sum(), len(known))}, "
-        f"government agencies {frac(gov.sum(), len(known))}. Filer types are inferred from names. Owner objection "
+        f"government agencies {frac(gov.sum(), len(known))}. Filer types are inferred from names. By today's assessed "
+        f"value of what they designated (linked for {pct(des['value'].notna().sum(), len(des))} of these designations), "
+        f"government filings cover {pct(vt.get('government', 0), vt.sum())}, DCPL {pct(vt.get('dcpl', 0), vt.sum())} "
+        f"and owners {pct(vt.get('owner', 0), vt.sum())}; districts dominate: "
+        + "; ".join(f"{r.name} (${r.value / 1e9:.1f}B, filed by {r.filers})" for r in top.itertuples())
+        + ". Owner objection "
         f"appears to matter: HPO's own annual tables for FY2007–22 count {int(ap)} owner-opposed nominations approved "
         f"and {int(dn)} denied — an approval rate of {pct(ap, ap + dn)}, against about 90% overall (H1). These are "
         f"HPO's printed counts, not matched case by case; the tables' totals do not always sum.")
@@ -149,18 +160,23 @@ def h6() -> str:
 
 
 def h7() -> str:
-    a = pd.read_csv(NORMALIZED / "hprb_designation_actions.csv")
-    s = a[a["staff_recommendation"].notna() & a["case_no"].notna()]
-    rec_designate = s["staff_recommendation"].str.contains(r"designat|approve|find the property meets", case=False)
-    followed = (rec_designate & s["outcome"].isin(["designated", "amended", "adopted"])).sum()
-    ma = load("mayors_agent_summary.json")
+    s = load("h7_summary.json")
+    raze_cases = set(pd.read_csv(INPUTS / "h2_pending_applications.csv", dtype=str)
+                     .query("application_type == 'raze'")["case_no"])
+    to_deny = s["board_denied_staff_grant"]
+    to_grant = s["board_granted_staff_deny"]
+    with_raze = [x for x in to_deny if x["case_no"] in raze_cases]
+    names = lambda xs: ", ".join(x["name"] for x in xs)
+    lo, hi = s["fiscal_years"]
     return (
-        f"**Inconclusive.** HPRB's action lists state the HPO recommendation for only {len(s)} designation items. "
-        f"{int(rec_designate.sum())} recommend designation or approval; the Board followed {int(followed)} and continued "
-        f"the rest at that meeting. No departure appears in that sample, but it is too small and "
-        f"too one-sided to test H7. Staff reports for each nomination (HPO case pages, the box.com archive) are the "
-        f"source needed; they have not been coded. For permits the Mayor's Agent decisions show the Board's "
-        f"recommendation was overridden in {ma['by_reviewer_position']['against']['granted']} cases (H6).")
+        f"**Departures are rare and run mostly against designation.** HPO staff reports posted for {s['reports']} "
+        f"nominations give a recommendation on {s['decided_with_position']} that HPRB decided (FY{lo}–{hi}); HPO "
+        f"recommended granting {s['staff_grant']} and denying {s['staff_deny']}. HPRB departed {s['departures']} times "
+        f"({pct(s['departures'], s['decided_with_position'])}): it denied {len(to_deny)} that HPO supported ({names(to_deny)}) "
+        f"— {len(with_raze)} of them with a raze application pending (H2) — and granted {len(to_grant)} that HPO opposed "
+        f"({names(to_grant)}). HPRB followed {s['staff_deny_followed']} of {s['staff_deny']} HPO recommendations to deny. "
+        f"Staff reports are posted mostly from FY2014 on, so earlier years are untested; withdrawn and continued cases "
+        f"are not scored.")
 
 
 def h8() -> str:
@@ -271,6 +287,7 @@ A ratio above 1 means more decisions were found than HPO reported received that 
 | Nominators | Named FY2010–22 (Inventory updates); otherwise from staff reports and actions where stated |
 | Withdrawn nominations | Partial: only those an agenda or notice listed (3 found); withdrawals before scheduling are invisible |
 | HPO nomination case log (records request) | Missing: not yet filed (records_request/request.md) |
+| HPO staff reports | {load('h7_summary.json')['reports']} nominations, posted mostly FY2014 on (inputs/hprb_staff_review.csv); three mislabeled reports excluded |
 | Mayor's Agent decisions | {ma['all']['decisions']} decisions, {ma['years'][0]}–{ma['years'][1]}, Georgetown Law collection; the library's best effort, not a certified census |
 | Mayor's Agent hearing dates | {ma['timing']['hearing_dated']} of {ma['all']['decisions']} decisions dated from a quoted sentence |
 | DC Court of Appeals opinions | Partial: 3 opinions not yet fetched (CourtListener quota) |

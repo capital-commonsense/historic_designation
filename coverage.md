@@ -45,6 +45,7 @@ A ratio above 1 means more decisions were found than HPO reported received that 
 | Nominators | Named FY2010–22 (Inventory updates); otherwise from staff reports and actions where stated |
 | Withdrawn nominations | Partial: only those an agenda or notice listed (3 found); withdrawals before scheduling are invisible |
 | HPO nomination case log (records request) | Missing: not yet filed (records_request/request.md) |
+| HPO staff reports | 122 nominations, posted mostly FY2014 on (inputs/hprb_staff_review.csv); three mislabeled reports excluded |
 | Mayor's Agent decisions | 202 decisions, 1978–2024, Georgetown Law collection; the library's best effort, not a certified census |
 | Mayor's Agent hearing dates | 137 of 202 decisions dated from a quoted sentence |
 | DC Court of Appeals opinions | Partial: 3 opinions not yet fetched (CourtListener quota) |

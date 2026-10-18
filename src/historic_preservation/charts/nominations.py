@@ -155,26 +155,55 @@ def by_filer_type() -> None:
     d["type"] = d["filer_type"].replace({"owner_cosponsor": "owner"})
     t = d.pivot_table(index="decade", columns="type", values="nomination_id", aggfunc="count", fill_value=0)
     t = t.reindex(columns=[k for k, _, _ in FILER_TYPES], fill_value=0)
+
+    # Today's assessed value of the tax records each designated nomination covers (join/nomination_lots.py).
+    links = pd.read_csv(JOINED / "nomination_lots.csv")
+    roll = pd.read_parquet(JOINED / "itspe_status.parquet", columns=["ssl", "assessment"]).groupby("ssl")["assessment"].sum()
+    value = links.assign(v=links["ssl"].map(roll)).groupby("nomination_id")["v"].sum()
+    des = d[d["outcome"] == "designated"].copy()
+    des["value"] = des["nomination_id"].map(value)
+    v = des.pivot_table(index="decade", columns="type", values="value", aggfunc="sum", fill_value=0)
+    v = v.reindex(index=t.index, columns=[k for k, _, _ in FILER_TYPES], fill_value=0)
+    linked = des["value"].notna().groupby(des["decade"]).mean()
+
     recent = t.loc["2010s"]
     known = recent.drop("unknown").sum()
     lead = recent.drop(["unknown"]).idxmax()
     label = dict((k, v) for k, v, _ in FILER_TYPES)[lead]
+    rv = v.loc["2010s"].drop("unknown")
+    vlead = rv.idxmax()
 
-    fig, ax = plt.subplots(figsize=(10, 5.4))
-    bottom = pd.Series(0, index=t.index)
-    for key, name, color in FILER_TYPES:
-        ax.bar(t.index, t[key], bottom=bottom, color=color, label=name, width=0.7,
-               hatch="///" if key == "unknown" else None, edgecolor="#999999" if key == "unknown" else "white", linewidth=0.4)
-        bottom += t[key]
-    style(ax)
-    ax.set_ylabel("Nominations decided")
-    ax.set_xlabel("Decade of decision (fiscal year)")
-    ax.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, reverse=True)
-    ax.set_title(f"In the 2010s, {label} filed {int(recent[lead])} of the {int(known)} decided nominations "
-                 f"with a known filer", loc="left", fontsize=11.5, fontweight="bold")
-    fig.subplots_adjust(bottom=0.16)
-    save(fig, "nominations_by_filer_type", t,
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 5.6))
+    for axis, table, ylabel in ((ax, t, "Nominations decided"), (ax2, v, "Today's assessed value of designated property")):
+        bottom = pd.Series(0.0, index=table.index)
+        for key, name, color in FILER_TYPES:
+            axis.bar(table.index, table[key], bottom=bottom, color=color, label=name, width=0.7,
+                     hatch="///" if key == "unknown" else None, edgecolor="#999999" if key == "unknown" else "white",
+                     linewidth=0.4)
+            bottom += table[key]
+        style(axis)
+        axis.set_ylabel(ylabel)
+        axis.set_xlabel("Decade of decision (fiscal year)")
+        axis.tick_params(axis="x", labelsize=8.5)
+    ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x / 1e9:,.0f}B"))
+    ax.set_title("Nominations decided", loc="left", fontsize=10)
+    ax2.set_title("Value designated", loc="left", fontsize=10)
+    ax2.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, reverse=True)
+    fig.suptitle(f"In the 2010s, {label} filed {int(recent[lead])} of {int(known)} decided nominations with a known "
+                 f"filer; {dict((k, n) for k, n, _ in FILER_TYPES)[vlead]} filings cover the most designated value "
+                 f"({pct_share(rv[vlead], rv.sum())})", x=0.01, ha="left", fontsize=11.5, fontweight="bold")
+    fig.subplots_adjust(bottom=0.2, top=0.86, wspace=0.28)
+    out = pd.concat({"nominations": t, "assessed_value": v}, names=["measure"])
+    save(fig, "nominations_by_filer_type", out,
          "Decided landmark and district nominations by filer type (inferred from filer names; first-named filer's "
          "type, owners if an owner filed or co-filed) and decade. Filers are known mostly for FY2010–22, when HPO's "
-         "Inventory updates name them; earlier decades are mostly unknown and are not comparable. Designated value by "
-         "filer type is not shown: individual nominations are not yet linked to lots. Source: data/joined/nominations.csv.")
+         "Inventory updates name them; earlier decades are mostly unknown. Value: today's assessed value of the tax "
+         "records each designated nomination covers, linked by district name or by landmark address and name "
+         "(data/joined/nomination_lots.csv; linked share by decade: "
+         + ", ".join(f"{k} {x:.0%}" for k, x in linked.items()) + "); a record inside both a district and a landmark "
+         "counts in each, district values include later expansions, and some exempt parcels carry a $0 assessment. "
+         "Source: data/joined/nominations.csv.")
+
+
+def pct_share(a, b) -> str:
+    return f"{a / b:.0%} of value with a known filer" if b else "n/a"
