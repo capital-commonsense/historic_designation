@@ -87,6 +87,200 @@
   "library permit type/subjects/title": 176,
   "PDF review": 26
  },
+ "by_reviewer_position": {
+  "against": {
+   "decisions": 126,
+   "decided_on_merits": 122,
+   "granted": 53,
+   "partial": 4,
+   "denied": 65,
+   "granted_share": 0.434
+  },
+  "favorable": {
+   "decisions": 50,
+   "decided_on_merits": 50,
+   "granted": 46,
+   "partial": 0,
+   "denied": 4,
+   "granted_share": 0.92
+  },
+  "mixed": {
+   "decisions": 5,
+   "decided_on_merits": 5,
+   "granted": 4,
+   "partial": 0,
+   "denied": 1,
+   "granted_share": 0.8
+  },
+  "no_position": {
+   "decisions": 11,
+   "decided_on_merits": 10,
+   "granted": 10,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "unknown": {
+   "decisions": 10,
+   "decided_on_merits": 9,
+   "granted": 3,
+   "partial": 0,
+   "denied": 6,
+   "granted_share": 0.333
+  }
+ },
+ "by_case_type_and_reviewer_position": {
+  "alteration / against": {
+   "decisions": 62,
+   "decided_on_merits": 59,
+   "granted": 13,
+   "partial": 3,
+   "denied": 43,
+   "granted_share": 0.22
+  },
+  "alteration / favorable": {
+   "decisions": 2,
+   "decided_on_merits": 2,
+   "granted": 2,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "alteration / mixed": {
+   "decisions": 2,
+   "decided_on_merits": 2,
+   "granted": 1,
+   "partial": 0,
+   "denied": 1,
+   "granted_share": 0.5
+  },
+  "alteration / unknown": {
+   "decisions": 3,
+   "decided_on_merits": 3,
+   "granted": 0,
+   "partial": 0,
+   "denied": 3,
+   "granted_share": 0.0
+  },
+  "demolition / against": {
+   "decisions": 49,
+   "decided_on_merits": 48,
+   "granted": 33,
+   "partial": 0,
+   "denied": 15,
+   "granted_share": 0.688
+  },
+  "demolition / favorable": {
+   "decisions": 24,
+   "decided_on_merits": 24,
+   "granted": 24,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "demolition / mixed": {
+   "decisions": 3,
+   "decided_on_merits": 3,
+   "granted": 3,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "demolition / no_position": {
+   "decisions": 8,
+   "decided_on_merits": 8,
+   "granted": 8,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "demolition / unknown": {
+   "decisions": 6,
+   "decided_on_merits": 5,
+   "granted": 3,
+   "partial": 0,
+   "denied": 2,
+   "granted_share": 0.6
+  },
+  "new_construction / against": {
+   "decisions": 11,
+   "decided_on_merits": 11,
+   "granted": 5,
+   "partial": 1,
+   "denied": 5,
+   "granted_share": 0.455
+  },
+  "new_construction / favorable": {
+   "decisions": 1,
+   "decided_on_merits": 1,
+   "granted": 1,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "procedural / against": {
+   "decisions": 1,
+   "decided_on_merits": 1,
+   "granted": 0,
+   "partial": 0,
+   "denied": 1,
+   "granted_share": 0.0
+  },
+  "procedural / favorable": {
+   "decisions": 2,
+   "decided_on_merits": 2,
+   "granted": 0,
+   "partial": 0,
+   "denied": 2,
+   "granted_share": 0.0
+  },
+  "procedural / no_position": {
+   "decisions": 1,
+   "decided_on_merits": 0,
+   "granted": 0,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": null
+  },
+  "subdivision / against": {
+   "decisions": 3,
+   "decided_on_merits": 3,
+   "granted": 2,
+   "partial": 0,
+   "denied": 1,
+   "granted_share": 0.667
+  },
+  "subdivision / favorable": {
+   "decisions": 21,
+   "decided_on_merits": 21,
+   "granted": 19,
+   "partial": 0,
+   "denied": 2,
+   "granted_share": 0.905
+  },
+  "subdivision / no_position": {
+   "decisions": 2,
+   "decided_on_merits": 2,
+   "granted": 2,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "subdivision / unknown": {
+   "decisions": 1,
+   "decided_on_merits": 1,
+   "granted": 0,
+   "partial": 0,
+   "denied": 1,
+   "granted_share": 0.0
+  }
+ },
+ "reviewing_body": {
+  "HPRB": 160,
+  "CFA": 23,
+  "JCL": 8
+ },
+ "decisions_mentioning_dcpl": 79,
  "by_decade": {
   "1970": {
    "decisions": 3,
@@ -158,6 +352,8 @@
   "Basis flags are the library's subject tags (a tag can mark an issue discussed, not only the ground claimed); for decisions the library left untagged, the grounds the applicant claimed, read from the decision (inputs/mayors_agent_basis_review.csv).",
   "Dispositions: library descriptions where stated, otherwise read from the decision PDF with a checked quote.",
   "Approvals with conditions count as granted; 'partial' is a split decision.",
+  "Reviewer position is what HPRB (Joint Committee on Landmarks before 1983; Commission of Fine Arts in Georgetown) recommended on the application, read from each decision with a checked quote (inputs/mayors_agent_hprb_review.csv); 'no_position' covers referrals for a special-merit hearing.",
+  "mentions_dcpl is a text mention of DC Preservation League or Don't Tear It Down, not proof that the group was a party.",
   "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv)."
  ]
 }

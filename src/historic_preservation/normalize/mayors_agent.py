@@ -116,7 +116,38 @@ def decisions(folder: Path) -> pd.DataFrame:
     df["order_date"] = df["order_date"].fillna(catalog)
     df = apply_review(df, folder)
     df = apply_basis_review(df, folder)
-    return apply_type_review(df, folder)
+    df = apply_type_review(df, folder)
+    return apply_hprb_review(df, folder)
+
+
+POSITIONS = {"against", "favorable", "mixed", "no_position", "unknown"}
+PRESERVATION_GROUPS = r"Preservation League|Don['’]?t Tear It Down"
+
+
+def apply_hprb_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    """What the reviewing body (HPRB; before 1983 the Joint Committee on Landmarks; in Georgetown the
+    Commission of Fine Arts) recommended, read from each decision (inputs/mayors_agent_hprb_review.csv).
+    Also flags decisions that mention DCPL (or its predecessor Don't Tear It Down): a mention, not proof
+    of party status."""
+    df["mentions_dcpl"] = [any(re.search(PRESERVATION_GROUPS, pdf_text(folder / p)) for p in str(ps).split("; ") if p)
+                           for ps in df["pdfs"]]
+    path = INPUTS / "mayors_agent_hprb_review.csv"
+    if not path.exists():
+        return df
+    review = pd.read_csv(path, dtype=str).fillna("")
+    for r in review.itertuples():
+        if r.position not in POSITIONS:
+            raise ValueError(f"mayors_agent_hprb_review.csv: unknown position {r.position!r}")
+        if r.quote and re.sub(r"\s+", " ", r.quote) not in pdf_text(folder / r.pdf):
+            raise ValueError(f"mayors_agent_hprb_review.csv: quote not found in {r.pdf}: {r.quote[:60]!r}")
+    review = review.set_index("work_id")
+    missing = set(df["work_id"]) - set(review.index)
+    if missing:
+        raise ValueError(f"mayors_agent_hprb_review.csv: {len(missing)} decisions not reviewed")
+    df["reviewing_body"] = df["work_id"].map(review["reviewing_body"])
+    df["reviewer_position"] = df["work_id"].map(review["position"])
+    df["reviewer_position_note"] = df["work_id"].map(review["note"])
+    return df
 
 
 def rule_type(row) -> str:

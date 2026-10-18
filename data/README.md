@@ -101,6 +101,12 @@ subject tags, or for the 20 the library left untagged (all eight from the 2020s)
 construction > alteration; plus procedural), from the library's permit type,
 tags and title or, for 26, read from the decision
 (`inputs/mayors_agent_type_review.csv`; `case_type_source` says which);
+`reviewing_body` / `reviewer_position` record what HPRB (the Joint
+Committee on Landmarks before 1983; the Commission of Fine Arts for Georgetown)
+recommended — against, favorable, mixed, no_position (referred for a
+special-merit hearing) or unknown — read from every decision with a checked
+quote (`inputs/mayors_agent_hprb_review.csv`); `mentions_dcpl` flags a text
+mention of DCPL or Don't Tear It Down (not proof of party status);
 `order_date` from the description's own date, else the catalog date
 (`date_conflict` marks differences over 30 days). Court decisions from the same
 collection are coded in `court_cases.csv` (`local_file`).

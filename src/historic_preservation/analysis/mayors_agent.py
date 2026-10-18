@@ -45,6 +45,11 @@ def run() -> None:
         "by_basis": {label: rates(d[d[col]]) for col, label in BASES.items()},
         "by_case_type": {t: rates(g) for t, g in d.groupby("case_type")},
         "case_type_source": d["case_type_source"].str.split(":").str[0].value_counts().to_dict(),
+        "by_reviewer_position": {pos: rates(g) for pos, g in d.groupby("reviewer_position")},
+        "by_case_type_and_reviewer_position": {f"{t} / {pos}": rates(g)
+                                               for (t, pos), g in d.groupby(["case_type", "reviewer_position"])},
+        "reviewing_body": d["reviewing_body"].replace("", "not stated").value_counts().to_dict(),
+        "decisions_mentioning_dcpl": int(d["mentions_dcpl"].sum()),
         "by_decade": {str(k): rates(g) for k, g in d.groupby("decade")},
         "years": [int(d["order_date"].dt.year.min()), int(d["order_date"].dt.year.max())],
         "disposition_source": d["disposition_source"].str.split(":").str[0].value_counts().to_dict(),
@@ -55,6 +60,8 @@ def run() -> None:
             "Basis flags are the library's subject tags (a tag can mark an issue discussed, not only the ground claimed); for decisions the library left untagged, the grounds the applicant claimed, read from the decision (inputs/mayors_agent_basis_review.csv).",
             "Dispositions: library descriptions where stated, otherwise read from the decision PDF with a checked quote.",
             "Approvals with conditions count as granted; 'partial' is a split decision.",
+            "Reviewer position is what HPRB (Joint Committee on Landmarks before 1983; Commission of Fine Arts in Georgetown) recommended on the application, read from each decision with a checked quote (inputs/mayors_agent_hprb_review.csv); 'no_position' covers referrals for a special-merit hearing.",
+            "mentions_dcpl is a text mention of DC Preservation League or Don't Tear It Down, not proof that the group was a party.",
             "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv).",
         ],
     }
