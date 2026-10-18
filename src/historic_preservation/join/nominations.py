@@ -7,6 +7,7 @@ There is no single docket. Each source contributes partial records:
   inventory  2009 Inventory designation entries (date only)           to 2009
   report     outcomes named in annual reports (inputs/report_outcomes.csv)
   dcpl       DCPL's posted list of its pending nominations
+  hpo_pending HPO's list of pending nominations (case numbers)
 
 Records are merged on case number when both have one, otherwise on name
 similarity (token_set_ratio >= 90) within a date window. A merged row lists
@@ -81,9 +82,19 @@ def records() -> pd.DataFrame:
         for r in pd.read_csv(dp).itertuples():
             recs.append({"source": "dcpl", "case_no": "", "name": r.name, "address": r.address if isinstance(r.address, str) else "",
                          "date": pd.NaT, "outcome": "pending", "nominated_by": "DC Preservation League", "ref": r.nomination_pdf})
+    hp = NORMALIZED / "hpo_pending_nominations.csv"
+    if hp.exists():
+        for r in pd.read_csv(hp).itertuples():
+            recs.append({"source": "hpo_pending", "case_no": r.case_no, "name": r.name,
+                         "address": r.address if isinstance(r.address, str) else "", "date": pd.NaT,
+                         "outcome": "pending", "nominated_by": "", "ref": "hpo_pending_nominations.html"})
     df = pd.DataFrame(recs)
     df["key"] = df["name"].map(norm)
     return df
+
+
+def _case_year(case_no: str) -> int | None:
+    return 2000 + int(case_no[:2]) if case_no and int(case_no[:2]) < 50 else (1900 + int(case_no[:2]) if case_no else None)
 
 
 def _same(a, b) -> bool:
@@ -91,16 +102,34 @@ def _same(a, b) -> bool:
         return a.case_no == b.case_no
     if fuzz.token_set_ratio(a.key, b.key) < 90 or min(len(a.key), len(b.key)) < 6:
         return False
+    # A numbered case can't be an earlier, dated record (e.g. a 2009 Inventory entry vs case 26-12).
+    for x, y in ((a, b), (b, a)):
+        if x.case_no and pd.notna(y.date) and pd.Timestamp(y.date).year < _case_year(x.case_no) - 1:
+            return False
     if pd.isna(a.date) or pd.isna(b.date):
         return True
     window = 400 if (a.get("fy_only") is True or b.get("fy_only") is True) else 120
     return abs((pd.Timestamp(a.date) - pd.Timestamp(b.date)).days) <= window
 
 
+SOURCE_ORDER = ["hprb", "hpo_pending", "update", "manual", "report", "dcpl", "inventory"]
+
+
 def reconcile(df: pd.DataFrame) -> pd.DataFrame:
+    # Numbered cases first, so undated records attach to the right case before older entries.
+    df = df.assign(_o=df["source"].map(SOURCE_ORDER.index)).sort_values(["_o", "date"], kind="stable").drop(columns="_o")
     groups: list[list[int]] = []
     for i, a in df.iterrows():
         for g in groups:
+            cases = {df.loc[j, "case_no"] for j in g} - {""}
+            if a.case_no and cases and a.case_no not in cases:
+                continue  # never merge different case numbers
+            # Group-level date check: a numbered case can't absorb records dated well before it.
+            years = [pd.Timestamp(df.loc[j, "date"]).year for j in g if pd.notna(df.loc[j, "date"])]
+            case_years = [_case_year(c) for c in cases | ({a.case_no} if a.case_no else set())]
+            own_year = [pd.Timestamp(a.date).year] if pd.notna(a.date) else []
+            if case_years and any(y < min(case_years) - 1 for y in years + own_year):
+                continue
             if any(_same(a, df.loc[j]) for j in g):
                 g.append(i)
                 break
@@ -147,8 +176,30 @@ def split_neighborhood(noms: pd.DataFrame) -> pd.DataFrame:
     return n
 
 
+def kind(name: str) -> str:
+    n = str(name).lower()
+    if re.search(r"historic district|\bhd\b", n):
+        return "district_amendment" if re.search(r"expan|amend|boundar", n) else "district"
+    return "landmark_amendment" if re.search(r"\bamend|additional documentation", n) else "landmark"
+
+
+def expected_missing(row) -> str:
+    """Sources that cover this row's year and outcome but don't include it (for review)."""
+    seen = set(row["seen_in"].split("; "))
+    missing = []
+    if row["outcome"] == "designated" and pd.notna(row["fy"]):
+        if 2010 <= row["fy"] <= 2022 and not seen & {"update", "manual"}:
+            missing.append("update")
+        if row["fy"] >= 2007 and "hprb" not in seen:
+            missing.append("hprb")
+    return "; ".join(missing)
+
+
 def run() -> None:
     noms = split_neighborhood(reconcile(records()))
+    noms.insert(3, "kind", noms["name"].map(kind))
+    noms["expected_missing"] = noms.apply(expected_missing, axis=1)
     noms.to_csv(JOINED / "nominations.csv", index=False, date_format="%Y-%m-%d")
-    noms[noms["n_sources"] == 1].to_csv(JOINED / "reconciliation.csv", index=False, date_format="%Y-%m-%d")
-    print(f"nominations: {len(noms)} rows; {int((noms['n_sources'] == 1).sum())} single-source rows to review")
+    review = noms[noms["expected_missing"] != ""]
+    review.to_csv(JOINED / "reconciliation.csv", index=False, date_format="%Y-%m-%d")
+    print(f"nominations: {len(noms)} rows; {len(review)} missing an expected source (reconciliation.csv)")

@@ -10,6 +10,7 @@ import pandas as pd
 from historic_preservation.config import (
     HPO_REPORTS,
     INVENTORY_2009,
+    MANUAL,
     INVENTORY_UPDATES,
     NORMALIZED,
     snapshot_dir,
@@ -127,7 +128,7 @@ def inventory_2009(snapshot) -> pd.DataFrame:
 
 def inventory_updates(snapshot) -> pd.DataFrame:
     rows = []
-    for doc in (*INVENTORY_UPDATES, *HPO_REPORTS[:2]):
+    for doc in (*INVENTORY_UPDATES, *(d for d in HPO_REPORTS if d.key in ("hpo_annual_report_fy2021", "hpo_annual_report_fy2022"))):
         path = document_path(snapshot, doc)
         if not path.exists():
             continue
@@ -196,11 +197,16 @@ def run() -> None:
         hprb_records.extract(snapshot / "hprb").to_csv(NORMALIZED / "hprb_designation_actions.csv", index=False)
     if (snapshot / "dcoz" / "index.json").exists():
         dcoz_records.exhibits(snapshot / "dcoz").to_csv(NORMALIZED / "zc_exhibits.csv", index=False)
+    if (snapshot / "web" / "hpo_pending_nominations.html").exists():
+        hpo_pending_nominations(snapshot).to_csv(NORMALIZED / "hpo_pending_nominations.csv", index=False)
     if (snapshot / "web" / "dcpl_nominations_and_landmarks.html").exists():
         dcpl_pending_nominations(snapshot).to_csv(NORMALIZED / "dcpl_pending_nominations.csv", index=False)
     inventory_2009(snapshot).to_csv(NORMALIZED / "inventory_2009_entries.csv", index=False)
     inventory_updates(snapshot).to_csv(NORMALIZED / "inventory_update_items.csv", index=False)
     reports = {d.key: document_path(snapshot, d) for d in (*INVENTORY_UPDATES, *HPO_REPORTS)}
+    # Hand-fetched reports (records_request/manual_fetch.md item 5) fill gaps; fetched copies win.
+    for pdf in sorted((MANUAL / "hpo_reports").glob("hpo_annual_report_fy*.pdf")):
+        reports.setdefault(pdf.stem, pdf)
     hpo_table_rows(reports).to_csv(NORMALIZED / "hpo_landmark_table_rows.csv", index=False)
     web = snapshot / "web"
     grant_pdfs = [web / f"{k}.pdf" for k in ("dcpl_grants_2014_2016", "dcpl_grants_2018_2023")]
@@ -237,4 +243,25 @@ def dcpl_pending_nominations(snapshot) -> pd.DataFrame:
             "posted_month_proxy": f"{posted.group(1)}-{posted.group(2)}" if posted else "",
             "source": "dcpl_nominations_and_landmarks.html",
         })
+    return pd.DataFrame(rows)
+
+
+def hpo_pending_nominations(snapshot) -> pd.DataFrame:
+    """HPO's list of pending nominations (case number, name, address, landmark vs district)."""
+    import re
+    from historic_preservation.normalize.hprb import html_text
+    text = html_text(snapshot / "web" / "hpo_pending_nominations.html")
+    rows, kind = [], None
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith("Pending Historic Landmark"):
+            kind = "landmark"
+        elif line.startswith("Pending Historic District"):
+            kind = "district"
+        m = re.match(r"^(\d{2}-\d{2})\s+(.+)$", line)
+        if kind and m:
+            name, _, address = m.group(2).partition(" - ")
+            rows.append({"case_no": m.group(1), "name": name.strip(), "address": address.strip(),
+                         "list": kind, "case_year": 2000 + int(m.group(1)[:2]),
+                         "source": "hpo_pending_nominations.html"})
     return pd.DataFrame(rows)

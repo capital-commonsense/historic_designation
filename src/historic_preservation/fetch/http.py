@@ -28,13 +28,13 @@ class PoliteClient:
             time.sleep(interval - elapsed)
         self._last[host] = time.monotonic()
 
-    def get(self, url: str, params: dict | None = None) -> httpx.Response:
+    def get(self, url: str, params: dict | None = None, headers: dict | None = None) -> httpx.Response:
         host = urlsplit(url).netloc
         for attempt in range(self.retries):
             self._wait(host)
             delay = 2**attempt * 5
             try:
-                resp = self._client.get(url, params=params)
+                resp = self._client.get(url, params=params, headers=headers)
                 if resp.status_code < 500 and resp.status_code != 429:
                     resp.raise_for_status()
                     return resp
@@ -47,8 +47,8 @@ class PoliteClient:
         resp.raise_for_status()
         return resp
 
-    def get_json(self, url: str, params: dict | None = None) -> dict:
-        data = self.get(url, params).json()
+    def get_json(self, url: str, params: dict | None = None, headers: dict | None = None) -> dict:
+        data = self.get(url, params, headers).json()
         # ArcGIS reports query errors as HTTP 200 with an "error" body.
         if isinstance(data, dict) and "error" in data:
             raise RuntimeError(f"{url}: {data['error']}")

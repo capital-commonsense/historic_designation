@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 INPUTS = ROOT / "inputs"
 DATA = ROOT / "data"
 RAW = DATA / "raw"
+MANUAL = RAW / "manual"  # hand-downloaded files (see records_request/manual_fetch.md)
 NORMALIZED = DATA / "normalized"
 JOINED = DATA / "joined"
 ANALYSIS = DATA / "analysis"
@@ -168,6 +169,19 @@ WEB_PAGES = (
     WebPage("dcpl_grants_2014_2016", f"{_DCPL}/wp-content/uploads/2021/10/2014-2016-Awarded-Projects-1.pdf"),
     WebPage("dcpl_grants_2018_2023", f"{_DCPL}/wp-content/uploads/2023/08/2018-2023-Awarded-Projects.pdf"),
 )
+
+
+def secret(name: str) -> str | None:
+    """An API token from the environment or the gitignored .env file."""
+    if os.environ.get(name):
+        return os.environ[name]
+    env = ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            key, _, value = line.partition("=")
+            if key.strip() == name:
+                return value.strip()
+    return None
 
 
 def snapshot_dir() -> Path:

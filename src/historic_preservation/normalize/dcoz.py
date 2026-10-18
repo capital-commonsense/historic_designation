@@ -35,7 +35,7 @@ def parse_case(path: Path, case: str) -> list[dict]:
         title = re.sub(r"\s+", " ", cells[4])
         rows.append({
             "case_type": "ZC", "case_no": case, "exhibit_no": cells[3], "title": title,
-            "pages": cells[5], "date": pd.to_datetime(cells[6], format="%m/%d/%Y").date(),
+            "pages": cells[5], "date": pd.to_datetime(cells[6], format="%m/%d/%Y", errors="coerce"),
             "url": EXHIBIT_URL.format(link.group(1)) if link else "",
             **{f"flag_{k}": bool(re.search(p, title, re.I)) for k, p in FLAGS.items()},
         })

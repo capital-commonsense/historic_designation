@@ -17,3 +17,6 @@ data/drafts/
 
 # Local secrets (API tokens)
 .env
+
+# Manual downloads dropped in the repo root (archived under data/raw/manual/)
+/*.pdf

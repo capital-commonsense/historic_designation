@@ -51,3 +51,29 @@ def fetch_zc_cases(client: PoliteClient, dest: Path, years: range) -> None:
         index_path.write_text(json.dumps(index, indent=1))
     found = sum(1 for c in index["cases"].values() if c.get("exhibits"))
     print(f"  dcoz: {found} Zoning Commission cases with exhibits")
+
+
+def fetch_exhibits(client: PoliteClient, dest: Path, urls: dict[str, str]) -> None:
+    """Download selected exhibit documents ({filename: url}) into dest/exhibits."""
+    out = dest / "exhibits"
+    out.mkdir(parents=True, exist_ok=True)
+    manifest_path = out / "manifest.json"
+    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    for name, url in urls.items():
+        if name in manifest and manifest[name].get("content_type", "").startswith("application/pdf"):
+            continue
+        try:
+            viewer = client.get(url).text  # viewer page links the PDF directly
+            pdf = re.search(r"href='([^']+\.pdf)'\s+download=", viewer) or re.search(r'data="([^"]+\.pdf)"', viewer)
+            if not pdf:
+                manifest[name] = {"url": url, "status": "no pdf link in viewer"}
+                continue
+            resp = client.get(pdf.group(1))
+        except httpx.HTTPError as e:
+            manifest[name] = {"url": url, "status": f"error: {e}"}
+            continue
+        (out / name).write_bytes(resp.content)
+        manifest[name] = {"url": url, "pdf_url": pdf.group(1), "content_type": resp.headers.get("content-type", ""),
+                          "bytes": len(resp.content)}
+        manifest_path.write_text(json.dumps(manifest, indent=1))
+    manifest_path.write_text(json.dumps(manifest, indent=1))

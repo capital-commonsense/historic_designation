@@ -1,0 +1,12 @@
+tax_period,form_line,description_as_filed,value,source_file,pdf_page,method,notes
+201403,Part I line 9 / Part VIII line 2g,Program service revenue,750892,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,2,OCR read and checked by eye,prior year 101061
+201403,Part VIII line 2a,PRESERVATION PROGRAMS (business code 900099),750892,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,10,OCR read and checked by eye,description does not name a payer
+201403,Part X line 27,Unrestricted net assets (begin / end),133227 / 225109,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,12,OCR read and checked by eye,
+201403,Part X line 28,Temporarily restricted net assets (begin / end),175000 / 708576,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,12,OCR read and checked by eye,increase of 533576
+201403,Part X line 33,Total net assets (begin / end),308227 / 933685,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,12,OCR read and checked by eye,
+201403,Part III line 4e,Total program service expenses,226473,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,3,OCR read and checked by eye,
+201403,Schedule O,Supplemental information,,data/raw/manual/dcpl_990/52-1038849_990_201403.pdf,26,OCR read and checked by eye,no explanation of program revenue or restricted funds; written conflict-of-interest policy (Pt VI 12c); 990 prepared by an independent accounting firm (Pt VI 11b)
+201503,Part VIII line 2a,PRESERVATION PROGRAMS (business code 900099),95380,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,10,OCR read and checked by eye,
+201503,Part X line 28,Temporarily restricted net assets (begin / end),708576 / 640752,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,12,OCR read and checked by eye,
+201503,Part X line 27,Unrestricted net assets (begin / end),225109 / 180361,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,12,OCR read and checked by eye,
+201503,Schedule O Part IX line 24f,LANDMARK FEES,1966,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,31,OCR read and checked by eye,

@@ -21,10 +21,15 @@ VOTE = re.compile(r"Vote:?\s*(\d+)\s*[-–]\s*(\d+)")
 OUTCOMES = (  # first match wins; order matters
     ("withdrawn", r"withdr[ae]w|was withdrawn"),
     ("denied", r"not to (?:approve|designate|recommend)|voted against designat|denied|declined to designate|did not (?:approve|designate)"),
-    ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"),
-    ("amended", r"approve[ds]? the amendment|amended|additional documentation"),
-    ("designated", r"designat|approve[ds]? the nomination|voted to approve|approved the (?:landmark|historic district|application)"),
+    ("continued", r"continued|deferred|postponed|took no action|no action|record will remain open|held open|tabled"
+                  r"|prior to deliberating|nomination be revised|return to the Board"),
+    ("amended", r"approve[ds]? (?:the|an) amendment|amended|additional documentation"),
+    ("designated", r"designat|nomination approved|approve[ds]? the nomination|voted to approve"
+                   r"|approved the (?:landmark|historic district|application)"),
 )
+# Statements that apply one action to a following list of cases (consent calendars).
+BLOCK_ACTION = re.compile(r"(?:consent calendar|following (?:cases|items|nominations|properties) were|"
+                          r"approved the following)[^.]*\.", re.I)
 STAFF_REC = re.compile(r"(?:The )?(?:HPO|staff|Historic Preservation Office) recommend\w*[^.]*\.", re.I)
 MONTHS = "january|february|march|april|may|june|july|august|september|october|november|december"
 
@@ -76,6 +81,17 @@ def items(text: str) -> list[dict]:
             if hit:
                 outcome, phrase = name, hit.group(0)
                 break
+        basis = "item text" if outcome != "unclear" else ""
+        if outcome == "unclear":
+            # Use a block statement (e.g. consent calendar) between the previous vote and this item.
+            before = flat[max(0, line_start - 2500): line_start]
+            last_vote = max((m2.end() for m2 in VOTE.finditer(before)), default=0)
+            block = BLOCK_ACTION.findall(before[last_vote:])
+            if block:
+                for name, pat in OUTCOMES:
+                    if re.search(pat, block[-1], re.I) or (name == "designated" and re.search(r"approved", block[-1], re.I)):
+                        outcome, phrase, basis = name, block[-1].strip()[:200], "block statement (inferred)"
+                        break
         rec = STAFF_REC.search(body)
         out.append({
             "case_no": f"{m.group(1)}-{m.group(2)}",
@@ -83,6 +99,7 @@ def items(text: str) -> list[dict]:
             "action_text": body[:1500],
             "outcome": outcome,
             "outcome_phrase": phrase,
+            "outcome_basis": basis,
             "vote_for": int(vote.group(1)) if vote else None,
             "vote_against": int(vote.group(2)) if vote else None,
             "staff_recommendation": rec.group(0).strip() if rec else "",

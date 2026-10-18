@@ -11,7 +11,7 @@ import json
 
 import pandas as pd
 
-from historic_preservation.analysis import eras
+from historic_preservation.analysis import coverage, eras
 from historic_preservation.config import ANALYSIS, JOINED, NORMALIZED
 from historic_preservation.join import STRICT_METHODS
 
@@ -89,4 +89,5 @@ def run() -> None:
         "entries_dc_listed_1964_11_08": int(inv["dc_listing"].fillna("").str.contains("November 8, 1964").sum()),
     }
     (ANALYSIS / "inventory_summary.json").write_text(json.dumps(inventory, indent=2))
-    print("analysis: wrote designated shares, district eras, inventory summary")
+    coverage.run()
+    print("analysis: wrote designated shares, district eras, inventory summary, coverage")
