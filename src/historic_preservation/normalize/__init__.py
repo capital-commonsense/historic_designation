@@ -26,6 +26,7 @@ from historic_preservation.normalize import dcoz as dcoz_records
 from historic_preservation.normalize import courts
 from historic_preservation.normalize import mayors_agent
 from historic_preservation.normalize import permits as permit_records
+from historic_preservation.normalize import comps as comp_records
 
 ITSPE_DROP = ("OWNERNAME", "OWNNAME2")
 
@@ -195,6 +196,13 @@ def run() -> None:
     for key in GEO_LAYERS:
         geo_layer(snapshot, key).to_parquet(NORMALIZED / "geo" / f"{key}.parquet", index=False)
     permit_records.permits(snapshot).to_csv(NORMALIZED / "permits.csv", index=False)
+    c = comp_records.comps(snapshot)
+    if len(c):
+        c.to_parquet(NORMALIZED / "comps.parquet", index=False)
+        comp_records.places(snapshot).to_parquet(NORMALIZED / "comps_places.parquet", index=False)
+        b = comp_records.buildings(snapshot)
+        if not b.empty:
+            b.to_parquet(NORMALIZED / "comps_buildings.parquet", index=False)
     if (snapshot / "dcpl_990" / "organization.json").exists():
         dcpl_990_summary(snapshot).to_csv(NORMALIZED / "dcpl_990_summary.csv", index=False)
     if (snapshot / "hprb" / "index.json").exists():

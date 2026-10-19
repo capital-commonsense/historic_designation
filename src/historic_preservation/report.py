@@ -241,6 +241,66 @@ def h10() -> str:
         f"come due — an inference from timing only.")
 
 
+def _osm_date() -> str:
+    from historic_preservation.config import MANUAL
+
+    names = [json.loads(p.read_text())["extract"] for p in sorted((MANUAL / "osm").glob("*.json"))]
+    dates = sorted({n.rsplit("-", 1)[-1].split(".")[0] for n in names})
+    return ", ".join(f"20{d[:2]}-{d[2:4]}-{d[4:]}" for d in dates)
+
+
+def comps() -> str:
+    path = ANALYSIS / "comps_current.csv"
+    if not path.exists():
+        return ""
+    c = pd.read_csv(path).set_index("city")
+    y = pd.read_csv(ANALYSIS / "comps_by_year.csv").pivot(index="year", columns="city",
+                                                            values="designated_area_share_excl_parkland")
+    has_b = "official_buildings_designated_share_excl_parkland" in c
+    has_osm = "osm_buildings_designated_share_excl_parkland" in c
+    b_share = c["official_buildings_designated_share_excl_parkland"] if has_b else None
+    rows = "".join(
+        f"| {city} | {int(r.population_2020):,} | {int(r.landmarks):,} | {r.landmarks_per_100k:.0f} | {int(r.districts)} "
+        f"| {r.designated_area_share:.1%} | {r.designated_area_share_excl_parkland:.1%} |"
+        + (f" {int(r.official_buildings):,} | {r.official_buildings_designated_share_excl_parkland:.1%} |" if has_b else "")
+        + (f" {r.osm_buildings_designated_share_excl_parkland:.1%} |" if has_osm else "") + "\n"
+        for city, r in c.loc[["Washington", "New York", "Philadelphia", "Boston"]].iterrows())
+    dc = c.loc["Washington"]
+    others = c.drop("Washington")["designated_area_share_excl_parkland"]
+    since = {k: y.loc[y.index.max(), k] - y.loc[1990, k] for k in y.columns}
+    return (
+        "## Comparison: New York, Philadelphia, Boston\n\n"
+        "All three run local programs comparable to DC's: a commission that designates individual landmarks and "
+        "historic districts and reviews permits within them (New York's Landmarks Preservation Commission, 1965; the "
+        "Philadelphia Historical Commission, 1955; the Boston Landmarks Commission, 1975, alongside separate district "
+        "commissions). Each publishes designation polygons with dates.\n\n"
+        "| City | Population (2020) | Landmarks (own unit) | per 100k | Districts | Land designated | excl. parkland |"
+        + (" Buildings (city address data) | designated, excl. parkland |" if has_b else "")
+        + (" OSM check |" if has_osm else "") + "\n"
+        "|---|---|---|---|---|---|---|" + ("---|---|" if has_b else "") + ("---|" if has_osm else "") + "\n" + rows +
+        f"\nDC has designated {dc.designated_area_share_excl_parkland:.0%} of its land outside parks, "
+        f"{dc.designated_area_share_excl_parkland / others.max():.1f} to {dc.designated_area_share_excl_parkland / others.min():.1f} "
+        f"times the share in the other cities. Since 1990 the designated share outside parks grew by "
+        + ", ".join(f"{k} {v * 100:+.1f} points" for k, v in since.items())
+        + ". " + (f"By buildings, DC has designated {b_share['Washington']:.0%} outside parks against "
+                  f"{b_share.drop('Washington').min():.0%}–{b_share.drop('Washington').max():.0%} elsewhere. Buildings are "
+                  "each city's addressed buildings, one point each, counted as designated when the point falls in a "
+                  "designation: DC's active MAR address points flagged as buildings; New York's AddressPoint, one per "
+                  "building identification number; Boston's SAM addresses, one per building ID; Philadelphia's assessed "
+                  "properties other than vacant land, one per location, so a rowhouse counts once and condominium units "
+                  "collapse to their building. " if has_b else "")
+        + (f"OpenStreetMap buildings (Geofabrik extracts of {_osm_date()}) give similar shares (the OSM check column), "
+           "though OSM's mapping differs by city: it maps Philadelphia's rowhouses one by one, appears to draw some "
+           "of Boston's attached rows as one building (its Boston footprints are the largest of the four), and "
+           "includes many of DC's outbuildings. " if has_osm else "")
+        + "Landmark counts are not like for like: New York counts landmark sites, Philadelphia individually "
+        "registered parcels (many single rowhouses), Boston approved landmark petitions, DC Inventory landmarks. "
+        "Areas use today's boundaries dated by each feature (New York's district extensions carry their own dates; "
+        "the other cities' expansions count from the original date). Parkland exclusions are listed in "
+        "inputs/comps_parkland.csv; New York's scenic landmarks are not in its layer. Source tables: "
+        "data/analysis/comps_current.csv, comps_by_year.csv; chart charts/out/comps_designated_land (and .mp4 via `make video`).\n")
+
+
 def findings() -> str:
     n = pd.read_csv(JOINED / "nominations.csv")
     cov = pd.read_csv(ANALYSIS / "coverage_by_year.csv")

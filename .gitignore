@@ -24,3 +24,4 @@ data/drafts/
 # Manual downloads dropped in the repo root or records_request/ (archived under data/raw/manual/)
 /*.zip
 records_request/georgetown/
+/tmp/

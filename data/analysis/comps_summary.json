@@ -1,0 +1,53 @@
+{
+ "excluded": [
+  {
+   "city": "Boston",
+   "excluded_why": "pending landmark petition",
+   "n": 63
+  },
+  {
+   "city": "Boston",
+   "excluded_why": "protection area (no designation year)",
+   "n": 4
+  },
+  {
+   "city": "Philadelphia",
+   "excluded_why": "designation date 3000-01-01 (pending placeholder)",
+   "n": 18
+  },
+  {
+   "city": "Philadelphia",
+   "excluded_why": "no designation date (pending or not recorded)",
+   "n": 10
+  },
+  {
+   "city": "Washington",
+   "excluded_why": "GIS status Pending and no designation date found",
+   "n": 16
+  }
+ ],
+ "undated_included": [
+  {
+   "city": "Boston",
+   "kind": "landmark",
+   "n": 2
+  },
+  {
+   "city": "Washington",
+   "kind": "landmark",
+   "n": 38
+  }
+ ],
+ "units": {
+  "Washington": "DC Inventory landmark features (GIS), designated or with a designation date",
+  "New York": "LPC individual landmark sites (interior and scenic landmarks are not in this layer)",
+  "Philadelphia": "parcels individually listed on the Philadelphia Register (rowhouses count one each)",
+  "Boston": "approved Boston Landmarks (petitions)"
+ },
+ "official_building_units": {
+  "Washington": "active MAR address points flagged as buildings, one per location",
+  "New York": "AddressPoint, one per building identification number (BIN)",
+  "Philadelphia": "OPA property points other than vacant land, one per location (condo units collapse)",
+  "Boston": "SAM addresses, one per BUILDING_ID"
+ }
+}

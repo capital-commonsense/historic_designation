@@ -9,7 +9,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from historic_preservation.config import ARCGIS_BASE, ArcGISLayer
+from historic_preservation.config import ArcGISLayer
 from historic_preservation.fetch.http import PoliteClient
 
 
@@ -25,12 +25,16 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
         print(f"  {layer.key}: already complete, skipping")
         return
     out.mkdir(parents=True, exist_ok=True)
-    url = f"{ARCGIS_BASE}/{layer.path}"
+    url = f"{layer.base}/{layer.path}"
 
+    spatial = ({"geometry": ",".join(map(str, layer.envelope)), "geometryType": "esriGeometryEnvelope",
+                "inSR": 4326, "spatialRel": "esriSpatialRelIntersects"} if layer.envelope else {})
     meta = client.get_json(url, {"f": "json"})
     _write_json(out / "layer.json", meta)
-    count = client.get_json(f"{url}/query", {"where": layer.where, "returnCountOnly": "true", "f": "json"})["count"]
+    count = client.get_json(f"{url}/query", {"where": layer.where, "returnCountOnly": "true", "f": "json", **spatial})["count"]
     page_size = meta.get("maxRecordCount") or 1000
+    oid = meta.get("objectIdField") or next(
+        (f["name"] for f in meta.get("fields", []) if f.get("type") == "esriFieldTypeOID"), "OBJECTID")
 
     n_features = 0
     for offset in range(0, count, page_size):
@@ -40,9 +44,11 @@ def fetch_layer(client: PoliteClient, layer: ArcGISLayer, dest: Path) -> None:
                 f"{url}/query",
                 {
                     "where": layer.where,
+                    **spatial,
+                    **({"maxAllowableOffset": layer.simplify} if layer.simplify else {}),
                     "outFields": ",".join(layer.out_fields) if layer.out_fields else "*",
                     "returnGeometry": str(layer.geometry).lower(),
-                    "orderByFields": "OBJECTID",
+                    "orderByFields": oid,
                     "resultOffset": offset,
                     "resultRecordCount": page_size,
                     **({"outSR": 4326, "geometryPrecision": 7, "f": "geojson"} if layer.geometry else {"f": "json"}),

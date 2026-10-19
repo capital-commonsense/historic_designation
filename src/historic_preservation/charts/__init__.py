@@ -40,7 +40,7 @@ def save(fig, name: str, data: pd.DataFrame, caption: str) -> None:
 
 
 def run() -> None:
-    from historic_preservation.charts import coverage, dcpl, lots, mayors_agent, nominations
+    from historic_preservation.charts import comps, coverage, dcpl, lots, mayors_agent, nominations
 
     lots.designated_share_over_time()
     lots.value_by_designation_era()
@@ -54,4 +54,5 @@ def run() -> None:
     coverage.by_year()
     nominations.by_filer_type()
     nominations.by_entity_and_year()
+    comps.designated_land()
     print(f"charts: wrote {CHARTS_OUT}")

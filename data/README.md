@@ -55,6 +55,16 @@ majority status of the record's square+suffix), `none` (treated as not designate
 
 - `data/joined/nomination_lots.csv` — tax records (SSL) each designated nomination covers today: districts by name match to the zoning lookup's district names (score >= 90), landmarks by address keys and by exact name to dated GIS landmark features. `method` and `matched_on` record how. Amendments are not linked.
 
+## Comparison cities (New York, Philadelphia, Boston)
+
+- `data/raw/<date>/arcgis/comps_*` and `socrata/comps_nyc_*` — designation layers from each city (Philadelphia and Boston ArcGIS servers; NYC Open Data, whose GeoJSON is in New York State Plane feet) and the 2020 Census place boundaries, population and land area (TIGERweb).
+- `data/normalized/comps.parquet` — one row per designation feature in all four cities: city, kind, name, designation date, `included` (designated today) with `excluded_why`, `feature_id` (parts of one designation), geometry as GeoJSON with its `crs`. `comps_places.parquet` holds the Census boundaries.
+- `data/raw/<date>/arcgis/comps_water_*` — Census areal hydrography around each city (simplified to about 20 m), used only to draw water on the animated maps.
+- `data/raw/manual/osm/<state>.parquet` (+ `.json` provenance) — one point inside each OpenStreetMap building (`building=*` ways and multipolygons) within each city's Census boundary, from the dated Geofabrik extract named in the provenance file (ODbL). Built by `make osm` from extracts in `tmp/osm/`, which can be deleted afterwards.
+- `data/raw/<date>/arcgis/comps_dc_address_points`, `arcgis/comps_bos_sam_addresses`, `socrata/comps_nyc_address_points`, `carto/comps_phl_properties` — official address data for counting buildings: DC MAR address points (active, flagged as buildings), Boston SAM addresses (with building ID), NYC AddressPoint (with BIN), and Philadelphia OPA property points (id, category, unit and location only; owner fields are not fetched). The Carto pages are id ranges (`ids_<lo>.csv` holds `lo < objectid <= lo + 50000`).
+- `data/normalized/comps_buildings.parquet` — one point per addressed building in each city (city, id, lon, lat): DC one per location, NYC one per BIN (placeholder BINs dropped), Boston one per BUILDING_ID, Philadelphia non-vacant properties one per location.
+- `data/analysis/comps_current.csv`, `comps_by_year.csv`, `comps_summary.json` — landmarks per 100,000 residents and the share of Census land area inside designated districts and landmarks (union, clipped to the city, equal-area projection), with and without designations that are mainly parkland; the share of buildings inside designations from the city address data (`official_*`) and OpenStreetMap (`osm_*`); by year from 1950.
+
 ## Hand-curated inputs (`inputs/`)
 
 `district_dates.csv` — one row per dated event per GIS district (`event`:
@@ -134,6 +144,8 @@ holding quoted verbatim. Private individuals are masked in `case_label`;
 - `mayors_agent_hearing_dates.csv` — for each Mayor's Agent decision, the last hearing session before the order, with the sentence that dates it (checked by the build). `basis`: `pattern` (found by a strict pattern that skips HPRB, CFA, zoning and ANC hearings; 25 spot-checked), `hand` (read from the decision), `no_hearing` (the decision says none was held), or blank (not stated legibly). Feeds `hearing_date`, `days_hearing_to_order`, `hpa_fy` and `fy_application_to_order` in `mayors_agent_decisions.csv` and `timing*` in `mayors_agent_summary.json`.
 
 - `hprb_staff_review.csv` — one HPO staff report per nomination case: its recommendation on the application (`grant`, `deny`, `none`), source file and verbatim quote (checked by the build). Three crawled reports whose headers carry another case's number are excluded. Feeds `data/analysis/h7_staff_vs_board.csv` and `h7_summary.json`.
+
+- `comps_parkland.csv` — designations in the comparison analysis that are mainly parkland (city, exact name, reason); the build stops if a name no longer matches.
 
 ## Reconciliation with the exploratory figures
 

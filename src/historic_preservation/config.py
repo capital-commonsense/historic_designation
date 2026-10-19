@@ -30,6 +30,9 @@ class ArcGISLayer:
     out_fields: tuple[str, ...] | None = None  # None means all fields
     geometry: bool = False  # fetched as GeoJSON in WGS84 (EPSG:4326)
     where: str = "1=1"
+    base: str = ARCGIS_BASE  # other cities' servers for the comparison layers
+    envelope: tuple[float, float, float, float] | None = None  # WGS84 xmin, ymin, xmax, ymax filter
+    simplify: float | None = None  # maxAllowableOffset, in output units (degrees for GeoJSON)
 
 
 ARCGIS_LAYERS = (
@@ -95,6 +98,51 @@ ARCGIS_LAYERS = (
 # DOB building permits, one layer per issue year. These list issued permits only:
 # no application date, and nothing for applications that were never issued.
 # Owner and applicant names are left out of the fetch.
+# Comparison cities (Philadelphia, New York, Boston) and Census 2020 place boundaries, for the
+# designation comparison (analysis/comps.py). Each city's own layers; units differ by city.
+CENSUS_PLACES = {"Washington": "1150000", "New York": "3651000", "Philadelphia": "4260000", "Boston": "2507000"}
+COMP_LAYERS = (
+    ArcGISLayer("comps_census_places", "tigerWMS_Census2020/MapServer/26",
+                ("GEOID", "NAME", "AREALAND", "AREAWATER", "POP100"), geometry=True,
+                where="GEOID IN ({})".format(",".join(f"'{g}'" for g in CENSUS_PLACES.values())),
+                base="https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb"),
+    ArcGISLayer("comps_phl_sites", "Historic_sites_PhilReg/FeatureServer/0", geometry=True,
+                base="https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services"),
+    ArcGISLayer("comps_phl_districts", "HistoricDistricts_Local/FeatureServer/0", geometry=True,
+                base="https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services"),
+    ArcGISLayer("comps_bos_landmarks", "ISD/landmarks_historic_districts_viewing/MapServer/0", geometry=True,
+                base="https://gisportal.boston.gov/arcgis/rest/services"),
+    ArcGISLayer("comps_bos_districts", "EnvironmentEnergy/OpenData/MapServer/4", geometry=True,
+                base="https://gisportal.boston.gov/arcgis/rest/services"),
+)
+# Census areal hydrography around each city, simplified to about 20 m, for the animated maps' water.
+CITY_EXTENTS = {"Washington": (-77.13, 38.78, -76.90, 39.01), "New York": (-74.27, 40.47, -73.69, 40.93),
+                "Philadelphia": (-75.29, 39.86, -74.95, 40.15), "Boston": (-71.20, 42.22, -70.74, 42.41)}
+WATER_LAYERS = tuple(
+    ArcGISLayer(f"comps_water_{city.lower().replace(' ', '_')}", "Hydro/MapServer/1", ("OBJECTID", "NAME", "MTFCC"),
+                geometry=True, envelope=box, simplify=0.0002,
+                base="https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb")
+    for city, box in CITY_EXTENTS.items())
+# NYC Landmarks Preservation Commission layers on NYC Open Data (Socrata).
+NYC_DATASETS = {"comps_nyc_landmarks": "buis-pvji", "comps_nyc_districts": "skyk-mpzq"}
+
+# Official address data for counting buildings in each city (analysis/comps.py): one point per
+# addressed building, deduplicated in normalize/comps.py. Points only, no names.
+BUILDING_LAYERS = (
+    ArcGISLayer("comps_dc_address_points", "DCGIS_DATA/Location_WebMercator/MapServer/0",
+                ("OBJECTID", "MAR_ID", "RESIDENTIAL_TYPE"), geometry=True,
+                where="STATUS = 'ACTIVE' AND BUILDING = 'Y'"),
+    ArcGISLayer("comps_bos_sam_addresses", "SAM/Live_SAM_Address/MapServer/0",
+                ("OBJECTID", "SAM_ADDRESS_ID", "BUILDING_ID"), geometry=True,
+                base="https://gisportal.boston.gov/arcgis/rest/services"),
+)
+# NYC AddressPoint (each point carries its building's BIN): dataset id and the columns kept.
+NYC_POINT_DATASETS = {"comps_nyc_address_points": ("uf93-f8nk", "addresspointid,bin,the_geom")}
+# Philadelphia's property assessment points (OPA) on the city's Carto server; owner fields are not fetched.
+PHL_CARTO = "https://phl.carto.com/api/v2/sql"
+PHL_PROPERTIES_SQL = ("SELECT objectid, parcel_number, category_code_description, unit, "
+                      "ST_X(the_geom) AS lon, ST_Y(the_geom) AS lat FROM opa_properties_public")
+
 PERMIT_LAYER_IDS = {
     2009: 12, 2010: 11, 2011: 10, 2012: 7, 2013: 6, 2014: 5, 2015: 25, 2016: 24, 2017: 37,
     2018: 9, 2019: 8, 2020: 2, 2021: 3, 2022: 14, 2023: 15, 2024: 16, 2025: 17, 2026: 18,
