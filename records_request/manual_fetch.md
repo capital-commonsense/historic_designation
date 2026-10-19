@@ -6,74 +6,79 @@ What the pipeline does with each folder today:
 
 - `hpo_reports/`: read automatically on every build.
 - `dcpl_990/`: archived, OCR'd, and the figures recorded in `inputs/dcpl_990_lines.csv`. The 990s are scanned images, so I check each OCR'd figure by eye rather than trusting it blind.
-- `mayors_agent/`, `hprb_box/`, `icg_settlement/`: parsers will be written once the files arrive, since their formats aren't known yet.
+- `mayors_agent/`, `hprb_box/`: read on every build (decisions and HPRB actions, with reviewed inputs).
+- `press/`: archived news articles cited as sources (e.g. `inputs/agreements.csv`).
+- `icg_settlement/`: for the settlement text once obtained; it will be read by hand into `inputs/agreements.csv` with a checked quote.
 
-Status as of 2026-10-18. Ordered by how much each item unlocks.
+Status as of 2026-10-18 (updated after the FY2004 990 and the City Paper article arrived). Ordered by how much each item unlocks.
 
 ## 1. DCPL Form 990 filings (H10, governance)
 
 **Why blocked:** ProPublica returns HTTP 403 to scripted PDF downloads.
-**Save to:** `data/raw/manual/dcpl_990/`. The file names below match ProPublica's, as you used for the two already provided.
-**Already have:** FY ending 2005-03, 2006-03, 2010-03 (990-EZ), 2011-03, 2012-03, 2013-03, 2014-03 and 2015-03. Their figures are in `inputs/dcpl_990_lines.csv`.
+**Save to:** `data/raw/manual/dcpl_990/`. Keep ProPublica's file names.
+**Already have:** FY ending 2004-03, 2005-03, 2006-03, 2010-03 (990-EZ), 2011-03 through 2015-03. Figures are in `inputs/dcpl_990_lines.csv`.
+
+**What the new FY2004 return showed (2026-10-18):** DCPL's total revenue was $161K (Apr 2003–Mar 2004), $130K and $240K in the next two years, with no $450K receipt. So the reported Monument Realty / Potomac Place payment either came in a later year or was held outside DCPL's books. The next returns decide which.
 
 Priority filings:
 
 | Fiscal year end | Why | URL |
 |---|---|---|
-| 2004-03 | **Most needed.** Covers Apr 2003 – Mar 2004, when the Monument Realty / Potomac Place payment was reported. DCPL's net assets were only $44K a year later. | https://projects.propublica.org/nonprofits/download-filing?path=2004_08_EO%2F52-1038849_990_200403.pdf |
+| 2007-03 | **Most needed now.** Next year that could show the Monument payment, or a restricted fund | https://projects.propublica.org/nonprofits/download-filing?path=2008_03_EO%2F52-1038849_990_200703.pdf |
+| 2008-03 | Same | https://projects.propublica.org/nonprofits/download-filing?path=2009_03_EO%2F52-1038849_990_200803.pdf |
+| 2009-03 (990-EZ) | Same; also the year before the ICG settlement | https://projects.propublica.org/nonprofits/download-filing?path=2009_11_EO%2F52-1038849_990EZ_200903.pdf |
+| 2017-03 | Drawdown of the restricted balance built up in FY2014 (ICG era) | https://projects.propublica.org/nonprofits/download-filing?path=08_2018_prefixes_47-52%2F521038849_201703_990_2018080215560757.pdf |
 | 2023-12 | Latest governance (board, Part VI) | https://projects.propublica.org/nonprofits/download-filing?path=IRS%2F521038849_202312_990_2025030723162592.pdf |
-| 2017-03 | Drawdown of the restricted ICG-era balance | https://projects.propublica.org/nonprofits/download-filing?path=08_2018_prefixes_47-52%2F521038849_201703_990_2018080215560757.pdf |
 
 Remaining years, for complete governance and fund history:
 
 - 2002-03 https://projects.propublica.org/nonprofits/download-filing?path=2002_11_EO%2F52-1038849_990_200203.pdf
 - 2003-03 https://projects.propublica.org/nonprofits/download-filing?path=2003_11_EO%2F52-1038849_990_200303.pdf
-- 2007-03 https://projects.propublica.org/nonprofits/download-filing?path=2008_03_EO%2F52-1038849_990_200703.pdf
-- 2008-03 https://projects.propublica.org/nonprofits/download-filing?path=2009_03_EO%2F52-1038849_990_200803.pdf
-- 2009-03 (990-EZ) https://projects.propublica.org/nonprofits/download-filing?path=2009_11_EO%2F52-1038849_990EZ_200903.pdf
 - 2018-03 https://projects.propublica.org/nonprofits/download-filing?path=01_2020_prefixes_51-52%2F521038849_201803_990_2020010316995176.pdf
 - 2019-03 https://projects.propublica.org/nonprofits/download-filing?path=04_2021_prefixes_51-52%2F521038849_201903_990_2021040617904082.pdf
 - 2021-12 https://projects.propublica.org/nonprofits/download-filing?path=download990pdf_05_2023_prefixes_48-53%2F521038849_202112_990_2023051021198149.pdf
 - 2022-12 https://projects.propublica.org/nonprofits/download-filing?path=download990pdf_01_2024_prefixes_47-52%2F521038849_202212_990_2024010522183786.pdf
 - 2024-12 https://projects.propublica.org/nonprofits/download-filing?path=IRS%2F521038849_202412_990_2026030223953505.pdf
 
-ProPublica lists no PDF for FY ending 2016-03 or for the 2019-20 change to calendar years (2020-12 has data but no PDF link). If you want them, the IRS's Tax Exempt Organization Search or DCPL itself may have copies.
+ProPublica lists no PDF for FY ending 2016-03 or for the 2019-20 change to calendar years (2020-12 has data but no PDF link). The IRS's Tax Exempt Organization Search or DCPL itself may have copies.
 
-## 2. ICG / Third Church settlement (H3, H10)
+## 2. Third Church / ICG settlement agreement (H3, H10)
 
-**Why:** the payment amount, the 20% fee and the terms come only from a news report. The 990 shows a matching inflow but doesn't name the payer.
+**Status:** terms now sourced to a contemporaneous press summary. Washington City Paper (Lydia DePillis, Dec. 20, 2010) is saved at `data/raw/manual/press/wcp_2010-12-20_dcpl_third_church_settlement.pdf`. It describes an 11-page settlement among DCPL, the Committee of 100, Third Church and ICG Properties, "received by the Court of Appeals on November 24" (2010). The agreement text itself is still missing.
 **Save to:** `data/raw/manual/icg_settlement/`
 
-- Washington City Paper, Dec. 20, 2010, the article on the DCPL / Third Church / ICG agreement (save as PDF or HTML).
-- Scribd document 45707262 (partial settlement text): https://www.scribd.com/document/45707262
-- The court filing, c. Nov. 24, 2010. Press accounts say DC Court of Appeals, but the church's challenge may have been in federal court (U.S. District Court for D.C.). I couldn't search CourtListener's RECAP dockets because the API rate limit (50/hour) was exhausted. When it resets, the pipeline can run that search. If you have PACER access, search for *Third Church of Christ, Scientist v. District of Columbia*.
+The article's embedded copy is Scribd document 45707262, now behind Scribd's paywall; it isn't a route we'll use. Sources for the same document:
+
+1. **DC Court of Appeals clerk's office:** the settlement as filed c. Nov. 24, 2010, presumably with the Committee of 100's petition for review and motion for a 60-day stay (per Scribd's public description). The case caption and number are still to be found; the clerk can search by party (Committee of 100 on the Federal City; Third Church of Christ, Scientist).
+2. **The federal case:** *Third Church of Christ, Scientist v. District of Columbia* (D.D.C., filed Aug. 7, 2008; Judge Robertson). Settlement-related filings may be on the docket. The pipeline will search RECAP (free) when CourtListener's daily quota resets. Anything not in RECAP costs $0.10/page on PACER, capped at $3 per document; your call.
+3. **A DC records request:** the District was a party. See `records_request/request.md`.
+4. **The parties:** DCPL, the Committee of 100, or the reporter may share a copy if asked.
 
 ## 3. Mayor's Agent decisions (H6) — done 2026-10-18
 
 Collected through your browser: all 202 decisions in Georgetown Law's collection (catalog, 233 decision PDFs, download log) are in `data/raw/manual/mayors_agent/`. The collection's court-case files you saved under `records_request/georgetown/` are archived there too.
 
-## 4. HPRB meeting records on box.com (H1, H7)
+## 4. HPRB meeting records (H1, H3, H7)
 
-**Why blocked:** HPO archives past meeting records in a box.com shared folder that needs a JavaScript browser.
-**Save to:** `data/raw/manual/hprb_box/<year>/`. Keep box's folder and file names.
-**URL:** https://app.box.com/s/t5gnx7p29jtpzv6on4khbiyl1p00owzh
+**Done for 2006–2026:** HPO's box.com archive (the zip you provided) is extracted in `data/raw/manual/hprb_box/`, and its actions, agendas and notices are read on every build alongside the planning.dc.gov crawl. The 2008, 2011, 2012 and 2017 gap months are filled.
 
-**What's already covered:** HPRB actions for 2006–2026 from planning.dc.gov's publications (342 designation actions), but with gaps.
-**Most useful from box:**
-- Meeting "Actions" PDFs for **1979–2005**, which aren't online elsewhere.
-- Actions for months missing from the planning.dc.gov crawl: **September 2008, June 2011, September 2012, and the January 26 / February 2, 2017 meeting**. Designations from those meetings have no HPRB record yet (see `data/joined/reconciliation.csv`).
-- **Staff reports for designation cases, especially FY2006–09 and FY2025–26.** Their header table names the applicant, which fills the "unknown filer" years in the nominations-by-entity chart. HPO's annual updates name nominators only for FY2010–22, and the crawl has staff reports only for FY2023–24. Staff reports also give HPO's recommendation, for H7.
-- Permit-case staff reports aren't needed.
+**Still missing:**
+- **HPRB actions and agendas for 1979–2005.** The box archive starts in 2006. They would extend H1, H7 and the nomination counts back before the coverage table starts. If HPO has no electronic copies, add them to the records request.
+- **Staff reports before FY2015.** H7 now rests on 122 staff reports from the crawl (FY2015–24). Earlier reports, if HPO has them, would extend the test and name more filers for FY2006–09.
 
 ## 5. Missing HPO annual reports (coverage table)
 
-**Why:** not found at any URL pattern on planning.dc.gov, so they may not be online.
-**Save to:** `data/raw/manual/hpo_reports/hpo_annual_report_fy<YYYY>.pdf`
+**Mostly done (2026-10-18):** the URL pattern `https://planning.dc.gov/publication/<year>-hpo-annual-report` (your find) turned up FY1989–92, 2010, 2011, 2013, 2014, 2016, 2019 and 2023. They're now in the fetch list and the snapshot. They confirm the counts already taken from the Inventory updates and add FY2001.
+**Still missing:** FY1995 (no publication page), FY2024 and FY2025 (not posted yet). If FY1995 can't be found, add it to the records request.
+**Not yet read:** the 1989–92 reports are short prose reports from the old Historic Preservation Division. Their designation, denial and Mayor's Agent figures are in text and lists, not the tables the parser reads, so they need reading by hand into a reviewed input.
 
-FY1989, 1990, 1991, 1992, 1995, 2010, 2011, 2013, 2014, 2016, 2019. For FY2010–2019, the Inventory-update excerpts are already in hand, so the full reports matter mainly for Mayor's Agent and permit statistics. FY1989–1995 matter more. If they can't be found, add them to the records request.
+## 6. OpenStreetMap extracts (comparison cities) — done 2026-10-18
+
+Geofabrik state extracts for DC, New York, Pennsylvania and Massachusetts (`*-261018.osm.pbf`, about 1.2 GB, checksums verified) are in `tmp/osm/`. `make osm` reduced them to building points in `data/raw/manual/osm/`, so **`tmp/` can be deleted**; it also holds rendered video frames (`tmp/frames/`). To refresh, download newer extracts from https://download.geofabrik.de/north-america/us/ into `tmp/osm/` with their `.md5` files and rerun `make osm`.
 
 ## Not needed from you
 
-- **Court opinions:** your CourtListener token unblocked them. 123 of 126 are saved and coded (`inputs/court_cases.csv`). The last three are zoning cases with incidental preservation mentions. They, and the RECAP search for the Third Church docket, wait on CourtListener's 125-requests-per-day quota; rerunning the court fetch picks them up.
+- **Court opinions:** your CourtListener token unblocked them. 123 of 126 are saved and coded (`inputs/court_cases.csv`). The last three, and the RECAP search for the Third Church docket (item 2), wait on CourtListener's 125-requests-per-day quota; rerunning the court fetch picks them up.
 - **dccourts.gov PDFs:** the CourtListener text replaces them.
 - **Zoning Commission exhibit lists:** fetched for 2000–2026 (48,872 exhibits in 823 cases). BZA cases aren't covered yet. That's a scope decision rather than a block, and it can be scripted.
+- **DOB building permits:** fetched from DC's open data (2009–2026, issued permits only). Application dates and unissued applications would need a records request to DOB.

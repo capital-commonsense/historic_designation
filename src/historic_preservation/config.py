@@ -151,7 +151,16 @@ INVENTORY_UPDATES = tuple(
 HPO_REPORTS = (
     *(Document(f"hpo_annual_report_fy{y}", f"{_OP_ATTACH}/{y}_HPO_Annual_Report.pdf")
       for y in (*range(1979, 1989), 1994, *range(1996, 2009))),
-    Document("hpo_annual_report_fy1993", f"{_OP_ATTACH}/1993%2520HPO%2520Annual%2520Report.pdf"),
+    # Found via planning.dc.gov/publication/<year>-hpo-annual-report (no FY1995, 2024 or 2025 page as of 2026-10-18).
+    *(Document(f"hpo_annual_report_fy{y}", f"{_OP_ATTACH}/{y}%2520HPO%2520Annual%2520Report.pdf")
+      for y in (1989, 1990, 1991, 1992, 1993)),
+    Document("hpo_annual_report_fy2010", f"{_OP_ATTACH}/ANNUAL%2520REPORT%25202010.pdf"),
+    Document("hpo_annual_report_fy2011", f"{_OP_ATTACH}/Annual%2520Report%2520FY%25202011%2520webvers.pdf"),
+    Document("hpo_annual_report_fy2013", f"{_OP_ATTACH}/FY%202013%20Annual%20Report%20.pdf"),
+    Document("hpo_annual_report_fy2014", f"{_OP_ATTACH}/FY14%20Annual%20Report-FINAL-July%2021-small.pdf"),
+    Document("hpo_annual_report_fy2016", f"{_OP_ATTACH}/FY%202016%20Annual%20Report%20web%20version.pdf"),
+    Document("hpo_annual_report_fy2019", f"{_OP_ATTACH}/Annual%20Report%202019-FINAL-small.pdf"),
+    Document("hpo_annual_report_fy2023", f"{_OP_ATTACH}/DC%20Historic%20Preservation%20Office%202023%20Annual%20Report.pdf"),
     Document("hpo_annual_report_fy2009", f"{_OP_ATTACH}/2009%2520Annual%2520Report%2520Finall.pdf"),
     Document("hpo_annual_report_fy2012", f"{_OP_ATTACH}/FY%202012%20Annual%20Report.pdf"),
     Document("hpo_annual_report_fy2015", f"{_OP_ATTACH}/FY%202015%20Annual%20Report.pdf"),

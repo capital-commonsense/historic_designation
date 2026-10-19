@@ -1,4 +1,5 @@
 fy,hpo_received,scraped_cases,coverage_ratio,approved_coverage,adequate,records_request_cases
+2001,7.0,7,1.0,1.0,True,
 2002,31.0,8,0.2580645161290322,0.8,False,
 2003,15.0,8,0.5333333333333333,1.0,False,
 2004,13.0,10,0.7692307692307693,1.0,False,

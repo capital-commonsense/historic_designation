@@ -75,3 +75,11 @@ tax_period,form_line,description_as_filed,value,source_file,pdf_page,method,note
 201503,Part VI line 14,Written document retention and destruction policy,No,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,7,OCR read and checked by eye,
 201503,Part VI line 15a,Independent review of top official compensation,No,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,7,OCR read and checked by eye,
 201503,Part VI line 15b,Independent review of other officers compensation,No,data/raw/manual/dcpl_990/52-1038849_990_201503.pdf,7,OCR read and checked by eye,
+200403,Part I line 12,Total revenue,161419,data/raw/manual/dcpl_990/52-1038849_990_200403.pdf,2,OCR read and checked by eye,tax year Apr 1 2003 - Mar 31 2004; no $450K receipt (Monument Fund)
+200403,Part I line 2,Program service revenue,35000,data/raw/manual/dcpl_990/52-1038849_990_200403.pdf,2,OCR read and checked by eye,
+200403,Part I line 21,Net assets or fund balances at end of year,40925,data/raw/manual/dcpl_990/52-1038849_990_200403.pdf,2,OCR read and checked by eye,
+200503,Part I line 12,Total revenue,129906,data/raw/manual/dcpl_990/52-1038849_990_200503.pdf,3,read from page image,tax year Apr 1 2004 - Mar 31 2005
+200503,Part I line 21,Net assets or fund balances at end of year,44239,data/raw/manual/dcpl_990/52-1038849_990_200503.pdf,3,read from page image,line 19 beginning 38926 (prior return's end: 40925); line 18 deficit (19595); line 20 other changes not itemized on page
+200603,Part I line 12,Total revenue,239975,data/raw/manual/dcpl_990/52-1038849_990_200603.pdf,2,OCR read and checked by eye,tax year Apr 1 2005 - Mar 31 2006
+200603,Part I line 2,Program service revenue,96260,data/raw/manual/dcpl_990/52-1038849_990_200603.pdf,2,OCR read and checked by eye,
+200603,Part I line 21,Net assets or fund balances at end of year,46032,data/raw/manual/dcpl_990/52-1038849_990_200603.pdf,2,OCR read and checked by eye,
