@@ -23,6 +23,7 @@ Optional extras:
 - `make video` builds the animated city comparison. It needs `ffmpeg`.
 - `make osm` builds the OpenStreetMap building counts. It needs `osmium` and the Geofabrik extracts.
 - `ocrmypdf` reads scanned PDFs.
+- Charts use Newsreader and IBM Plex Sans if they are installed, or if their `.ttf` files are in a folder named by `HP_FONT_DIR`. Otherwise they fall back to matplotlib's default fonts.
 
 ### Raw data
 

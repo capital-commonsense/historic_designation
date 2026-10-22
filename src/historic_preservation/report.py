@@ -254,22 +254,31 @@ def h10() -> str:
     early = lines[lines["form_line"].eq("Part I line 12") & (lines["tax_period"] < "200700")].sort_values("tax_period")
     paid = ag[ag["cash_amount"].fillna(0) > 0]
     to_dcpl = paid[paid["payee"].str.contains("DCPL", na=False)]
+    documented = to_dcpl[~to_dcpl["verification"].str.startswith("unverified")]
+    reported = to_dcpl[to_dcpl["verification"].str.startswith("unverified")]
     other = paid[~paid.index.isin(to_dcpl.index)]
     s = pd.read_csv(NORMALIZED / "dcpl_990_summary.csv").dropna(subset=["total_revenue"])
     psr = s.loc[s["program_service_revenue"].idxmax()]
+    name = lambda r: r.property.split(" (")[0].split(" / ")[0]
     return (
-        f"**Partly supported for 2003–2010; no documented case since.** inputs/agreements.csv records "
-        f"{len(to_dcpl)} payments to DCPL or a DCPL-run fund: "
-        + "; ".join(f"{r.property.split(' (')[0].split(' / ')[0]} ({r.date}, "
+        f"**Documented in {len(documented)} case{'s' * (len(documented) != 1)} "
+        f"({', '.join(str(r.date) for r in documented.itertuples())}); none found after about 2011.** "
+        f"inputs/agreements.csv records {len(documented)} documented payment{'s' * (len(documented) != 1)} to DCPL "
+        "or a DCPL-run fund: "
+        + "; ".join(f"{name(r)} ({r.date}, "
                     f"{'up to ' if 'capped' in str(r.what_other_side_gave) else ''}${r.cash_amount / 1e3:,.0f}K to "
                     f"{r.payee}{', ' + r.admin_fee if isinstance(r.admin_fee, str) else ''}; {r.verification})"
-                    for r in to_dcpl.itertuples())
-        + ". Other cash mitigation went elsewhere: " + "; ".join(f"{r.property.split(' (')[0]} ({r.date}, "
-                                                                  f"${r.cash_amount / 1e3:,.0f}K to {r.payee})" for r in other.itertuples())
-        + ". The Monument payment does not appear in DCPL's own returns: total revenue was "
+                    for r in documented.itertuples())
+        + ". Reported but not confirmed, and not counted: "
+        + "; ".join(f"{name(r)} ({r.date}, ${r.cash_amount / 1e3:,.0f}K reported to {r.payee}; {r.source})"
+                    for r in reported.itertuples())
+        + ". That payment does not appear in DCPL's own returns: total revenue was "
         + ", ".join(f"${int(r.value) / 1e3:,.0f}K (year ending {r.tax_period[:4]}-{r.tax_period[4:]})"
                     for r in early.itertuples())
-        + ", with no $450K receipt, so its timing and recipient are unconfirmed. The St. Martin's withdrawal (2006) involved no payment. DCPL's grant lists show awards from the ICG-funded "
+        + ", with no $450K receipt. Other cash mitigation went elsewhere: "
+        + "; ".join(f"{r.property.split(' (')[0]} ({r.date}, ${r.cash_amount / 1e3:,.0f}K to {r.payee})"
+                    for r in other.itertuples())
+        + ". The St. Martin's withdrawal (2006) involved no payment. DCPL's grant lists show awards from the ICG-funded "
         f"and Monument funds. No cash settlement after about 2011 was found in HPRB actions, Mayor's "
         f"Agent decisions or zoning exhibits searched — a null result, not proof of none. DCPL's 990s show program "
         f"service revenue of ${psr['program_service_revenue'] / 1e3:,.0f}K in the year ending "
@@ -382,11 +391,17 @@ def findings() -> str:
     n = pd.read_csv(JOINED / "nominations.csv")
     cov = pd.read_csv(ANALYSIS / "coverage_by_year.csv")
     snap = json.loads((NORMALIZED / "SNAPSHOT.json").read_text())["snapshot"]
-    parts = [("H1 HPRB designates most of the nominations it decides", h1(n, cov)), ("H2 Nominations are often filed while a permit application is pending", h2()),
-             ("H3 Nominations are withdrawn in exchange for concessions", h3(n)), ("H4 Designations are rarely reversed", h4(n)),
-             ("H5 Most nominations are filed by third parties, and owner objection does not affect the outcome", h5(n, cov)),
-             ("H6 The Mayor's Agent often grants permits over HPRB's objection, and decides slowly", h6()), ("H7 HPRB rarely departs from HPO staff recommendations", h7()),
-             ("H8 Designated property holds a disproportionate share of DC's property value", h8()), ("H9 Most designated value was protected early, and additions have slowed", h9()), ("H10 Nominators have received payments in settlements", h10())]
+    parts = [("H1 HPRB designates most of the nominations it decides", h1(n, cov)),
+             ("H2 Nominations are often filed while a permit application is pending", h2()),
+             ("H3 Nominations are withdrawn in exchange for concessions", h3(n)),
+             ("H4 Designations are rarely reversed", h4(n)),
+             ("H5 Most nominations are filed by third parties, and owner objection does not affect the outcome",
+              h5(n, cov)),
+             ("H6 The Mayor's Agent often grants permits over HPRB's objection, and decides slowly", h6()),
+             ("H7 HPRB rarely departs from HPO staff recommendations", h7()),
+             ("H8 Designated property holds a disproportionate share of DC's property value", h8()),
+             ("H9 Most designated value was protected early, and additions have slowed", h9()),
+             ("H10 Nominators have received payments in settlements", h10())]
     body = "\n\n".join(f"## {h}\n\n{p}" for h, p in parts) + "\n\n" + comps() + "\n" + property_tax()
     return (f"# Findings\n\nGenerated by `make all` from raw snapshot {snap}; every figure is recomputed on rebuild. "
             f"Rates cover only fiscal years with adequate coverage (coverage.md). Charts are in charts/out/.\n\n{body}\n")

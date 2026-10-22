@@ -1,13 +1,15 @@
 """Charts: one function per chart, each writing SVG, PNG and .data.csv to charts/out/.
 
 Every chart's headline states its finding (computed from the data, so it stays
-true on rebuild) and its caption names the source and snapshot date. House style: see BRAND below.
+true on rebuild) and its caption names the source and snapshot date. House style below.
 A hand-written headline in inputs/chart_titles.json (chart name -> text, null for the computed one)
 replaces the computed headline; each build prints both so a shifted figure shows up.
 """
 
 import json
+import os
 import textwrap
+from pathlib import Path
 
 import matplotlib
 
@@ -16,28 +18,29 @@ import matplotlib.pyplot as plt  # noqa: E402
 import pandas as pd  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
-from historic_preservation.config import CHARTS_OUT, INPUTS, NORMALIZED, ROOT  # noqa: E402
+from historic_preservation.config import CHARTS_OUT, INPUTS, NORMALIZED  # noqa: E402
 
-# Capital Commonsense house style (brand_kit/): ink type on white, Newsreader Bold headlines,
-# IBM Plex Sans for everything else, light rules, and red for the finding only (at most once a chart).
-BRAND = ROOT / "brand_kit"
+# House style: ink type on white, Newsreader Bold headlines, IBM Plex Sans for everything else,
+# light rules, and red for the finding only (at most once a chart).
 INK, RED, PAPER = "#111111", "#D43D29", "#FFFFFF"
-GREY, RULE = "#5B5B5B", "#DDDCD8"  # secondary text; gridlines (the kit's chart example)
+GREY, RULE = "#5B5B5B", "#DDDCD8"  # secondary text; gridlines
 DARK, MID, LIGHT = "#6E6B66", "#A9A6A0", "#D3D0CA"  # context series, darkest first
 # Hues for categories that greys can't separate; the same blue, green and gold as the city comparison.
 BLUE, GREEN, GOLD = "#2F6E9E", "#2E8A62", "#B7841B"
 MUTED = LIGHT
 
-for _f in (BRAND / "fonts").glob("*.ttf"):
-    font_manager.fontManager.addfont(str(_f))
-HEADLINE_FONT = BRAND / "fonts" / "Newsreader72pt-Bold.ttf"
+# Fonts: installed system fonts, plus any .ttf files in $HP_FONT_DIR; without them, matplotlib's defaults.
+if os.environ.get("HP_FONT_DIR"):
+    for _f in Path(os.environ["HP_FONT_DIR"]).glob("*.ttf"):
+        font_manager.fontManager.addfont(str(_f))
+_HEADLINE_FAMILIES = ["Newsreader 72pt", "Newsreader", "DejaVu Serif"]
 
 
 def headline_font(size: float) -> font_manager.FontProperties:
-    """Newsreader Bold from brand_kit/, or a bold serif where brand_kit/ is absent (it is not in the public repo)."""
-    if HEADLINE_FONT.exists():
-        return font_manager.FontProperties(fname=HEADLINE_FONT, size=size)
-    return font_manager.FontProperties(family="serif", weight="bold", size=size)
+    """Newsreader Bold where installed, else a bold serif."""
+    return font_manager.FontProperties(family=_HEADLINE_FAMILIES, weight="bold", size=size)
+
+
 plt.rcParams.update({
     "font.family": ["IBM Plex Sans", "DejaVu Sans"], "font.size": 9.5,
     "text.color": INK, "axes.labelcolor": GREY, "xtick.color": GREY, "ytick.color": GREY,
@@ -66,7 +69,7 @@ def snapshot() -> str:
 
 
 def style(ax, grid: str = "y") -> None:
-    """The kit's chart treatment: no spines, no tick marks, light rules along one axis."""
+    """Chart treatment: no spines, no tick marks, light rules along one axis."""
     for s in ax.spines.values():
         s.set_visible(False)
     ax.tick_params(length=0, pad=6)

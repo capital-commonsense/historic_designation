@@ -26,8 +26,8 @@ data/drafts/
 records_request/georgetown/
 /tmp/
 
-
+# Local working notes
+notes/
 
 # OS clutter
 .DS_Store
-

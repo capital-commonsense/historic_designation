@@ -1,6 +1,6 @@
 """Animated comparison: designated land over time in DC, New York, Philadelphia and Boston.
 
-Capital Commonsense house style (brand_kit/): white paper, ink type, Newsreader headline, IBM Plex
+House style (see charts/__init__.py): white paper, ink type, Newsreader headline, IBM Plex
 Sans labels, and red for the finding only, which is DC. A row of four maps (land, Census water,
 city outline) sits above the line chart of designated land share outside parkland; each city's
 designations fade in in their designation year (parkland in grey) as the lines draw. Frames go to
@@ -16,7 +16,6 @@ import duckdb
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.image as mpimg  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as mticker  # noqa: E402
 import numpy as np  # noqa: E402
@@ -30,10 +29,9 @@ from historic_preservation.config import ANALYSIS, CENSUS_PLACES, CHARTS_OUT, IN
 
 ROOT = Path(__file__).resolve().parents[3]
 FRAMES = ROOT / "tmp" / "frames"
-BRAND = ROOT / "brand_kit"
 FPS, PER_YEAR, FADE, HOLD = 30, 5, 10, 75
 FIRST, LAST = 1950, pd.Timestamp.today().year
-# House colors (brand_kit/Capital_Commonsense_Kit_README.md) and the chart example's greys.
+# House colors and greys (charts/__init__.py).
 PAPER, INK, RED, GREY, RULE = "#FFFFFF", "#111111", "#D43D29", "#5B5B5B", "#DDDCD8"
 LAND, EDGE, PARK = "#EEEDE9", "#BDBAB3", "#C4C1BA"
 # Red marks the finding (DC); the other cities keep their hues, darkened to read on white.
@@ -42,18 +40,10 @@ SHORT = {"Washington": "Washington", "New York": "New York", "Philadelphia": "Ph
 WATER_KEYS = {"Washington": "washington", "New York": "new_york", "Philadelphia": "philadelphia", "Boston": "boston"}
 
 
-def _font(name: str, size: float) -> FontProperties:
-    path = BRAND / "fonts" / name
-    if path.exists():
-        return FontProperties(fname=path, size=size)
-    # brand_kit/ is not in the public repo: fall back to matplotlib's own fonts
-    return FontProperties(family="serif" if name.startswith("Newsreader") else "sans-serif",
-                          weight="bold" if "Bold" in name else "normal", size=size)
-
-
-def serif_bold(size): return _font("Newsreader72pt-Bold.ttf", size)  # noqa: E704
-def sans(size): return _font("IBMPlexSans-Regular.ttf", size)  # noqa: E704
-def sans_bold(size): return _font("IBMPlexSans-SemiBold.ttf", size)  # noqa: E704
+# Installed fonts (or $HP_FONT_DIR, registered by historic_preservation.charts), else matplotlib's defaults.
+def serif_bold(size): return FontProperties(family=["Newsreader 72pt", "Newsreader", "DejaVu Serif"], weight="bold", size=size)  # noqa: E704,E501
+def sans(size): return FontProperties(family=["IBM Plex Sans", "DejaVu Sans"], size=size)  # noqa: E704
+def sans_bold(size): return FontProperties(family=["IBM Plex Sans", "DejaVu Sans"], weight="semibold", size=size)  # noqa: E704
 
 
 def _path(geojson: str) -> MPath | None:
@@ -138,7 +128,7 @@ def render(preview: list[int] | None = None) -> Path:
         ax.set_ylim(ext.y0 - pad, ext.y1 + pad)
         ax.set_aspect("equal", adjustable="box", anchor="NW")
 
-    # Chart: the brand example's treatment (light rules, grey ticks, no spines, labelled endpoints).
+    # Chart: light rules, grey ticks, no spines, labelled endpoints.
     chart = fig.add_axes([L + 0.03, 0.135, R - L - 0.03 - 0.125, 0.235], facecolor=PAPER)
     chart.set_xlim(FIRST, LAST)
     chart.set_ylim(0, ymax)
@@ -164,14 +154,6 @@ def render(preview: list[int] | None = None) -> Path:
     fig.text(L, 0.035, f"Grey on the maps: parkland, left out of the lines. Today's boundaries, dated by designation.\n"
              f"Sources: DC GIS; NYC Open Data (LPC); City of Philadelphia; City of Boston; Census TIGERweb; "
              f"snapshot {snapshot()}", color=GREY, fontproperties=sans(12.5), va="baseline", linespacing=1.5)
-    wm = BRAND / "Capital_Commonsense_Wordmark_Transparent_4096.png"
-    if wm.exists():
-        img = mpimg.imread(wm)
-        h = 0.026  # figure height fraction
-        w = h * img.shape[1] / img.shape[0] * 1080 / 1920
-        wax = fig.add_axes([R - w, 0.026, w, h])
-        wax.imshow(img)
-        wax.set_axis_off()
 
     if FRAMES.exists():
         shutil.rmtree(FRAMES)
