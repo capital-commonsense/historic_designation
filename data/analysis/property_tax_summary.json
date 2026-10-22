@@ -1,0 +1,67 @@
+{
+ "years": [
+  2018,
+  2026
+ ],
+ "tax_last_year": {
+  "other": 1862902984,
+  "historic": 988818690,
+  "historic_residential": 466075666,
+  "pre2006_district_homes": 382774520,
+  "scenario_gap_total": 106918137,
+  "scenario_gap_existing_stock": 25027797
+ },
+ "historic_share": {
+  "2018": 0.365,
+  "2019": 0.366,
+  "2020": 0.358,
+  "2021": 0.355,
+  "2022": 0.352,
+  "2023": 0.347,
+  "2024": 0.347,
+  "2025": 0.346,
+  "2026": 0.347
+ },
+ "scenario_gap_cumulative": {
+  "total": 669157374,
+  "existing_stock": 159150464
+ },
+ "dcpc_annual_ratio": {
+  "total": 1.0124,
+  "existing_stock": 1.0032
+ },
+ "residential_tax_cagr_same_records": {
+  "never_designated_homes": 0.0456,
+  "pre2006_district_homes": 0.0293
+ },
+ "residential_tax_cagr_same_records_n": {
+  "pre2006_district_homes": 39544,
+  "never_designated_homes": 125926
+ },
+ "residential_tax_cagr_all_records": {
+  "never_designated_homes": 0.0621,
+  "pre2006_district_homes": 0.0372
+ },
+ "same_records_gap_last_year": {
+  "citywide_rate": 47330708,
+  "within_ward_rates": -12321766,
+  "by_ward": {
+   "1": 3702917,
+   "2": -23057322,
+   "3": 1221288,
+   "4": 963780,
+   "5": 248639,
+   "6": 3360984,
+   "7": 8533,
+   "8": 1229415
+  }
+ },
+ "caveats": [
+  "Tax is as levied on today's roll records for each tax year; records retired since TY2018 are missing, so early years run low.",
+  "Historic in a year: designated by that year (district or landmark; undated designations count throughout).",
+  "Scenario: DC Policy Center (2022) total-value growth gap for residential buildings in pre-2006 districts, 2006-21 (6.2% vs 4.9% a year), compounded from 2006 onto those buildings' tax; carried past 2021 at the same rate. Includes new construction outside the districts; DCPC does not attribute the gap to designation.",
+  "Existing-stock line: DCPC's appreciation of buildings standing in 2006 (94% vs 85%, 2006-21).",
+  "Scaling tax by value ignores the homestead deduction and assessment cap, which do not scale.",
+  "Commercial, landmark-only and post-2006 district property gets no scenario: DCPC measured residential districts designated before 2006."
+ ]
+}
