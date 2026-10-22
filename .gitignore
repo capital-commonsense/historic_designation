@@ -25,3 +25,9 @@ data/drafts/
 /*.zip
 records_request/georgetown/
 /tmp/
+
+
+
+# OS clutter
+.DS_Store
+
