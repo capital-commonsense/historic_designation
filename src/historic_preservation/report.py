@@ -85,7 +85,9 @@ def h3(n: pd.DataFrame) -> str:
         f"**Inconclusive: the public record cannot test it.** The nominations table holds {len(w)} withdrawals and "
         f"{len(nh)} nominations noticed but never heard. A check of every case number in HPRB agendas, actions and HPO "
         f"monthly notices (2006–2026) found only three nominations HPRB never acted on; nominations withdrawn before "
-        f"HPO scheduled them leave no public trace. Of {len(ag)} agreements recorded in inputs/agreements.csv, "
+        f"HPO scheduled them leave no public trace. HPO's own reports confirm the gap: FY2011's says four applications "
+        f"were withdrawn by their sponsors without naming them, and FY2012's names one (the Ontario Theatre) that no "
+        f"agenda shows. Of {len(ag)} agreements recorded in inputs/agreements.csv, "
         f"{len(linked)} documents a withdrawal in exchange for concessions: St. Martin's (2006), where DCPL agreed to "
         f"withdraw its application in return for preservation commitments and prior review of future permits, with no "
         f"payment. Testing H3 needs HPO's case log and withdrawal letters (records_request/request.md).")
@@ -127,12 +129,38 @@ def h5(n: pd.DataFrame, cov: pd.DataFrame) -> str:
         + ". Owner objection "
         f"appears to matter: HPO's own annual tables for FY2007–22 count {int(ap)} owner-opposed nominations approved "
         f"and {int(dn)} denied — an approval rate of {pct(ap, ap + dn)}, against about 90% overall (H1). These are "
-        f"HPO's printed counts, not matched case by case; the tables' totals do not always sum.")
+        f"HPO's printed counts, not matched case by case; the tables' totals do not always sum. " + dcpl_record(n))
+
+
+def dcpl_record(n: pd.DataFrame) -> str:
+    """DCPL's win rate where denials can be attributed: FY2015 on, when HPO posts staff reports naming applicants."""
+    w = n[n["fy"].ge(2015) & n["outcome"].isin(["designated", "amended", "denied", "withdrawn"])
+          & (n["kind"] != "thematic_document")]
+    won = w["outcome"].isin(["designated", "amended"])
+    dcpl = w["filers"].fillna("").str.contains("Preservation League")
+    known = w["filer_type"] != "unknown"
+    lost = w[dcpl & (w["outcome"] == "denied")]
+    staff = pd.read_csv(INPUTS / "hprb_staff_review.csv", dtype=str).drop_duplicates("case_no").set_index("case_no")["position"]
+    over = lost[lost["case_no"].map(staff).eq("grant")]
+    unk = w[~known]
+    lo, hi = int(w["fy"].min()), int(w["fy"].max())
+    return (
+        f"DCPL's record, FY{lo}–{hi} (when HPO's posted staff reports name applicants, so denials can be attributed): "
+        f"of {int(dcpl.sum())} nominations it filed or co-filed that HPRB decided, {frac((dcpl & won).sum(), dcpl.sum())} "
+        f"were designated and {len(lost)} denied ({', '.join(f'{r.name} {int(r.fy)}' for r in lost.itertuples())}); "
+        f"in {len(over)} of those denials HPO had recommended designation. Other filers with a known name: "
+        f"{frac((known & ~dcpl & won).sum(), (known & ~dcpl).sum())} designated. {len(unk)} decisions in these years "
+        f"still have no known filer ({int((unk['outcome'] == 'denied').sum())} denials, "
+        f"{int((unk['outcome'] == 'withdrawn').sum())} withdrawals), so DCPL's rate could be somewhat lower or higher. "
+        f"Before FY2015 most denials name no filer (inputs/filer_review.csv covers those found in HPO's reports and "
+        f"staff reports), so no earlier rate is given.")
 
 
 def h6() -> str:
     s = load("mayors_agent_summary.json")
     a, sm, eh = s["all"], s["by_basis"]["Special merit"], s["by_basis"]["Economic hardship"]
+    smb, ehb = s["by_basis_and_applicant"]["Special merit"], s["by_basis_and_applicant"]["Economic hardship"]
+    sma = s["special_merit_reviewer_against_by_applicant"]
     ag, fav = s["by_reviewer_position"]["against"], s["by_reviewer_position"]["favorable"]
     dem = s["by_case_type_and_reviewer_position"]["demolition / against"]
     t = s["timing"]
@@ -144,7 +172,16 @@ def h6() -> str:
         f"**Override real: supported. Slow: mostly not.** Georgetown Law's collection holds {a['decisions']} Mayor's "
         f"Agent decisions ({s['years'][0]}–{s['years'][1]}; not a certified census). On the merits the Mayor's Agent "
         f"granted {frac(a['granted'], a['decided_on_merits'])}: special merit {frac(sm['granted'], sm['decided_on_merits'])}, "
-        f"economic hardship {frac(eh['granted'], eh['decided_on_merits'])}. Where HPRB (or its predecessors) recommended "
+        f"economic hardship {frac(eh['granted'], eh['decided_on_merits'])}. Who claimed special merit, read from each "
+        f"decision: public agencies (DC schools, fire, public works, housing and economic development; WMATA; DC Water) "
+        f"won {frac(smb['government']['granted'], smb['government']['decided_on_merits'])}, developers and businesses "
+        f"{frac(smb['business']['granted'], smb['business']['decided_on_merits'])}, churches, nonprofits and schools "
+        f"{frac(smb['institution']['granted'], smb['institution']['decided_on_merits'])}, homeowners "
+        f"{frac(smb['individual']['granted'], smb['individual']['decided_on_merits'])}; over HPRB's objection, agencies "
+        f"won {frac(sma['government']['granted'], sma['government']['decided_on_merits'])} and developers "
+        f"{frac(sma['business']['granted'], sma['business']['decided_on_merits'])}. Hardship claims came mostly from "
+        f"businesses ({ehb['business']['decisions']}) and homeowners ({ehb['individual']['decisions']}), and rarely won. "
+        f"These are counts of who applied; they do not show influence. Where HPRB (or its predecessors) recommended "
         f"against the owner, the permit was granted anyway in {frac(ag['granted'], ag['decided_on_merits'])}; for "
         f"demolitions, {frac(dem['granted'], dem['decided_on_merits'])}. Where HPRB was favorable, "
         f"{frac(fav['granted'], fav['decided_on_merits'])}. Timing: median {days['median']:.0f} days from the last "
@@ -301,6 +338,46 @@ def comps() -> str:
         "data/analysis/comps_current.csv, comps_by_year.csv; chart charts/out/comps_designated_land (and .mp4 via `make video`).\n")
 
 
+def property_tax() -> str:
+    path = ANALYSIS / "property_tax_summary.json"
+    if not path.exists():
+        return ""
+    s = json.loads(path.read_text())
+    first, last = s["years"]
+    t = s["tax_last_year"]
+    sh = s["historic_share"]
+    same, allr = s["residential_tax_cagr_same_records"], s["residential_tax_cagr_all_records"]
+    n = s["residential_tax_cagr_same_records_n"]
+    gap = s["same_records_gap_last_year"]
+    m = lambda v: f"${v / 1e6:,.0f} million"
+    return (
+        "## Property tax: historic property and a growth-gap scenario\n\n"
+        f"Property designated by each year (district or landmark) was billed {m(t['historic'])} of DC's "
+        f"{m(t['historic'] + t['other'])} in property tax in TY{last} ({sh[str(last)]:.1%}), down from {sh[str(first)]:.1%} in "
+        f"TY{first} (tax levied per record on today's roll, OTR's ITSPE billing history; records retired since TY{first} "
+        f"are missing). Of the historic total, {m(t['historic_residential'])} came from residential property and "
+        f"{m(t['pre2006_district_homes'])} from homes in districts designated before 2006.\n\n"
+        "The DC Policy Center (April 2022) found that from 2006 to 2021 the total assessed value of residential buildings "
+        "in districts designated before 2006 grew 4.9% a year, against 6.2% for the rest of the city; for buildings "
+        "standing in 2006, 85% against 94% over the period. DCPC does not attribute the gap to designation: it names "
+        "higher starting values, maintenance costs and nearness to new development as possible reasons, and its total "
+        "includes new construction outside the districts. Compounding DCPC's gap from 2006 onto the tax those homes pay "
+        f"gives a scenario of {m(t['scenario_gap_total'])} more tax in TY{last} ({m(s['scenario_gap_cumulative']['total'])} "
+        f"over TY{first}–{last}); on DCPC's existing-stock gap, {m(t['scenario_gap_existing_stock'])} "
+        f"({m(s['scenario_gap_cumulative']['existing_stock'])}). The arithmetic scales tax with value, which the homestead "
+        "deduction and assessment cap do not.\n\n"
+        f"The tax roll's own years show the citywide gap continuing but not the within-ward one. Residential tax on homes in "
+        f"pre-2006 districts grew {allr['pre2006_district_homes']:.1%} a year, TY{first}–{last}, against "
+        f"{allr['never_designated_homes']:.1%} for never-designated homes; on records billed in every year "
+        f"({n['pre2006_district_homes']:,} and {n['never_designated_homes']:,}), {same['pre2006_district_homes']:.1%} against "
+        f"{same['never_designated_homes']:.1%}. Had those same homes kept the citywide rate they would pay "
+        f"{m(gap['citywide_rate'])} more in TY{last}; held to each ward's own rate, they would pay {m(-gap['within_ward_rates'])} "
+        f"{'less' if gap['within_ward_rates'] < 0 else 'more'}, chiefly because historic homes in Ward 2 outgrew the "
+        "ward's other homes. Much of the citywide gap is where in the city tax bills grew, not whether a home sits in a "
+        "district. Source: data/analysis/property_tax_by_year.csv, property_tax_summary.json; chart "
+        "charts/out/property_tax_scenario.\n")
+
+
 def findings() -> str:
     n = pd.read_csv(JOINED / "nominations.csv")
     cov = pd.read_csv(ANALYSIS / "coverage_by_year.csv")
@@ -310,7 +387,7 @@ def findings() -> str:
              ("H5 Most nominations are filed by third parties, and owner objection does not affect the outcome", h5(n, cov)),
              ("H6 The Mayor's Agent often grants permits over HPRB's objection, and decides slowly", h6()), ("H7 HPRB rarely departs from HPO staff recommendations", h7()),
              ("H8 Designated property holds a disproportionate share of DC's property value", h8()), ("H9 Most designated value was protected early, and additions have slowed", h9()), ("H10 Nominators have received payments in settlements", h10())]
-    body = "\n\n".join(f"## {h}\n\n{p}" for h, p in parts) + "\n\n" + comps()
+    body = "\n\n".join(f"## {h}\n\n{p}" for h, p in parts) + "\n\n" + comps() + "\n" + property_tax()
     return (f"# Findings\n\nGenerated by `make all` from raw snapshot {snap}; every figure is recomputed on rebuild. "
             f"Rates cover only fiscal years with adequate coverage (coverage.md). Charts are in charts/out/.\n\n{body}\n")
 

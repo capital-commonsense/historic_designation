@@ -118,7 +118,37 @@ def decisions(folder: Path) -> pd.DataFrame:
     df = apply_basis_review(df, folder)
     df = apply_type_review(df, folder)
     df = apply_hprb_review(df, folder)
+    df = apply_applicant_review(df, folder)
     return apply_timing(df, folder)
+
+
+APPLICANT_TYPES = {"government", "business", "institution", "individual"}
+
+
+def apply_applicant_review(df: pd.DataFrame, folder: Path) -> pd.DataFrame:
+    """Who applied, for every special-merit or economic-hardship decision, read from the decision
+    (inputs/mayors_agent_applicant_review.csv; quotes checked): government (DC or federal agencies,
+    WMATA, DC Water), business (developers, companies, partnerships, shops), institution (churches,
+    nonprofits, private schools, museums, unions, a foreign government), individual (homeowners,
+    a small landlord, condominium and cooperative associations). A joint application with a government
+    agency counts as government, and one with a company as business; `applicant_joint` marks these."""
+    path = INPUTS / "mayors_agent_applicant_review.csv"
+    if not path.exists():
+        return df
+    review = pd.read_csv(path, dtype=str).fillna("")
+    for r in review.itertuples():
+        if r.applicant_type not in APPLICANT_TYPES:
+            raise ValueError(f"mayors_agent_applicant_review.csv: unknown applicant type {r.applicant_type!r}")
+        if re.sub(r"\s+", " ", r.quote) not in pdf_text(folder / r.pdf):
+            raise ValueError(f"mayors_agent_applicant_review.csv: quote not found in {r.pdf}: {r.quote[:60]!r}")
+    review = review.set_index("work_id")
+    needed = set(df.loc[df["special_merit"] | df["economic_hardship"], "work_id"])
+    if needed - set(review.index) or set(review.index) - set(df["work_id"]):
+        raise ValueError("mayors_agent_applicant_review.csv: does not match the special-merit and hardship decisions")
+    df["applicant_type"] = df["work_id"].map(review["applicant_type"])
+    df["applicant_joint"] = df["work_id"].map(review["joint"].eq("True"))
+    df["applicant_note"] = df["work_id"].map(review["note"])
+    return df
 
 
 def hpa_year(numbers: str):

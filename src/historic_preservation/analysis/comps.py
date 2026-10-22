@@ -20,6 +20,7 @@ from historic_preservation.config import ANALYSIS, CENSUS_PLACES, INPUTS, MANUAL
 FIRST_YEAR = 1950
 OSM_FILES = {"Washington": "district-of-columbia", "New York": "new-york", "Philadelphia": "pennsylvania",
              "Boston": "massachusetts"}
+DC_TREND_START_YEAR = 1964
 
 
 def connect() -> duckdb.DuckDBPyConnection:
@@ -121,6 +122,34 @@ def by_year(con) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def dc_designated_share_trend(years: pd.DataFrame, start_year: int = DC_TREND_START_YEAR) -> dict:
+    """OLS trend in DC's non-park designated land share, in percentage points per year.
+
+    The 100-percent year is only a straight-line extrapolation of the historical trend. It is
+    reported to reproduce the post's rhetorical calculation, not as a forecast.
+    """
+    d = years[(years["city"] == "Washington") & (years["year"] >= start_year)].copy()
+    x = d["year"].astype(float)
+    y = d["designated_area_share_excl_parkland"].astype(float) * 100
+    x_centered = x - x.mean()
+    slope = (x_centered * (y - y.mean())).sum() / x_centered.pow(2).sum()
+    intercept = y.mean() - slope * x.mean()
+    fitted = intercept + slope * x
+    r_squared = 1 - (y - fitted).pow(2).sum() / (y - y.mean()).pow(2).sum()
+    return {
+        "city": "Washington",
+        "metric": "designated_area_share_excl_parkland",
+        "start_year": start_year,
+        "end_year": int(d["year"].max()),
+        "observations": int(len(d)),
+        "slope_percentage_points_per_year": float(slope),
+        "intercept_percentage_points": float(intercept),
+        "r_squared": float(r_squared),
+        "linear_extrapolation_year_at_100_percent": float((100 - intercept) / slope),
+        "extrapolation_is_forecast": False,
+    }
+
+
 def run() -> None:
     if not (NORMALIZED / "comps.parquet").exists():
         return
@@ -142,6 +171,9 @@ def run() -> None:
             (bld.loc[bld["city"] == c, "first_year_np"] <= y).sum() for c, y in zip(years["city"], years["year"])] / n
     cur.to_csv(ANALYSIS / "comps_current.csv", index=False)
     years.to_csv(ANALYSIS / "comps_by_year.csv", index=False)
+    (ANALYSIS / "dc_designated_share_trend.json").write_text(
+        json.dumps(dc_designated_share_trend(years), indent=1)
+    )
     c = pd.read_parquet(NORMALIZED / "comps.parquet", columns=["city", "kind", "included", "excluded_why",
                                                                "feature_id", "year"])
     inc = c[c["included"]].drop_duplicates("feature_id")

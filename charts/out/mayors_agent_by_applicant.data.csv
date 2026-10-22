@@ -1,0 +1,9 @@
+basis,applicant_type,granted,partial,denied,other
+Special merit,government,15,0,0,0
+Special merit,business,26,0,8,0
+Special merit,institution,9,1,3,0
+Special merit,individual,0,1,4,0
+Economic hardship,government,1,0,0,0
+Economic hardship,business,3,0,16,1
+Economic hardship,institution,1,0,9,0
+Economic hardship,individual,2,2,14,0

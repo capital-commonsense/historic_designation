@@ -160,13 +160,16 @@ def links(df: pd.DataFrame) -> pd.Series:
 def filer_review() -> dict[str, str]:
     """Applicants named in HPO staff reports (inputs/filer_review.csv), for cases no other source attributes.
 
-    Each quote must appear in its staff report or nomination PDF from the HPRB crawl.
+    Each quote must appear in its staff report or nomination PDF from the HPRB crawl, or, for a
+    source_file written 'documents:<file>', in an HPO annual report or Inventory update.
     """
     import subprocess
     review = pd.read_csv(INPUTS / "filer_review.csv", dtype=str)
     attachments = snapshot_dir() / "hprb" / "attachments"
     for r in review.itertuples():
-        text = subprocess.run(["pdftotext", str(attachments / r.source_file), "-"], capture_output=True, text=True).stdout
+        path = (snapshot_dir() / "documents" / r.source_file.split(":", 1)[1] if r.source_file.startswith("documents:")
+                else attachments / r.source_file)
+        text = subprocess.run(["pdftotext", str(path), "-"], capture_output=True, text=True).stdout
         if re.sub(r"\s+", " ", r.quote) not in re.sub(r"\s+", " ", text):
             raise ValueError(f"filer_review.csv: quote not found in {r.source_file}: {r.quote[:60]!r}")
     return dict(zip(review["case_no"], review["nominated_by"]))

@@ -87,6 +87,111 @@
   "library permit type/subjects/title": 176,
   "PDF review": 26
  },
+ "by_basis_and_applicant": {
+  "Special merit": {
+   "business": {
+    "decisions": 34,
+    "decided_on_merits": 34,
+    "granted": 26,
+    "partial": 0,
+    "denied": 8,
+    "granted_share": 0.765
+   },
+   "government": {
+    "decisions": 15,
+    "decided_on_merits": 15,
+    "granted": 15,
+    "partial": 0,
+    "denied": 0,
+    "granted_share": 1.0
+   },
+   "individual": {
+    "decisions": 5,
+    "decided_on_merits": 5,
+    "granted": 0,
+    "partial": 1,
+    "denied": 4,
+    "granted_share": 0.0
+   },
+   "institution": {
+    "decisions": 13,
+    "decided_on_merits": 13,
+    "granted": 9,
+    "partial": 1,
+    "denied": 3,
+    "granted_share": 0.692
+   }
+  },
+  "Economic hardship": {
+   "business": {
+    "decisions": 20,
+    "decided_on_merits": 19,
+    "granted": 3,
+    "partial": 0,
+    "denied": 16,
+    "granted_share": 0.158
+   },
+   "government": {
+    "decisions": 1,
+    "decided_on_merits": 1,
+    "granted": 1,
+    "partial": 0,
+    "denied": 0,
+    "granted_share": 1.0
+   },
+   "individual": {
+    "decisions": 18,
+    "decided_on_merits": 18,
+    "granted": 2,
+    "partial": 2,
+    "denied": 14,
+    "granted_share": 0.111
+   },
+   "institution": {
+    "decisions": 10,
+    "decided_on_merits": 10,
+    "granted": 1,
+    "partial": 0,
+    "denied": 9,
+    "granted_share": 0.1
+   }
+  }
+ },
+ "special_merit_reviewer_against_by_applicant": {
+  "business": {
+   "decisions": 17,
+   "decided_on_merits": 17,
+   "granted": 11,
+   "partial": 0,
+   "denied": 6,
+   "granted_share": 0.647
+  },
+  "government": {
+   "decisions": 8,
+   "decided_on_merits": 8,
+   "granted": 8,
+   "partial": 0,
+   "denied": 0,
+   "granted_share": 1.0
+  },
+  "individual": {
+   "decisions": 5,
+   "decided_on_merits": 5,
+   "granted": 0,
+   "partial": 1,
+   "denied": 4,
+   "granted_share": 0.0
+  },
+  "institution": {
+   "decisions": 9,
+   "decided_on_merits": 9,
+   "granted": 5,
+   "partial": 1,
+   "denied": 3,
+   "granted_share": 0.556
+  }
+ },
+ "special_merit_joint_applications": 7,
  "by_reviewer_position": {
   "against": {
    "decisions": 126,
@@ -721,6 +826,7 @@
   "Reviewer position is what HPRB (Joint Committee on Landmarks before 1983; Commission of Fine Arts in Georgetown) recommended on the application, read from each decision with a checked quote (inputs/mayors_agent_hprb_review.csv); 'no_position' covers referrals for a special-merit hearing.",
   "mentions_dcpl is a text mention of DC Preservation League or Don't Tear It Down, not proof that the group was a party.",
   "Timing: application year is the HPA number's fiscal-year prefix (earliest if several), so application-to-order is in whole fiscal years; reconsiderations and remands keep the original number and inflate it. Hearing-to-order runs from the last Mayor's Agent hearing session named in the decision (inputs/mayors_agent_hearing_dates.csv: found by pattern and spot-checked, or read by hand; quotes checked) to the order date; decisions whose catalog order date precedes the hearing are excluded.",
+  "Applicant type (special-merit and hardship decisions only) is read from each decision with a checked quote (inputs/mayors_agent_applicant_review.csv): government (DC or federal agencies, WMATA, DC Water), business (developers, companies, partnerships, shops), institution (churches, nonprofits, private schools, museums, unions, a foreign government), individual (homeowners, a small landlord, condominium and cooperative associations). Joint applications count as government if an agency joined, else business if a company joined.",
   "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv)."
  ]
 }

@@ -157,9 +157,13 @@ def items(text: str, anchors: list[tuple[str, str]] = ()) -> list[dict]:
             line_start = prev_start
         header = flat[line_start: flat.find("\n", m.end) if "\n" in flat[m.end:] else len(flat)].strip()
         end = hits[i + 1].start if i + 1 < len(hits) else len(flat)
-        nxt_permit = re.search(r"\n[^\n]*HPA\s*#?\s*\d{2}-\d{3}", flat[m.end:end])
+        # The next permit item ends this one; unnumbered permits print as "HPA #06-xxx" (2006-07 actions).
+        nxt_permit = re.search(r"\n[^\n]*HPA\s*#?\s*\d{2}-(?:\d{3}|x{2,})", flat[m.end:end])
         if nxt_permit:
             end = m.end + nxt_permit.start()
+        consent = re.search(r"\bCONSENT CALENDAR\b", flat[m.end:end])  # Barney Circle, Oct 2010
+        if consent:
+            end = m.end + consent.start()
         body = flat[m.end: end]
         vote = VOTE.search(body)
         if vote:
@@ -245,6 +249,12 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
                 continue
             rows.append({"meeting_date": date, "slug": "box", "source_file": source, **it})
     df = pd.DataFrame(rows)
+    # Misprinted case numbers (inputs/hprb_case_corrections.csv), each backed by HPO's own record of the hearing.
+    for r in pd.read_csv(INPUTS / "hprb_case_corrections.csv", dtype=str).itertuples():
+        hit = (df["source_file"] == r.source_file) & (df["case_no"] == r.printed)
+        if not hit.any():
+            raise ValueError(f"hprb_case_corrections.csv: no case {r.printed} in {r.source_file}")
+        df.loc[hit, "case_no"] = r.case_no
     df = df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df
     return apply_review(df, hprb_dir, index)
 

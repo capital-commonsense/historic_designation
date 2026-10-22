@@ -98,6 +98,22 @@ def itspe(snapshot) -> pd.DataFrame:
     return df
 
 
+def itspe_tax_history(snapshot) -> pd.DataFrame:
+    """Tax levied per record per tax year, long: the nine prior years (PYn) and the current
+    year's two halves (CY1 + CY2). Years with no tax recorded are dropped."""
+    df = attributes(snapshot, "itspe_tax_history")
+    parts = [pd.DataFrame({"objectid": df["OBJECTID"], "tax_year": df[f"PY{i}YEAR"], "tax": df[f"PY{i}TAX"]})
+             for i in range(1, 10)]
+    parts.append(pd.DataFrame({"objectid": df["OBJECTID"], "tax_year": df["CY1YEAR"],
+                               "tax": df["CY1TAX"].fillna(0) + df["CY2TAX"].fillna(0)}))
+    out = pd.concat(parts, ignore_index=True)
+    out["tax_year"] = pd.to_numeric(out["tax_year"], errors="coerce").astype("Int64")
+    out = out[out["tax_year"].notna() & (out["tax"].fillna(0) > 0)]
+    out = out.merge(pd.DataFrame({"objectid": df["OBJECTID"], "ssl": norm_ssl(df["SSL"].astype("string")),
+                                  "oldtotal": df["OLDTOTAL"]}), on="objectid")
+    return out[["objectid", "ssl", "tax_year", "tax", "oldtotal"]]
+
+
 def condo_relate(snapshot) -> pd.DataFrame:
     df = attributes(snapshot, "condo_relate")
     return pd.DataFrame(
@@ -188,6 +204,8 @@ def run() -> None:
     NORMALIZED.mkdir(parents=True, exist_ok=True)
     zoning_lookup(snapshot).to_parquet(NORMALIZED / "zoning_lookup.parquet", index=False)
     itspe(snapshot).to_parquet(NORMALIZED / "itspe.parquet", index=False)
+    if (snapshot / "arcgis" / "itspe_tax_history" / "COMPLETE.json").exists():
+        itspe_tax_history(snapshot).to_parquet(NORMALIZED / "itspe_tax_history.parquet", index=False)
     condo_relate(snapshot).to_parquet(NORMALIZED / "condo_relate.parquet", index=False)
     for key in ("condo_one_to_many", "historic_districts", "landmark_points", "landmark_polygons",
                 "potential_landmarks", "preservation_easements"):

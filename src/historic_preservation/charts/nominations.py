@@ -1,10 +1,11 @@
 """Nomination charts from data/joined/nominations.csv."""
 
 import matplotlib.pyplot as plt
+from matplotlib.transforms import ScaledTranslation
 import pandas as pd
 
-from historic_preservation.charts import MUTED, PALETTE, save, style
-from historic_preservation.config import ANALYSIS, JOINED
+from historic_preservation.charts import BLUE, DARK, GOLD, GREEN, GREY, INK, LIGHT, MID, PAPER, RED, headline, save, style
+from historic_preservation.config import ANALYSIS, INPUTS, JOINED
 
 DECIDED = ("designated", "amended", "denied", "withdrawn", "de-designated")
 TOP_N = 5
@@ -42,17 +43,21 @@ def by_entity_and_year() -> None:
 
     fig, ax = plt.subplots(figsize=(10, 5.6))
     bottom = pd.Series(0, index=table.index)
-    colors = PALETTE[:TOP_N] + ["#8C8C8C", PALETTE[5], MUTED]
-    for col, color in zip(order, colors):
-        ax.bar(table.index, table[col], bottom=bottom, color=color, label=col, width=0.8,
-               hatch="///" if col == "Unknown" else None, edgecolor="white" if col != "Unknown" else "#999999",
+    # Red: the leading filer the headline names; other named filers in ink and the shared hues.
+    others = iter([INK, BLUE, GREEN, GOLD, DARK])
+    colors = {**{e: RED if e == leader else next(others) for e in top},
+              "Other named filers": MID, "Property owners": DARK if leader in top[:4] else GREY, "Unknown": PAPER}
+    for col in order:
+        ax.bar(table.index, table[col], bottom=bottom, color=colors[col], label=col, width=0.8,
+               hatch="///" if col == "Unknown" else None, edgecolor=MID if col == "Unknown" else PAPER,
                linewidth=0.4)
         bottom += table[col]
-    ax.axvspan(lo - 0.5, hi + 0.5, color="#F2F2F2", zorder=0)
+    ax.axvspan(lo - 0.5, hi + 0.5, color="#F4F3F0", zorder=0)
     ax.text((lo + hi) / 2, bottom.max() * 1.02, f"FY{lo}–{hi}: HPO's annual updates name the nominator",
-            ha="center", fontsize=8, color="#555555")
+            ha="center", fontsize=8, color=GREY)
     style(ax)
-    ax.set_title(title, loc="left", fontsize=11.5, fontweight="bold")
+    headline(fig, title, f"Landmark and district nominations decided by HPRB, by first-named filer, "
+                         f"FY{table.index.min()}–{table.index.max()}")
     ax.set_ylabel("Nominations decided by HPRB")
     ax.set_xlabel("Fiscal year of decision")
     ax.set_xticks(table.index)
@@ -78,15 +83,17 @@ def inventory_additions_per_year() -> None:
     peak = later.sum(axis=1).idxmax()
 
     fig, ax = plt.subplots(figsize=(10, 5.2))
-    ax.bar(later.index, later["landmark"], color=PALETTE[0], label="Landmarks", width=0.8)
-    ax.bar(later.index, later["district"], bottom=later["landmark"], color=PALETTE[1], label="Historic districts", width=0.8)
+    ax.bar(later.index, later["landmark"], color=INK, label="Landmarks", width=0.8)
+    ax.bar(later.index, later["district"], bottom=later["landmark"], color=MID, label="Historic districts", width=0.8)
+    ax.text(peak, later.loc[peak].sum(), f"{int(later.loc[peak].sum())}", ha="center", va="bottom", color=INK,
+            fontweight="semibold")
     style(ax)
     ax.set_ylabel("Designations")
     ax.legend(frameon=False, fontsize=8.5)
     ax.text(1965, later.sum(axis=1).max() * 0.95,
-            f"1964 (not shown): {first} entries on the first DC list", fontsize=8, color="#555555")
-    ax.set_title(f"After the 1964 list, DC added landmarks and districts most quickly in {peak} "
-                 f"({int(later.loc[peak].sum())})", loc="left", fontsize=11.5, fontweight="bold")
+            f"1964 (not shown): {first} entries on the first DC list", fontsize=8, color=GREY)
+    headline(fig, f"After the 1964 list, DC added landmarks and districts most quickly in {peak} "
+             f"({int(later.loc[peak].sum())})", f"Designations per calendar year, 1965–{later.index.max()}")
     fig.subplots_adjust(bottom=0.18)
     save(fig, "inventory_additions_per_year", t,
          "Landmarks and historic districts designated per calendar year, from the 2009 DC Inventory, HPO's annual "
@@ -113,39 +120,50 @@ def nomination_outcomes() -> None:
 
     fig, ax = plt.subplots(figsize=(10, 5.4))
     bottom = pd.Series(0, index=t.index)
-    for col, color in (("designated", PALETTE[0]), ("denied", PALETTE[5]), ("withdrawn", PALETTE[1])):
+    for col, color in (("designated", INK), ("denied", DARK), ("withdrawn", MID)):
         for ok in (True, False):
             sub = t["adequate_coverage"] == ok
-            ax.bar(t.index[sub], t.loc[sub, col], bottom=bottom[sub], color=color if ok else MUTED,
-                   label=col.capitalize() if ok else None, width=0.8, edgecolor="white", linewidth=0.4,
+            ax.bar(t.index[sub], t.loc[sub, col], bottom=bottom[sub], color=color if ok else LIGHT,
+                   label=col.capitalize() if ok else None, width=0.8, edgecolor=PAPER, linewidth=0.4,
                    hatch=None if ok else "///")
         bottom += t[col]
-    opp = t["hpo_owner_opposed_approved"].fillna(0) + t["hpo_owner_opposed_denied"].fillna(0)
-    ax.scatter(t.index[opp > 0], bottom[opp > 0] + 0.6, marker="v", color="#000000", s=18,
-               label="HPO reports owner opposition (count printed)")
-    for fy, k in opp[opp > 0].items():
-        ax.text(fy, bottom[fy] + 1.1, f"{int(k)}", ha="center", fontsize=7)
+    # One red mark per owner-opposed case HPO reports, beside the segment of its outcome (designated or denied),
+    # stacked up the segment's middle; a year with no scraped denials puts its denied marks at the segment's base.
+    mark = 5 / 72  # inches between stacked marks
+    for col, opp_col in (("designated", "hpo_owner_opposed_approved"), ("denied", "hpo_owner_opposed_denied")):
+        low = t["designated"] * (col == "denied")
+        mid = low + t[col] / 2
+        for fy, k in t[opp_col].fillna(0).astype(int).items():
+            for i in range(k):
+                shift = ScaledTranslation(0, (i - (k - 1) / 2) * mark, fig.dpi_scale_trans)
+                ax.plot(fy - 0.47, mid[fy], marker=">", color=RED, ms=4.2, ls="none", transform=ax.transData + shift,
+                        clip_on=False)
+    ax.plot([], [], marker=">", color=RED, ms=5, ls="none",
+            label="HPO reports owner opposition")
     style(ax)
     ax.set_ylabel("Nominations decided (landmarks and districts)")
     ax.set_xlabel("Fiscal year of decision; grey hatched = years whose scraped coverage of HPO's counts is below 0.8")
     ax.set_xticks(t.index)
     ax.set_xticklabels([str(y)[2:] if y % 2 else str(y) for y in t.index], fontsize=8)
     ax.legend(frameon=False, fontsize=8.5, loc="upper left", bbox_to_anchor=(1.0, 1.0))
-    ax.set_title(f"In the {span}, {rate:.0%} of decided nominations were designated "
-                 f"({int(good['designated'].sum())} of {int(decided)})", loc="left", fontsize=11.5, fontweight="bold")
+    headline(fig, f"In the {span}, {rate:.0%} of decided nominations were designated "
+             f"({int(good['designated'].sum())} of {int(decided)})",
+             f"Landmark and district nominations by HPRB outcome, FY{t.index.min()}–{t.index.max()}")
     fig.subplots_adjust(bottom=0.2)
     save(fig, "nomination_outcomes", t,
          "Nomination outcomes by fiscal year of the HPRB decision (amendments count as designated). Withdrawals are "
          "undercounted: most nominations withdrawn before a hearing leave no public record. Owner-opposition counts "
-         "are HPO's annual-report figures, not matched to individual cases. Sources: data/joined/nominations.csv, "
+         "are HPO's annual-report figures (approved or denied over the owner's objection), one mark per case beside that "
+         "outcome's segment; HPO does not name the cases, so marks are not matched to individual nominations. Sources: data/joined/nominations.csv, "
          "data/analysis/coverage_by_year.csv.")
 
 
-FILER_TYPES = (("dcpl", "DC Preservation League", PALETTE[0]), ("neighborhood_society", "Neighborhood societies", PALETTE[2]),
-               ("neighborhood_adhoc", "Ad hoc neighborhood groups", PALETTE[4]), ("anc", "ANCs", PALETTE[6]),
-               ("citywide_other", "Other citywide groups", PALETTE[3]), ("government", "Government", "#8C8C8C"),
-               ("owner", "Property owners (incl. co-filed)", PALETTE[5]), ("other", "Other", "#555555"),
-               ("unknown", "Unknown", MUTED))
+# Red goes to whichever type leads the 2010s (the headline's finding); see by_filer_type.
+FILER_TYPES = (("dcpl", "DC Preservation League", INK), ("neighborhood_society", "Neighborhood societies", BLUE),
+               ("neighborhood_adhoc", "Ad hoc neighborhood groups", "#8DB3CF"), ("anc", "ANCs", GOLD),
+               ("citywide_other", "Other citywide groups", GREEN), ("government", "Government", DARK),
+               ("owner", "Property owners (incl. co-filed)", MID), ("other", "Other", LIGHT),
+               ("unknown", "Unknown", PAPER))
 
 
 def by_filer_type() -> None:
@@ -177,8 +195,8 @@ def by_filer_type() -> None:
     for axis, table, ylabel in ((ax, t, "Nominations decided"), (ax2, v, "Today's assessed value of designated property")):
         bottom = pd.Series(0.0, index=table.index)
         for key, name, color in FILER_TYPES:
-            axis.bar(table.index, table[key], bottom=bottom, color=color, label=name, width=0.7,
-                     hatch="///" if key == "unknown" else None, edgecolor="#999999" if key == "unknown" else "white",
+            axis.bar(table.index, table[key], bottom=bottom, color=RED if key == lead else color, label=name, width=0.7,
+                     hatch="///" if key == "unknown" else None, edgecolor=MID if key == "unknown" else PAPER,
                      linewidth=0.4)
             bottom += table[key]
         style(axis)
@@ -189,10 +207,11 @@ def by_filer_type() -> None:
     ax.set_title("Nominations decided", loc="left", fontsize=10)
     ax2.set_title("Value designated", loc="left", fontsize=10)
     ax2.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, reverse=True)
-    fig.suptitle(f"In the 2010s, {label} filed {int(recent[lead])} of {int(known)} decided nominations with a known "
-                 f"filer; {dict((k, n) for k, n, _ in FILER_TYPES)[vlead]} filings cover the most designated value "
-                 f"({pct_share(rv[vlead], rv.sum())})", x=0.01, ha="left", fontsize=11.5, fontweight="bold")
-    fig.subplots_adjust(bottom=0.2, top=0.86, wspace=0.28)
+    fig.subplots_adjust(bottom=0.2, wspace=0.28)
+    headline(fig, f"In the 2010s, {label} filed {int(recent[lead])} of {int(known)} decided nominations with a known "
+             f"filer; {dict((k, n) for k, n, _ in FILER_TYPES)[vlead]} filings cover the most designated value "
+             f"({pct_share(rv[vlead], rv.sum())})", f"Decided nominations and designated value by filer type, "
+             f"{t.index[0]}–{t.index[-1]}")
     out = pd.concat({"nominations": t, "assessed_value": v}, names=["measure"])
     save(fig, "nominations_by_filer_type", out,
          "Decided landmark and district nominations by filer type (inferred from filer names; first-named filer's "
@@ -207,3 +226,67 @@ def by_filer_type() -> None:
 
 def pct_share(a, b) -> str:
     return f"{a / b:.0%} of value with a known filer" if b else "n/a"
+
+
+ATTRIBUTED_FROM = 2015  # HPO's posted staff reports name applicants, so denials can be attributed
+FILER_GROUPS = (("DC Preservation League", lambda d: d["dcpl"]),
+                ("Property owners", lambda d: d["filer_type"].isin(["owner", "owner_cosponsor"])),
+                ("Government agencies", lambda d: d["filer_type"].eq("government")),
+                ("Neighborhood groups", lambda d: d["filer_type"].isin(["neighborhood_society", "neighborhood_adhoc"])),
+                ("Other preservation groups", lambda d: d["filer_type"].isin(["citywide_other", "other"])),
+                ("ANCs", lambda d: d["filer_type"].eq("anc")),
+                ("Filer unknown", lambda d: d["filer_type"].eq("unknown")))
+
+
+def by_filer_success() -> None:
+    n = pd.read_csv(JOINED / "nominations.csv")
+    d = n[n["fy"].ge(ATTRIBUTED_FROM) & n["outcome"].isin(["designated", "amended", "denied", "withdrawn"])
+          & (n["kind"] != "thematic_document")].copy()
+    d["dcpl"] = d["filers"].fillna("").str.contains("Preservation League")
+    staff = pd.read_csv(INPUTS / "hprb_staff_review.csv", dtype=str).drop_duplicates("case_no").set_index("case_no")["position"]
+    d["result"] = d["outcome"].map({"designated": "designated", "amended": "designated", "withdrawn": "withdrawn",
+                                    "denied": "denied"})
+    d.loc[(d["result"] == "denied") & d["case_no"].map(staff).eq("grant"), "result"] = "overruled"
+    d["group"] = None
+    for label, test in FILER_GROUPS:  # first match wins: a DCPL co-filing counts as DCPL
+        d.loc[d["group"].isna() & test(d), "group"] = label
+    results = (("designated", "Designated", INK), ("overruled", "Denied though HPO recommended designation", DARK),
+               ("denied", "Denied", MID), ("withdrawn", "Withdrawn", LIGHT))
+    t = d.pivot_table(index="group", columns="result", values="nomination_id", aggfunc="count", fill_value=0)
+    t = t.reindex(index=[g for g, _ in FILER_GROUPS], columns=[k for k, _, _ in results], fill_value=0)
+
+    fig, ax = plt.subplots(figsize=(10, 4.8))
+    labels = list(t.index[::-1])
+    left = pd.Series(0, index=labels)
+    for key, name, color in results:
+        vals = t.loc[labels, key]
+        ax.barh(labels, vals, left=left, color=color, label=name, height=0.62)
+        left += vals
+    ax.barh("DC Preservation League", t.loc["DC Preservation League", "designated"], color=RED, height=0.62)
+    unk = labels.index("Filer unknown")
+    ax.barh(labels[unk], left.iloc[unk], color="none", edgecolor=MID, hatch="///", linewidth=0, height=0.62)
+    decided = t.sum(axis=1)
+    for i, g in enumerate(labels):
+        ax.text(left[g] + 0.6, i, f"{t.loc[g, 'designated']} of {decided[g]} designated ({t.loc[g, 'designated'] / decided[g]:.0%})",
+                va="center", fontsize=8.5)
+    ax.set_xlim(0, decided.max() * 1.45)
+    style(ax, grid="x")
+    ax.tick_params(axis="y", labelcolor=INK)
+    ax.set_xlabel("Nominations HPRB decided or that were withdrawn")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.4, -0.18), ncol=2, frameon=False, fontsize=8.5)
+    fig.subplots_adjust(left=0.22, right=0.97, bottom=0.3)
+    dc = t.loc["DC Preservation League"]
+    named = t.drop(index=["DC Preservation League", "Filer unknown"]).sum()
+    p_dc, p_other = dc["designated"] / dc.sum(), named["designated"] / named.sum()
+    verb = "about as often as" if abs(p_dc - p_other) < 0.05 else ("less often than" if p_dc < p_other else "more often than")
+    lo, hi = int(d["fy"].min()), int(d["fy"].max())
+    headline(fig, f"DCPL's nominations succeed {verb} other filers': {dc['designated']} of {dc.sum()} ({p_dc:.0%}) "
+             f"against {named['designated']} of {named.sum()} ({p_other:.0%})",
+             f"Landmark and district nominations decided or withdrawn, by filer, FY{lo}–{hi}")
+    save(fig, "nominations_success_by_filer", t,
+         f"Nominations HPRB decided (designated or amended, denied) or that were withdrawn, FY{lo}–{hi}: the years "
+         "when HPO's posted staff reports name the applicant, so denials as well as designations can be attributed. "
+         "Filers from HPO's Inventory updates and staff reports or HPO's annual reports (inputs/filer_review.csv); "
+         "a nomination DCPL filed with another group counts as DCPL's. 'Denied though HPO recommended designation' "
+         "uses HPO's staff recommendation (inputs/hprb_staff_review.csv). Withdrawals before a hearing was scheduled "
+         "are not in the public record. Source: data/joined/nominations.csv.")

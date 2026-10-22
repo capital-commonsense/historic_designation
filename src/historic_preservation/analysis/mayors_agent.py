@@ -60,6 +60,11 @@ def run() -> None:
         "by_basis": {label: rates(d[d[col]]) for col, label in BASES.items()},
         "by_case_type": {t: rates(g) for t, g in d.groupby("case_type")},
         "case_type_source": d["case_type_source"].str.split(":").str[0].value_counts().to_dict(),
+        "by_basis_and_applicant": {label: {t: rates(g) for t, g in d[d[col]].groupby("applicant_type")}
+                                   for col, label in list(BASES.items())[:2]},
+        "special_merit_reviewer_against_by_applicant": {
+            t: rates(g) for t, g in d[d["special_merit"] & (d["reviewer_position"] == "against")].groupby("applicant_type")},
+        "special_merit_joint_applications": int(d.loc[d["special_merit"], "applicant_joint"].fillna(False).astype(bool).sum()),
         "by_reviewer_position": {pos: rates(g) for pos, g in d.groupby("reviewer_position")},
         "by_case_type_and_reviewer_position": {f"{t} / {pos}": rates(g)
                                                for (t, pos), g in d.groupby(["case_type", "reviewer_position"])},
@@ -82,6 +87,7 @@ def run() -> None:
             "Reviewer position is what HPRB (Joint Committee on Landmarks before 1983; Commission of Fine Arts in Georgetown) recommended on the application, read from each decision with a checked quote (inputs/mayors_agent_hprb_review.csv); 'no_position' covers referrals for a special-merit hearing.",
             "mentions_dcpl is a text mention of DC Preservation League or Don't Tear It Down, not proof that the group was a party.",
             "Timing: application year is the HPA number's fiscal-year prefix (earliest if several), so application-to-order is in whole fiscal years; reconsiderations and remands keep the original number and inflate it. Hearing-to-order runs from the last Mayor's Agent hearing session named in the decision (inputs/mayors_agent_hearing_dates.csv: found by pattern and spot-checked, or read by hand; quotes checked) to the order date; decisions whose catalog order date precedes the hearing are excluded.",
+            "Applicant type (special-merit and hardship decisions only) is read from each decision with a checked quote (inputs/mayors_agent_applicant_review.csv): government (DC or federal agencies, WMATA, DC Water), business (developers, companies, partnerships, shops), institution (churches, nonprofits, private schools, museums, unions, a foreign government), individual (homeowners, a small landlord, condominium and cooperative associations). Joint applications count as government if an agency joined, else business if a company joined.",
             "Case type is the primary permit sought (demolition > subdivision > new construction > alteration), from the library's permit type, tags and title, or read from the decision (inputs/mayors_agent_type_review.csv).",
         ],
     }

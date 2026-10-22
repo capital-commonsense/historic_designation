@@ -1,14 +1,29 @@
-case_no,nominated_by,source_file,quote
-23-08,Capitol Hill Restoration Society,Historic_Landmark_Nomination_Eastern_High_School_1700_E._Capitol_Street_NE_Case_23-08.pdf,This nomination has been submitted by the Capitol Hill Restoration Society at the request and encouragement of Eastern High School
-23-01,United States Navy,US_Naval_Observatory_HD_Nomination_Staff_Report_Case_23-01.pdf,The nomination was prepared for and is being sponsored by the United States Navy (Navy).
-23-06,LCOR (owner) and the District of Columbia Historic Preservation Office,Historic_Landmark_Nomination_Little_Tavern_Shop_530_Morse_Street_NE_Case_23-06.pdf,LCOR (owner) and the District of Columbia Historic Preservation Office
-23-04,"The Supreme Council, 33rd Degree, Southern Jurisdiction (owner)",Staff_Report_Scotish_Rite_Temple_amendment__1733_16th_Street_NW_Case_23-04_0.pdf,"The Supreme Council, 33rd Degree, Southern Jurisdiction"
-19-06,Dupont East Civic Action Association,Historic_Landmark_Nomination_Final_Staff_Report-Scottish_Rite_Temple-1733_16th_Street_NW-_Case_19-06.pdf,Dupont East Civic Action Association
-23-03,Smithsonian Institution,Historic_Landmark_Nominaiton_Staf_Report_Natl_Mus_of_Natural_History_adm_10th_St_and_Constitution_Ave_NW_Case_23-03_.pdf,"January 26, 2023 Smithsonian Institution"
-22-07,Progressive National Baptist Convention,Historic_Landmark_Nomination_Staff_Report_601_50th_Street_NE_Case_22_07.pdf,Progressive National Baptist Convention
-22-14,D.C. Historic Preservation Office,Historic_Landmark_Nomination_Staff_Report_Buchanan_School_Plaza_Case_22-14.pdf,"November 17, 2022 D.C. Historic Preservation Office"
-22-17,1524 33rd St NW LLC (owner),Historic_Landmark_Nomination_Staff_Report_Yellow_Tavern_Nomination_1524_33rd_Street_NW_Case_22_17_.pdf,This is an application by the property owner to have the Board revoke the 1964 historic landmark designation
-22-10,D.C. Preservation League and Historic Chevy Chase DC,Historic_Landmark_Nominaiton_Staff_Report_Chevy_Chase_Savings_Bank_5530_Connecticut_Avenue_NW_Case_22-10.pdf,D.C. Preservation League and Historic Chevy Chase DC
-23-05,District of Columbia Department of General Services,Staff_Report_Smothers_Elementary_School_nomination_4400_Brooks_Street_NE_Case_23-05.pdf,District of Columbia Department of General Services
-22-04,D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_Northeast_Savings_Bank_800_H_Street_NE_Case_22-04.pdf,"October 26, 2023 D.C. Preservation League"
-23-10,Square 1596 Partners LLC (owner) and the D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_Swedish_Ambassador_s_Residence_3900_Nebraska_Ave_NW_HPA_23-010.pdf,Square 1596 Partners LLC (owner) and the D.C. Preservation League
+case_no,nominated_by,source_file,quote,note
+23-08,Capitol Hill Restoration Society,Historic_Landmark_Nomination_Eastern_High_School_1700_E._Capitol_Street_NE_Case_23-08.pdf,This nomination has been submitted by the Capitol Hill Restoration Society at the request and encouragement of Eastern High School,
+23-01,United States Navy,US_Naval_Observatory_HD_Nomination_Staff_Report_Case_23-01.pdf,The nomination was prepared for and is being sponsored by the United States Navy (Navy).,
+23-06,LCOR (owner) and the District of Columbia Historic Preservation Office,Historic_Landmark_Nomination_Little_Tavern_Shop_530_Morse_Street_NE_Case_23-06.pdf,LCOR (owner) and the District of Columbia Historic Preservation Office,
+23-04,"The Supreme Council, 33rd Degree, Southern Jurisdiction (owner)",Staff_Report_Scotish_Rite_Temple_amendment__1733_16th_Street_NW_Case_23-04_0.pdf,"The Supreme Council, 33rd Degree, Southern Jurisdiction",
+19-06,Dupont East Civic Action Association,Historic_Landmark_Nomination_Final_Staff_Report-Scottish_Rite_Temple-1733_16th_Street_NW-_Case_19-06.pdf,Dupont East Civic Action Association,
+23-03,Smithsonian Institution,Historic_Landmark_Nominaiton_Staf_Report_Natl_Mus_of_Natural_History_adm_10th_St_and_Constitution_Ave_NW_Case_23-03_.pdf,"January 26, 2023 Smithsonian Institution",
+22-07,Progressive National Baptist Convention,Historic_Landmark_Nomination_Staff_Report_601_50th_Street_NE_Case_22_07.pdf,Progressive National Baptist Convention,
+22-14,D.C. Historic Preservation Office,Historic_Landmark_Nomination_Staff_Report_Buchanan_School_Plaza_Case_22-14.pdf,"November 17, 2022 D.C. Historic Preservation Office",
+22-17,1524 33rd St NW LLC (owner),Historic_Landmark_Nomination_Staff_Report_Yellow_Tavern_Nomination_1524_33rd_Street_NW_Case_22_17_.pdf,This is an application by the property owner to have the Board revoke the 1964 historic landmark designation,
+22-10,D.C. Preservation League and Historic Chevy Chase DC,Historic_Landmark_Nominaiton_Staff_Report_Chevy_Chase_Savings_Bank_5530_Connecticut_Avenue_NW_Case_22-10.pdf,D.C. Preservation League and Historic Chevy Chase DC,
+23-05,District of Columbia Department of General Services,Staff_Report_Smothers_Elementary_School_nomination_4400_Brooks_Street_NE_Case_23-05.pdf,District of Columbia Department of General Services,
+22-04,D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_Northeast_Savings_Bank_800_H_Street_NE_Case_22-04.pdf,"October 26, 2023 D.C. Preservation League",
+23-10,Square 1596 Partners LLC (owner) and the D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_Swedish_Ambassador_s_Residence_3900_Nebraska_Ave_NW_HPA_23-010.pdf,Square 1596 Partners LLC (owner) and the D.C. Preservation League,
+14-04,D.C. Preservation League,Historic_Landmark_Nomination_West_Heating_Plant_1015_2055_29th_Street_NW_Staff_Report_Case_14_04.pdf,2015 D.C. Preservation League,
+15-04,Off Boundary Preservation Brigade,Historic_Landmark_Nomination_16_Grant_Circle_NW_Case_15_04.pdf,2015 Off Boundary Preservation Brigade,
+15-08,Off Boundary Preservation Brigade,Historic_Landmark_Designation_7_Grant_Circle_NW_Staff_Report_Case_15_08_.pdf,2015 Off Boundary Preservation Brigade,
+15-17,Off Boundary Preservation Brigade,Historic_Landmark_Nomination_4304_Forest_Lanae_NW_Hadley_House_Staff_Report.pdf,2015 Off Boundary Preservation Brigade,staff report prints Case No. 15-15 (the Heurich-Parks House case); HPO notices and HPRB actions give the Hadley House as 15-17
+17-16,Tenleytown Historical Society and D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_4335_4351_Harriston_Street_Odd_Nos_NW_Case_17_16.pdf,2018 Tenleytown Historical Society and D.C. Preservation League,
+18-09,D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_150_S_Street_NW_St_Pauls_Church_Case_18_09.pdf,2018 D.C. Preservation League,
+19-02,NAI Saturn Eastern LLC (owner),Historic_Landmark_Nomination_Staff_Report_Safeway_4865_MacArthur_Boulevard_NW_Case_19_02.pdf,2019 NAI Saturn Eastern LLC (owner),the owner filed expecting the Board to deny designation
+17-07,D.C. Preservation League,Historic_Landmark_Nomination_Staff_Report_Folger_Shakespeare_Memorial_Library_Amendment_201_East_Capitol_Street_SE_Case_17_07.pdf,2019 D.C. Preservation League,
+15-09,Historic Washington Architecture,Historic_Landmark_Nomination_Staff_Report_451_Park_Road_NW_Gilmore_Residence_Case_15-09.pdf,2020 Historic Washington Architecture,staff report prints Case No. 20-02 (the Slowe-Burrill House case); HPO notices give the Gilmore Residence as 15-09
+21-01,Advisory Neighborhood Commission 7F,Historic_Landmark_Nomiantion_Staff_Report_-_3701_Benning_Road_NE_Loffler_Provisions_Case_21_01_.pdf,2020 Advisory Neighborhood Commission 7F,
+19-08,property owners,Historic_Landmark_Designation_Hearing_Sadler_Homestead_7529_Morningside_Drive_NW_HPA_19_08_.pdf,property owners 4A The Historic Preservation Office,the applicants are the owners of the house
+06-07,D.C. Preservation League,documents:hpo_annual_report_fy2006.pdf,transitional residential building form in the city. Sponsored by the D.C. Preservation League.,1440 Rhode Island Avenue NW (the Braxton); the sponsor line closes its entry
+07-17,National Park Service,documents:hpo_annual_report_fy2007.pdf,"Titanic Memorial, Southwest Waterfront Park, Water and P Streets, SW Nominated by the National Park Service",
+07-36,"Historic Washington Architecture, Inc.",documents:hpo_annual_report_fy2007.pdf,"3637 Patterson Street, NW Nominated by Historic Washington Architecture, Inc.",Albert Schulteis House
+04-09,"Historic Washington Architecture, Inc.",documents:hpo_annual_report_fy2007.pdf,"Jesse Baltimore House, 5136 Sherier Place, NW Nominated by Historic Washington Architecture, Inc.",

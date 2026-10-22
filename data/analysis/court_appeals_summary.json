@@ -39,10 +39,6 @@
    "preservation_side": "lost"
   }
  ],
- "opinions_not_fetched": [
-  "American University Park Citizens Ass'n v. Burka",
-  "Blagden Alley Ass'n v. District of Columbia Zoning Commission",
-  "French v. District of Columbia Board of Zoning Adjustment"
- ],
+ "opinions_not_fetched": [],
  "caveat": "Appealed cases only; not a sample of all Mayor's Agent decisions."
 }

@@ -1,0 +1,12 @@
+{
+ "city": "Washington",
+ "metric": "designated_area_share_excl_parkland",
+ "start_year": 1964,
+ "end_year": 2026,
+ "observations": 63,
+ "slope_percentage_points_per_year": 0.22123636729128582,
+ "intercept_percentage_points": -430.7447609297587,
+ "r_squared": 0.9620931099509537,
+ "linear_extrapolation_year_at_100_percent": 2398.994195339348,
+ "extrapolation_is_forecast": false
+}

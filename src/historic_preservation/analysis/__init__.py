@@ -11,7 +11,7 @@ import json
 
 import pandas as pd
 
-from historic_preservation.analysis import courts, coverage, eras, governance, comps, mayors_agent, permits, staff
+from historic_preservation.analysis import courts, coverage, eras, governance, grants, comps, mayors_agent, permits, revenue, review_types, staff
 from historic_preservation.config import ANALYSIS, JOINED, NORMALIZED
 from historic_preservation.join import STRICT_METHODS
 
@@ -96,4 +96,7 @@ def run() -> None:
     permits.run()
     staff.run()
     comps.run()
+    revenue.run()
+    grants.run()
+    review_types.run()
     print("analysis: wrote designated shares, district eras, inventory summary, coverage, court appeals, DCPL governance, Mayor's Agent, H2 permits")

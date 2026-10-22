@@ -1,11 +1,11 @@
 {
   "window": "FY2007-FY2025, individual landmark nominations (and amendments) with an HPRB action",
   "heard": {
-    "n": 271,
-    "designated": 242,
-    "denied": 25,
-    "withdrawn": 4,
-    "designated_share": 0.893
+    "n": 270,
+    "designated": 243,
+    "denied": 24,
+    "withdrawn": 3,
+    "designated_share": 0.9
   },
   "documented_pending_raze": {
     "n": 15,
@@ -21,14 +21,14 @@
     "designated_share": 0.846
   },
   "no_documented_pending_application": {
-    "n": 243,
-    "designated": 225,
-    "denied": 16,
-    "withdrawn": 2,
-    "designated_share": 0.926
+    "n": 242,
+    "designated": 226,
+    "denied": 15,
+    "withdrawn": 1,
+    "designated_share": 0.934
   },
-  "documented_any_share": 0.103,
-  "documented_raze_share": 0.055,
+  "documented_any_share": 0.104,
+  "documented_raze_share": 0.056,
   "pending_not_in_nominations": [],
   "pending_never_heard": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "raze_after_denial_or_withdrawal": {
-    "denied_or_withdrawn_since_2009": 25,
+    "denied_or_withdrawn_since_2009": 24,
     "with_raze_permit_within_180_days": 9,
     "of_which_not_documented_as_pending": [
       "11-22",

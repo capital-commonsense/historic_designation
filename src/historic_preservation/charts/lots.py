@@ -9,10 +9,10 @@ import matplotlib.ticker as mticker
 import pandas as pd
 
 from historic_preservation.analysis import eras
-from historic_preservation.charts import MUTED, PALETTE, save, style
+from historic_preservation.charts import DARK, GREY, INK, LIGHT, MID, RED, headline, save, style
 from historic_preservation.config import ANALYSIS, JOINED
 
-CLASSES = (("residential", PALETTE[0]), ("commercial", PALETTE[1]), ("institutional", PALETTE[2]), ("vacant", MUTED))
+CLASSES = (("residential", INK), ("commercial", DARK), ("institutional", MID), ("vacant", LIGHT))
 SOURCE = "Source: DC Office of Tax and Revenue ITSPE tax roll joined to DC GIS historic districts and landmarks (data/joined/itspe_status.parquet)."
 
 
@@ -44,19 +44,25 @@ def designated_share_over_time() -> None:
     v1990 = t.loc[1990, "assessed_value"] / t["assessed_value"].iloc[-1]
 
     fig, ax = plt.subplots(figsize=(10, 5.4))
-    ax.step(t.index, t["assessed_value"], where="post", color=PALETTE[5], lw=2, label="Share of assessed value")
-    ax.step(t.index, t["assessed_value_taxable"], where="post", color=PALETTE[5], lw=1.2, ls="--",
+    ax.step(t.index, t["assessed_value"], where="post", color=RED, lw=2.6, label="Share of assessed value")
+    ax.step(t.index, t["assessed_value_taxable"], where="post", color=MID, lw=1.4, ls="--",
             label="Share of assessed value, taxable property only")
-    ax.step(t.index, t["records"], where="post", color=PALETTE[0], lw=2, label="Share of tax records")
-    ax.axvline(1979, color="#777777", lw=0.8)
-    ax.text(1979.5, 0.02, "1979: DC preservation law\ntakes effect", fontsize=8, color="#555555")
+    ax.step(t.index, t["records"], where="post", color=INK, lw=2.2, label="Share of tax records")
+    a1990, now = t.loc[1990, "assessed_value"], t["assessed_value"].iloc[-1]
+    ax.plot([1990, t.index[-1]], [a1990, now], "o", color=RED, ms=6)
+    ax.annotate(f"1990: {a1990:.0%} of all value,\n{v1990:.0%} of today's {now:.0%}", (1990, a1990),
+                xytext=(-10, 10), textcoords="offset points", ha="right", va="bottom", color=RED, fontweight="semibold")
+    ax.annotate(f"{now:.0%}", (t.index[-1], now), xytext=(0, 8), textcoords="offset points", ha="center",
+                va="bottom", color=RED, fontweight="semibold")
+    ax.axvline(1979, color=MID, lw=0.8)
+    ax.text(1979.5, 0.02, "1979: DC preservation law\ntakes effect", fontsize=8, color=GREY)
     style(ax)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(1.0, decimals=0))
     ax.set_ylim(0, max(t.max().max() * 1.1, 0.1))
     ax.set_xlabel("Year of first DC designation (district or landmark)")
     ax.legend(loc="upper left", frameon=False, fontsize=8.5)
-    ax.set_title(f"{v1990:.0%} of today's designated assessed value was protected by 1990",
-                 loc="left", fontsize=11.5, fontweight="bold")
+    headline(fig, f"{v1990:.0%} of today's designated assessed value was protected by 1990",
+             f"Cumulative share of today's DC tax roll inside a historic district or landmark, 1950–{t.index[-1]}")
     fig.subplots_adjust(bottom=0.2)
     save(fig, "designated_share_over_time", t,
          f"Cumulative share of today's DC tax records and assessed value inside a historic district or landmark, by the year "
@@ -84,8 +90,8 @@ def value_by_designation_era() -> None:
     ax.set_ylabel("Today's assessed value")
     ax.set_xlabel("Era the district was first designated (the earliest, for lots in overlapping districts)")
     ax.legend(frameon=False, fontsize=8.5, reverse=True)
-    ax.set_title(f"{share:.0%} of today's value under district protection lies in districts first designated before 1990",
-                 loc="left", fontsize=11.5, fontweight="bold")
+    headline(fig, f"{share:.0%} of today's value under district protection lies in districts first designated "
+             "before 1990", "Today's assessed value inside historic districts, by era of first designation")
     fig.subplots_adjust(bottom=0.2)
     save(fig, "value_by_designation_era", t,
          "Today's assessed value of tax records inside historic districts, by the era of the district's first DC "
@@ -103,16 +109,19 @@ def designated_share_by_ward() -> None:
 
     fig, ax = plt.subplots(figsize=(10, 5.2))
     x = range(len(t))
-    ax.bar([i - 0.2 for i in x], t["records"], width=0.4, color=PALETTE[0], label="Share of tax records")
-    ax.bar([i + 0.2 for i in x], t["assessed_value"], width=0.4, color=PALETTE[5], label="Share of assessed value")
+    ax.bar([i - 0.2 for i in x], t["records"], width=0.4, color=MID, label="Share of tax records")
+    ax.bar([i + 0.2 for i in x], t["assessed_value"], width=0.4, color=INK, label="Share of assessed value")
+    ax.bar([list(t.index).index(top) + 0.2], [t.loc[top, "assessed_value"]], width=0.4, color=RED)
+    ax.text(list(t.index).index(top) + 0.2, t.loc[top, "assessed_value"] + 0.01, f"{t.loc[top, 'assessed_value']:.0%}",
+            ha="center", va="bottom", color=RED, fontweight="semibold")
     style(ax)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(1.0, decimals=0))
     ax.set_xticks(list(x))
     ax.set_xticklabels([f"Ward {w}" for w in t.index])
     ax.legend(frameon=False, fontsize=8.5)
-    ax.set_title(f"Ward {top}: {t.loc[top, 'assessed_value']:.0%} of assessed value and "
-                 f"{t.loc[top, 'records']:.0%} of tax records are designated",
-                 loc="left", fontsize=11.5, fontweight="bold")
+    headline(fig, f"Ward {top}: {t.loc[top, 'assessed_value']:.0%} of assessed value and "
+             f"{t.loc[top, 'records']:.0%} of tax records are designated",
+             "Share of each ward's tax records and assessed value inside a historic district or landmark, today")
     fig.subplots_adjust(bottom=0.16)
     save(fig, "designated_share_by_ward", t,
          "Share of each ward's tax records and assessed value inside a historic district or individual landmark, "
@@ -133,20 +142,20 @@ def top_districts_by_value(n: int = 15) -> None:
 
     fig, ax = plt.subplots(figsize=(10, 6.2))
     y = range(len(shown))
-    ax.barh([i + 0.2 for i in y], shown["newtotal"], height=0.4, color=PALETTE[5], label="Total value (land + improvements)")
-    ax.barh([i - 0.2 for i in y], shown["newland"], height=0.4, color=PALETTE[2], label="Land value")
+    ax.barh([i + 0.2 for i in y], shown["newtotal"], height=0.4, color=INK, label="Total value (land + improvements)")
+    ax.barh([len(shown) - 1 + 0.2], [shown["newtotal"].iloc[-1]], height=0.4, color=RED)  # the leader
+    ax.barh([i - 0.2 for i in y], shown["newland"], height=0.4, color=MID, label="Land value")
     ax.set_yticks(list(y))
-    ax.set_yticklabels(shown.index.str.replace(" Historic District", ""), fontsize=8.5)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.grid(axis="x", color="#E5E5E5", linewidth=0.8)
-    ax.set_axisbelow(True)
+    ax.set_yticklabels(shown.index.str.replace(" Historic District", ""), fontsize=8.5, color=INK)
+    style(ax, grid="x")
     ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v / 1e9:,.0f}B"))
     ax.legend(frameon=False, fontsize=8.5, loc="lower right", reverse=True)
     lead = t.index[0]
     lead_land = t.iloc[0]["newland"] / t.iloc[0]["newtotal"]
-    ax.set_title(f"{lead.replace(' Historic District', '')} holds ${t.iloc[0]['newtotal'] / 1e9:,.0f}B of property value, "
-                 f"the most of any district; {lead_land:.0%} of it is land", loc="left", fontsize=11.5, fontweight="bold")
-    fig.subplots_adjust(bottom=0.14)
+    headline(fig, f"{lead.replace(' Historic District', '')} holds ${t.iloc[0]['newtotal'] / 1e9:,.0f}B of property "
+             f"value, the most of any district; {lead_land:.0%} of it is land",
+             f"Today's assessed value of tax records in each historic district, top {n}")
+    fig.subplots_adjust(bottom=0.14, left=0.3)  # long names inside the figure, so the headline sits flush left
     save(fig, "top_districts_by_value", t,
          f"OTR's proposed total and land values (newtotal, newland; used here because some exempt parcels show an "
          f"assessment of $0) of tax records in each historic district (top {n} shown; all in the data file); "

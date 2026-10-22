@@ -50,7 +50,7 @@ ProPublica lists no PDF for FY ending 2016-03 or for the 2019-20 change to calen
 The article's embedded copy is Scribd document 45707262, now behind Scribd's paywall; it isn't a route we'll use. Sources for the same document:
 
 1. **DC Court of Appeals clerk's office:** the settlement as filed c. Nov. 24, 2010, presumably with the Committee of 100's petition for review and motion for a 60-day stay (per Scribd's public description). The case caption and number are still to be found; the clerk can search by party (Committee of 100 on the Federal City; Third Church of Christ, Scientist).
-2. **The federal case:** *Third Church of Christ, Scientist v. District of Columbia* (D.D.C., filed Aug. 7, 2008; Judge Robertson). Settlement-related filings may be on the docket. The pipeline will search RECAP (free) when CourtListener's daily quota resets. Anything not in RECAP costs $0.10/page on PACER, capped at $3 per document; your call.
+2. **The federal case:** *Third Church of Christ, Scientist v. District of Columbia Historic Preservation Review Board*, D.D.C. 1:08-cv-01371 (filed Aug. 7, 2008). RECAP searched 2026-10-19; the docket (49 entries) is saved at `data/raw/2026-10-17/court_dockets/dcd_1-08-cv-01371_third_church.json`. **The settlement is not on it.** The court stayed the case on Jan. 5, 2010 pending the DC Court of Appeals (entry 45), and the church filed a stipulation of dismissal on Apr. 15, 2014 (entry 49) attaching the Court of Appeals' order of dismissal (1 page, not in RECAP; $0.10 on PACER). The District's Aug. 14, 2009 reply (entry 40) attaches an amended lease agreement and a memorandum of understanding; those attachments are not in RECAP either. Free in RECAP: complaint (21 pp.), amended complaint (24 pp.), the District's second motion to dismiss (30 pp.), its reply (33 pp., without attachments), the April 2009 hearing transcript (52 pp.) and the stay order (5 pp.). The Court of Appeals order in entry 49 should give the case number to ask that clerk for.
 3. **A DC records request:** the District was a party. See `records_request/request.md`.
 4. **The parties:** DCPL, the Committee of 100, or the reporter may share a copy if asked.
 
@@ -78,7 +78,7 @@ Geofabrik state extracts for DC, New York, Pennsylvania and Massachusetts (`*-26
 
 ## Not needed from you
 
-- **Court opinions:** your CourtListener token unblocked them. 123 of 126 are saved and coded (`inputs/court_cases.csv`). The last three, and the RECAP search for the Third Church docket (item 2), wait on CourtListener's 125-requests-per-day quota; rerunning the court fetch picks them up.
+- **Court opinions:** your CourtListener token unblocked them. All 126 are saved (`inputs/court_cases.csv` codes the preservation cases; the last three fetched, in 2026-10-19, are zoning cases with no preservation issue).
 - **dccourts.gov PDFs:** the CourtListener text replaces them.
 - **Zoning Commission exhibit lists:** fetched for 2000–2026 (48,872 exhibits in 823 cases). BZA cases aren't covered yet. That's a scope decision rather than a block, and it can be scripted.
 - **DOB building permits:** fetched from DC's open data (2009–2026, issued permits only). Application dates and unissued applications would need a records request to DOB.

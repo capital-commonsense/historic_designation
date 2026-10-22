@@ -61,6 +61,15 @@ ARCGIS_LAYERS = (
             "SALEPRICE", "SALEDATE", "DEEDDATE", "EXTRACTDAT", "ANNUALTAX",
         ),
     ),
+    # The same tax roll's billing history: each lot's tax levied in the nine prior tax years
+    # (PY1 = last year; PY10 is nearly empty) and the current year's two halves. Lots retired
+    # since then (subdivided, consolidated, condo conversions) are not on the roll.
+    ArcGISLayer(
+        "itspe_tax_history",
+        "DCGIS_DATA/Property_and_Land_WebMercator/MapServer/53",
+        ("OBJECTID", "SSL", "OLDTOTAL", "CY1YEAR", "CY1TAX", "CY2TAX",
+         *(f"PY{i}{f}" for i in range(1, 10) for f in ("YEAR", "TAX"))),
+    ),
     # Condo unit SSL -> underlying lot (MAT_SSL); replaces the square-majority guess.
     ArcGISLayer(
         "condo_relate",
