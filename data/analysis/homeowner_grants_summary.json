@@ -1,0 +1,26 @@
+{
+  "years": [
+    2007,
+    2023
+  ],
+  "expended_total": 4714066.0,
+  "expended_years": [
+    2008,
+    2023
+  ],
+  "no_new_round": [
+    2010,
+    2011,
+    2012
+  ],
+  "available_window": [
+    2016,
+    2022
+  ],
+  "available_total": 3187000.0,
+  "awarded_total_window": 1853000.0,
+  "expended_total_window": 1235394.0,
+  "awards_total": 212.0,
+  "applicants_total": 538.0,
+  "note": "Figures as HPO's annual reports state them; see inputs/homeowner_grants.csv for revisions and sources."
+}

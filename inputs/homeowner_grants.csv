@@ -1,0 +1,73 @@
+fy,measure,value,source_doc,method,quote,note
+2007,applicants,138,hpo_annual_report_fy2007,text,The HPO received 138 Part I applications,"Anacostia pilot; Part I applications (eligibility), of which 70 went on to Part II"
+2008,awarded_count,53,hpo_annual_report_fy2008,text,"53 homeowner grants totaling $894,902.00","FY2009-13 reports' tables give 58 grants for 2008"
+2008,awarded_dollars,894902,hpo_annual_report_fy2008,text,"Approved $894,902 in grants",
+2008,expended,894902,hpo_annual_report_fy2009,text,"Total 2008 (58 grants) $ 894,902","FY2009-13 tables list it as funds expended; HPO's FY2014-15 bar charts give 988,726"
+2008,projects,58,hpo_annual_report_fy2009,text,Total 2008 (58 grants),
+2009,applicants,94,hpo_annual_report_fy2009,text,"In FY 2009, HPO received 94 applications from all twelve eligible historic districts.",
+2009,awarded_count,38,hpo_annual_report_fy2009,text,selection committee awarded 38 grants in two grant rounds,"some deferred to FY2010-11 by a midyear budget cut"
+2009,awarded_dollars,800000,hpo_annual_report_fy2009,text,"Awarded $800,000 to low- and moderate-income homeowners",rounded in the report's summary
+2009,expended,804375,hpo_annual_report_fy2009,text,"Total FY 2009 (38 grants) $ 804,375","HPO's FY2014-16 bar charts give 892,261 or 897,261"
+2009,projects,38,hpo_annual_report_fy2009,text,Total FY 2009 (38 grants),
+2010,no_new_round,1,hpo_annual_report_fy2010,text,no new applications for grants were solicited in FY 2010,133 applications from earlier rounds awaited funding
+2010,expended,177416,hpo_annual_report_fy2010,text,"funding for 10 projects, representing a total expenditure of $177,416",HPO's FY2014-17 bar charts give 199004
+2010,projects,10,hpo_annual_report_fy2010,text,funding for 10 projects,
+2011,no_new_round,1,hpo_annual_report_fy2011,text,no new applications were solicited in FY 2011,
+2011,expended,229746,hpo_annual_report_fy2011,text,"13 projects, resulting in a total expenditure of $229,746",HPO's FY2014-18 bar charts give 221746
+2011,projects,13,hpo_annual_report_fy2011,text,"13 projects, resulting in a total expenditure",
+2012,no_new_round,1,hpo_annual_report_fy2012,text,no new applications were solicited in FY 2012,
+2012,expended,242287,hpo_annual_report_fy2012,text,"amount of $242,287 allocated to the program was expended on construction",HPO's FY2014-19 bar charts give 246048
+2012,projects,15,hpo_annual_report_fy2012,text,HPO worked closely with 15 homeowners who were awarded grant funds,
+2013,applicants,28,hpo_annual_report_fy2013,text,20 homeowners were selected for new grants from a pool of 28 applicants,
+2013,awarded_count,20,hpo_annual_report_fy2013,text,20 homeowners were selected for new grants,"the same report also counts nine homeowners 'awarded new grants' that year, apparently from the waiting list"
+2013,expended,169951,hpo_annual_report_fy2013,text,"A total of $169,951 was expended on construction",HPO's FY2014-19 bar charts give 129050
+2013,projects,14,hpo_annual_report_fy2013,text,five homeowners who were completing grant projects begun in FY 2012,"5 completing plus 9 new"
+2014,applicants,27,hpo_annual_report_fy2014,text,selected 10 new projects from a pool of 27 applicants,
+2014,awarded_count,10,hpo_annual_report_fy2014,text,selected 10 new projects,
+2014,expended,335912,hpo_annual_report_fy2014,text,"A total of $335,912 was expended on construction","plus $9,895 administration (bar chart total 345,807)"
+2014,projects,18,hpo_annual_report_fy2014,text,HPO worked with eighteen homeowners undertaking grant projects,
+2015,applicants,32,hpo_annual_report_fy2015,text,HPO worked with 32 homeowners seeking grant awards,
+2015,expended,84583,hpo_annual_report_fy2015,text,"total expenditure of $84,583 on construction",
+2015,projects,13,hpo_annual_report_fy2015,text,HPO monitored work under construction on 13 active grants,
+2016,applicants,32,hpo_annual_report_fy2016,text,HPO worked with 32 homeowners seeking grant awards,
+2016,awarded_count,14,hpo_annual_report_fy2020,table,Total Awarded 14 14 4 12 7,"FY2020 report's awards table, first column"
+2016,awarded_dollars,303000,hpo_annual_report_fy2020,chart label,303,"FY2020 report's bar chart, $ thousands"
+2016,available,644000,hpo_annual_report_fy2020,chart label,644,"FY2020 report's bar chart, $ thousands"
+2016,expended,230191,hpo_annual_report_fy2016,text,"total expenditure of $230,191","HPO's FY2016-19 bar charts give 187,916 and its FY2020 chart 188K"
+2016,projects,14,hpo_annual_report_fy2016,text,HPO monitored work under construction on 14 active grants,
+2017,applicants,31,hpo_annual_report_fy2017,text,HPO worked with 31 homeowners seeking grant awards,
+2017,awarded_count,14,hpo_annual_report_fy2021,table,Total Awarded 14 4 12 7 9,
+2017,awarded_dollars,287000,hpo_annual_report_fy2021,chart label,287,"FY2020-21 reports' bar charts, $ thousands"
+2017,available,456000,hpo_annual_report_fy2021,chart label,456,"FY2020-21 reports' bar charts, $ thousands"
+2017,expended,284362,hpo_annual_report_fy2017,text,"total expenditure of $284,362",
+2017,projects,22,hpo_annual_report_fy2017,text,HPO monitored work under construction on 22 active grants,
+2018,applicants,29,hpo_annual_report_fy2018,text,HPO worked with 29 homeowners seeking grant awards,
+2018,awarded_count,4,hpo_annual_report_fy2022,table,Total Awarded 4 12 7 9 31,
+2018,awarded_dollars,66000,hpo_annual_report_fy2022,chart label,66,"FY2020-22 reports' bar charts, $ thousands"
+2018,available,172000,hpo_annual_report_fy2022,chart label,172,"FY2020-22 reports' bar charts, $ thousands"
+2018,expended,118000,hpo_annual_report_fy2018,text,"total expenditure of $118,000","lower 'due to the transition from an expiring appropriation to new funding'"
+2018,projects,10,hpo_annual_report_fy2018,text,HPO monitored work under construction on ten active grants,
+2019,applicants,17,hpo_annual_report_fy2019,text,HPO worked with 17 homeowners seeking grant awards,
+2019,awarded_count,12,hpo_annual_report_fy2022,table,Total Awarded 4 12 7 9 31,"the FY2019 report itself says seven new grant projects were awarded; FY2020-22 tables say 12, with 3 failing to proceed"
+2019,awarded_dollars,219000,hpo_annual_report_fy2022,chart label,219,"FY2020-22 reports' bar charts, $ thousands"
+2019,available,304000,hpo_annual_report_fy2022,chart label,304,"FY2020-22 reports' bar charts, $ thousands"
+2019,expended,135980,hpo_annual_report_fy2019,text,"total expenditure of $135,980",FY2020-22 bar charts give 140K
+2019,projects,9,hpo_annual_report_fy2022,chart label,9 projects,"FY2020-22 reports' bar charts"
+2020,applicants,53,hpo_annual_report_fy2020,text,HPO worked with 53 homeowners seeking grant awards,
+2020,awarded_count,7,hpo_annual_report_fy2020,text,Seven new grants were awarded,
+2020,awarded_dollars,176000,hpo_annual_report_fy2022,chart label,176,"FY2020-22 reports' bar charts, $ thousands; the FY2020 summary says $171,000"
+2020,available,414000,hpo_annual_report_fy2022,chart label,414,"FY2020-22 reports' bar charts, $ thousands"
+2020,expended,170630,hpo_annual_report_fy2020,text,"total program expenditure was $170,630",
+2020,projects,9,hpo_annual_report_fy2022,chart label,9 projects,"FY2020-22 reports' bar charts"
+2021,applicants,57,hpo_annual_report_fy2021,text,reviewed 57 applications and awarded nine new grants,
+2021,awarded_count,9,hpo_annual_report_fy2021,text,reviewed 57 applications and awarded nine new grants,
+2021,awarded_dollars,225000,hpo_annual_report_fy2021,text,"awarded $225,000 in new grants",
+2021,available,494000,hpo_annual_report_fy2022,chart label,494,"FY2021-22 reports' bar charts, $ thousands; funds held in reserve for the Kenesaw Apartments"
+2021,expended,157231,hpo_annual_report_fy2021,text,"$157,231",
+2021,projects,12,hpo_annual_report_fy2022,chart label,12 projects,"FY2022 report's bar chart"
+2022,awarded_count,31,hpo_annual_report_fy2022,table,Total Awarded 4 12 7 9 31,"26 preliminary awards to Kenesaw Apartments owners under temporary legislation, plus 5"
+2022,awarded_dollars,577000,hpo_annual_report_fy2022,text,"the total of awards for FY 2022 up to $577,000","held for disbursement in FY2023"
+2022,available,703000,hpo_annual_report_fy2022,chart label,703,"FY2022 report's bar chart, $ thousands"
+2022,expended,139000,hpo_annual_report_fy2022,text,"$139,000",
+2022,projects,15,hpo_annual_report_fy2022,chart label,15 projects,"FY2022 report's bar chart"
+2023,expended,539500,hpo_annual_report_fy2023,text,"HPO issued $539,500 in historic homeowner grants to 31 low- and moderate-income residents","the FY2022 awards, disbursed; OP separately awarded $1.5 million in preservation funds to the Kenesaw Apartments, not counted here"

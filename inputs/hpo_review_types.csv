@@ -1,0 +1,37 @@
+fy,type,all,hprb,mayors_agent,source_doc,quote,note
+2018,alteration_addition,4831,116,0,hpo_annual_report_fy2018,Alteration/Addition 4831 116 0,
+2018,new_construction,42,34,1,hpo_annual_report_fy2018,New Construction 42 34 1,
+2018,demolition,48,5,2,hpo_annual_report_fy2018,Demolition 48 5 2,
+2018,subdivision,88,2,1,hpo_annual_report_fy2018,Subdivision 88 2 1,
+2018,other,672,0,0,hpo_annual_report_fy2018,Other * 672 0 0,"change of use permits, permit revisions, temporary work, non-historic razes, interior-only work"
+2018,total,5681,157,4,hpo_annual_report_fy2018,TOTAL FY 2018 5681 157 4,first column headed 'HPO'
+2019,alteration_addition,5825,125,1,hpo_annual_report_fy2019,"Alteration/Addition 5,825 125 1",
+2019,new_construction,60,28,0,hpo_annual_report_fy2019,New Construction 60 28 0,
+2019,demolition,27,4,5,hpo_annual_report_fy2019,Demolition 27 4 5,
+2019,subdivision,82,7,1,hpo_annual_report_fy2019,Subdivision 82 7 1,
+2019,other,705,0,0,hpo_annual_report_fy2019,Other* 705 0 0,
+2019,total,6699,164,7,hpo_annual_report_fy2019,"TOTAL FY 2019 6,699",HPRB 164 and Mayor's Agent 7 are printed on separate lines; first column headed 'Total Received'
+2020,alteration_addition,5400,75,0,hpo_annual_report_fy2020,"Alteration/Addition 5,400 75 0",
+2020,new_construction,72,37,0,hpo_annual_report_fy2020,New Construction 72 37 0,
+2020,demolition,20,3,2,hpo_annual_report_fy2020,Demolition 20 3 2,
+2020,subdivision,63,8,0,hpo_annual_report_fy2020,Subdivision 63 8 0,
+2020,other,618,0,0,hpo_annual_report_fy2020,Other* 618 0 0,
+2020,total,6173,123,2,hpo_annual_report_fy2020,"TOTAL FY 2020 6,173 123 (2%) 2",
+2021,alteration_addition,5004,106,0,hpo_annual_report_fy2021,"Alteration/Addition 5,004 106 0",
+2021,new_construction,96,46,0,hpo_annual_report_fy2021,New Construction 96 46 0,
+2021,demolition,13,0,1,hpo_annual_report_fy2021,Demolition 13 0 1,
+2021,subdivision,93,0,0,hpo_annual_report_fy2021,Subdivision 93 0 0,
+2021,other,715,0,0,hpo_annual_report_fy2021,Other* 715 0 0,
+2021,total,5921,152,1,hpo_annual_report_fy2021,TOTAL FY 2021 5921 152 (2.5%) 1,"the report's text says 5,915"
+2022,alteration_addition,4978,110,0,hpo_annual_report_fy2022,"Alteration/Addition 4,978 110 0",
+2022,new_construction,161,59,0,hpo_annual_report_fy2022,New Construction 161 59 0,
+2022,demolition,25,3,0,hpo_annual_report_fy2022,Demolition 25 3 0,
+2022,subdivision,277,9,1,hpo_annual_report_fy2022,Subdivision 277 9 1,"well above other years (63-93); likely the source of the rows' 211 excess over the printed total"
+2022,other,678,0,0,hpo_annual_report_fy2022,Other* 678 0 0,
+2022,total,5908,181,1,hpo_annual_report_fy2022,"TOTAL FY 2022 5,908 181 (3%) 1","type rows sum to 6,119; the FY2023 report restates FY2022 HPRB referrals as 171"
+2023,alteration_addition,4546,81,1,hpo_annual_report_fy2023,"Alteration/Addition 4,546 81 1",
+2023,new_construction,98,57,0,hpo_annual_report_fy2023,New Construction 98 57 0,
+2023,demolition,10,4,1,hpo_annual_report_fy2023,Demolition 10 4 1,
+2023,subdivision,90,8,0,hpo_annual_report_fy2023,Subdivision 90 8 0,
+2023,other,679,0,0,hpo_annual_report_fy2023,Other* 679 0 0,"redefined: certifications for code modification, green area ratio or zoning relief, certificates of occupancy"
+2023,total,5423,150,2,hpo_annual_report_fy2023,"TOTAL FY 2023 5,423 150 (3%) 2",first column headed 'Total Cleared'

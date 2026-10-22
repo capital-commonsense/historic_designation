@@ -1,0 +1,51 @@
+{
+  "years": [
+    2018,
+    2023
+  ],
+  "printed_totals": {
+    "all": 35805,
+    "hprb": 927,
+    "mayors_agent": 17
+  },
+  "row_sums": {
+    "all": 36016,
+    "hprb": 927,
+    "mayors_agent": 17
+  },
+  "by_type": {
+    "alteration_addition": {
+      "all": 30584,
+      "hprb": 613,
+      "mayors_agent": 2
+    },
+    "new_construction": {
+      "all": 529,
+      "hprb": 261,
+      "mayors_agent": 1
+    },
+    "demolition": {
+      "all": 143,
+      "hprb": 19,
+      "mayors_agent": 11
+    },
+    "subdivision": {
+      "all": 693,
+      "hprb": 34,
+      "mayors_agent": 3
+    },
+    "other": {
+      "all": 4067,
+      "hprb": 0,
+      "mayors_agent": 0
+    }
+  },
+  "rows_differ_from_printed_total": {
+    "2022": {
+      "all": [
+        6119,
+        5908
+      ]
+    }
+  }
+}
