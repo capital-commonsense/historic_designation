@@ -7,9 +7,7 @@ replaces the computed headline; each build prints both so a shifted figure shows
 """
 
 import json
-import os
 import textwrap
-from pathlib import Path
 
 import matplotlib
 
@@ -18,7 +16,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import pandas as pd  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
 
-from historic_preservation.config import CHARTS_OUT, INPUTS, NORMALIZED  # noqa: E402
+from historic_preservation.config import CHARTS_OUT, INPUTS, NORMALIZED, ROOT  # noqa: E402
 
 # House style: ink type on white, Newsreader Bold headlines, IBM Plex Sans for everything else,
 # light rules, and red for the finding only (at most once a chart).
@@ -29,15 +27,13 @@ DARK, MID, LIGHT = "#6E6B66", "#A9A6A0", "#D3D0CA"  # context series, darkest fi
 BLUE, GREEN, GOLD = "#2F6E9E", "#2E8A62", "#B7841B"
 MUTED = LIGHT
 
-# Fonts: installed system fonts, plus any .ttf files in $HP_FONT_DIR; without them, matplotlib's defaults.
-if os.environ.get("HP_FONT_DIR"):
-    for _f in Path(os.environ["HP_FONT_DIR"]).glob("*.ttf"):
-        font_manager.fontManager.addfont(str(_f))
-_HEADLINE_FAMILIES = ["Newsreader 72pt", "Newsreader", "DejaVu Serif"]
+# Fonts ship in fonts/ (SIL Open Font License; see the license files there).
+for _f in (ROOT / "fonts").glob("*.ttf"):
+    font_manager.fontManager.addfont(str(_f))
+_HEADLINE_FAMILIES = ["Newsreader 72pt", "DejaVu Serif"]
 
 
 def headline_font(size: float) -> font_manager.FontProperties:
-    """Newsreader Bold where installed, else a bold serif."""
     return font_manager.FontProperties(family=_HEADLINE_FAMILIES, weight="bold", size=size)
 
 
@@ -47,6 +43,7 @@ plt.rcParams.update({
     "axes.edgecolor": RULE, "axes.facecolor": PAPER, "figure.facecolor": PAPER,
     "axes.titlecolor": INK, "axes.titleweight": "semibold", "axes.titlesize": 10,
     "legend.frameon": False, "legend.fontsize": 8.5, "hatch.color": MID, "hatch.linewidth": 0.6,
+    "svg.hashsalt": "historic-preservation",  # stable SVG ids, so a rebuild from the same data is identical
 })
 
 
@@ -108,7 +105,8 @@ def save(fig, name: str, data: pd.DataFrame, caption: str) -> None:
     fig.text(0.01, 0.01, f"{caption} Snapshot {snapshot()}.", fontsize=7.5, color=GREY, wrap=True, va="bottom")
     CHARTS_OUT.mkdir(parents=True, exist_ok=True)
     for ext in ("svg", "png"):
-        fig.savefig(CHARTS_OUT / f"{name}.{ext}", dpi=200, bbox_inches="tight", pad_inches=0.25)
+        fig.savefig(CHARTS_OUT / f"{name}.{ext}", dpi=200, bbox_inches="tight", pad_inches=0.25,
+                    metadata={"Date": None} if ext == "svg" else None)
     plt.close(fig)
     data.to_csv(CHARTS_OUT / f"{name}.data.csv")
 

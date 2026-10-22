@@ -8,6 +8,7 @@ tmp/frames/ (deletable) and ffmpeg encodes charts/out/comps_designated_land.mp4.
 """
 
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -16,6 +17,7 @@ import duckdb
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.image as mpimg  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as mticker  # noqa: E402
 import numpy as np  # noqa: E402
@@ -40,8 +42,8 @@ SHORT = {"Washington": "Washington", "New York": "New York", "Philadelphia": "Ph
 WATER_KEYS = {"Washington": "washington", "New York": "new_york", "Philadelphia": "philadelphia", "Boston": "boston"}
 
 
-# Installed fonts (or $HP_FONT_DIR, registered by historic_preservation.charts), else matplotlib's defaults.
-def serif_bold(size): return FontProperties(family=["Newsreader 72pt", "Newsreader", "DejaVu Serif"], weight="bold", size=size)  # noqa: E704,E501
+# Fonts from fonts/, registered by historic_preservation.charts.
+def serif_bold(size): return FontProperties(family=["Newsreader 72pt", "DejaVu Serif"], weight="bold", size=size)  # noqa: E704
 def sans(size): return FontProperties(family=["IBM Plex Sans", "DejaVu Sans"], size=size)  # noqa: E704
 def sans_bold(size): return FontProperties(family=["IBM Plex Sans", "DejaVu Sans"], weight="semibold", size=size)  # noqa: E704
 
@@ -154,6 +156,16 @@ def render(preview: list[int] | None = None) -> Path:
     fig.text(L, 0.035, f"Grey on the maps: parkland, left out of the lines. Today's boundaries, dated by designation.\n"
              f"Sources: DC GIS; NYC Open Data (LPC); City of Philadelphia; City of Boston; Census TIGERweb; "
              f"snapshot {snapshot()}", color=GREY, fontproperties=sans(12.5), va="baseline", linespacing=1.5)
+    # Optional wordmark, bottom right, from a local checkout of the brand kit named by $HP_BRAND_DIR.
+    brand = os.environ.get("HP_BRAND_DIR")
+    wm = Path(brand) / "Capital_Commonsense_Wordmark_Transparent_4096.png" if brand else None
+    if wm and wm.exists():
+        img = mpimg.imread(wm)
+        h = 0.026  # figure height fraction
+        w = h * img.shape[1] / img.shape[0] * 1080 / 1920
+        wax = fig.add_axes([R - w, 0.026, w, h])
+        wax.imshow(img)
+        wax.set_axis_off()
 
     if FRAMES.exists():
         shutil.rmtree(FRAMES)

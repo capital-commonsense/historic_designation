@@ -23,7 +23,7 @@ Optional extras:
 - `make video` builds the animated city comparison. It needs `ffmpeg`.
 - `make osm` builds the OpenStreetMap building counts. It needs `osmium` and the Geofabrik extracts.
 - `ocrmypdf` reads scanned PDFs.
-- Charts use Newsreader and IBM Plex Sans if they are installed, or if their `.ttf` files are in a folder named by `HP_FONT_DIR`. Otherwise they fall back to matplotlib's default fonts.
+- `make video` adds a wordmark if `HP_BRAND_DIR` names a local checkout of the Capital Commonsense brand kit.
 
 ### Raw data
 
@@ -42,6 +42,8 @@ Some sources were downloaded by hand and go under `data/raw/manual/`; see [`reco
 - some DC Preservation League Form 990s
 
 CourtListener's opinion text needs a free API token. Set `COURTLISTENER_TOKEN` in the environment or in a `.env` file, which is ignored by git.
+
+Chart fonts (Newsreader and IBM Plex Sans, under the SIL Open Font License) are in `fonts/`, so rebuilt charts match the committed ones.
 
 ## How it's organized
 
