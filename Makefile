@@ -24,6 +24,7 @@ test:
 osm:
 	uv run python -m historic_preservation.fetch.osm
 
-# Animated comparison (about 450 frames to tmp/frames/, then charts/out/comps_designated_land.mp4).
+# Animated comparison: about 450 frames to tmp/frames/, then charts/out/comps_designated_land.mp4, and the
+# portrait phone version (tmp/frames_mobile/) to charts/out/mobile_optimized/ as mp4 and GIF.
 video:
 	uv run python -m historic_preservation.charts.comps_video

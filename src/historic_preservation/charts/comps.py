@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import pandas as pd
 
-from historic_preservation.charts import BLUE, GOLD, GREEN, INK, PAPER, RED, RULE, headline, save, style
+from historic_preservation.charts import BLUE, GOLD, GREEN, INK, MOBILE_WIDTH, PAPER, RED, RULE, headline, pick, save, style
 from historic_preservation.config import ANALYSIS
 
 # Same coding as the animated version: red for DC (the finding), the shared hues for the others.
@@ -21,7 +21,8 @@ def designated_land() -> None:
     dc = cur.loc["Washington", "designated_area_share_excl_parkland"]
     others = cur.drop("Washington")["designated_area_share_excl_parkland"]
 
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 5.4), gridspec_kw={"width_ratios": [1.6, 1]})
+    fig, (ax, ax2) = plt.subplots(*pick((1, 2), (2, 1)), figsize=pick((12, 5.4), (MOBILE_WIDTH, 10)),
+                                  gridspec_kw=pick({"width_ratios": [1.6, 1]}, {"height_ratios": [1.3, 1]}))
     for city, color in COLORS.items():
         ax.step(t.index, t[city], where="post", color=color, lw=2.8 if city == "Washington" else 1.6, label=city)
     style(ax)
@@ -47,7 +48,7 @@ def designated_land() -> None:
     ax2.set_ylim(bottom=0)
     ax2.legend(frameon=False, fontsize=8.5)
     ax2.set_title("Today (lighter: including parkland)", loc="left", fontsize=10)
-    fig.subplots_adjust(bottom=0.24, wspace=0.22)
+    fig.subplots_adjust(bottom=0.24, wspace=0.22, hspace=0.45)
     headline(fig, f"DC has designated {dc:.0%} of its land outside parks; New York, Philadelphia and Boston "
              f"{others.min():.0%}–{others.max():.0%}",
              f"Share of city land inside historic districts and landmarks, {int(t.index.min())}–{int(t.index.max())}")
@@ -75,7 +76,7 @@ def coverage_measures() -> None:
         return
     cur = pd.read_csv(path).set_index("city").reindex(list(COLORS))
     shares = [(c, label) for c, label in SHARES if c in cur and cur[c].notna().all()]
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=pick((10, 5), (MOBILE_WIDTH, 6)))
     rows = list(range(len(shares)))[::-1]
     for y, (col, label) in zip(rows, shares):
         vals = cur[col]

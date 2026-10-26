@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import pandas as pd
 
-from historic_preservation.charts import GREY, INK, LIGHT, MID, PAPER, RED, headline, save, style
+from historic_preservation.charts import GREY, INK, LIGHT, MID, MOBILE_WIDTH, PAPER, RED, headline, pick, save, sparse_years, style
 from historic_preservation.config import INPUTS, NORMALIZED
 
 # Red: program service revenue, the unexplained spike H10 asks about.
@@ -26,7 +26,7 @@ def revenue_and_funds() -> None:
     funds = funds[funds["fund"] != "DCPL grants"]
 
     big = t[t["total_revenue"] >= 1e6]
-    fig, ax = plt.subplots(figsize=(10, 5.4))
+    fig, ax = plt.subplots(figsize=pick((10, 5.4), (MOBILE_WIDTH, 7)))
     bottom = pd.Series(0.0, index=t.index)
     for key, name, color in SOURCES:
         ax.bar(t.index, t[key].fillna(0), bottom=bottom, color=color, label=name, width=0.7)
@@ -42,7 +42,7 @@ def revenue_and_funds() -> None:
             ax.text(r.year + 0.1, ymax * 0.95, f"{r.fund}\n({r.funder})", fontsize=7, color=GREY, va="top")
     missing = [y for y in t.index if pd.isna(t.loc[y, "total_revenue"])]
     ax.set_xticks(t.index)
-    ax.set_xticklabels([str(y) for y in t.index], fontsize=8, rotation=45)
+    ax.set_xticklabels(pick([str(y) for y in t.index], sparse_years(t.index)), fontsize=8, rotation=pick(45, 0))
     ax.set_ylabel("Dollars per filing year")
     ax.legend(fontsize=8.5, loc="upper left", bbox_to_anchor=(0, -0.14), ncol=4)
     main = {y: ("program service revenue" if r.program_service_revenue > r.contributions_grants else "contributions")

@@ -9,7 +9,7 @@ import matplotlib.ticker as mticker
 import pandas as pd
 
 from historic_preservation.analysis import eras
-from historic_preservation.charts import DARK, GREY, INK, LIGHT, MID, RED, headline, save, style
+from historic_preservation.charts import DARK, GREY, INK, LIGHT, MID, MOBILE_WIDTH, RED, headline, mobile, pick, save, style
 from historic_preservation.config import ANALYSIS, JOINED
 
 CLASSES = (("residential", INK), ("commercial", DARK), ("institutional", MID), ("vacant", LIGHT))
@@ -20,8 +20,8 @@ def joined() -> pd.DataFrame:
     return pd.read_parquet(JOINED / "itspe_status.parquet")
 
 
-def billions(ax) -> None:
-    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v / 1e9:,.0f}B"))
+def billions(axis) -> None:
+    axis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v / 1e9:,.0f}B"))
 
 
 def designated_share_over_time() -> None:
@@ -43,7 +43,7 @@ def designated_share_over_time() -> None:
     undated_value = rec.loc[rec["first_date"].isna(), "assessment"].sum() / j["assessment"].sum()
     v1990 = t.loc[1990, "assessed_value"] / t["assessed_value"].iloc[-1]
 
-    fig, ax = plt.subplots(figsize=(10, 5.4))
+    fig, ax = plt.subplots(figsize=pick((10, 5.4), (MOBILE_WIDTH, 6.4)))
     ax.step(t.index, t["assessed_value"], where="post", color=RED, lw=2.6, label="Share of assessed value")
     ax.step(t.index, t["assessed_value_taxable"], where="post", color=MID, lw=1.4, ls="--",
             label="Share of assessed value, taxable property only")
@@ -80,15 +80,20 @@ def value_by_designation_era() -> None:
     pre1990 = t.loc[[e for e in t.index if e in ("1950", "1964 list", "1960s other", "1970s", "1980s")]].to_numpy().sum()
     share = pre1990 / t.to_numpy().sum()
 
-    fig, ax = plt.subplots(figsize=(10, 5.4))
+    fig, ax = plt.subplots(figsize=pick((10, 5.4), (MOBILE_WIDTH, 6.4)))
     bottom = pd.Series(0.0, index=t.index)
+    bars = pick(ax.bar, ax.barh)  # phones: eras down the side, where their names fit
     for c, color in CLASSES:
-        ax.bar(t.index, t[c], bottom=bottom, color=color, label=c.capitalize(), width=0.7)
+        bars(t.index[::pick(1, -1)], t[c][::pick(1, -1)], pick(0.7, 0.66), bottom[::pick(1, -1)], color=color,
+             label=c.capitalize())
         bottom += t[c]
-    style(ax)
-    billions(ax)
-    ax.set_ylabel("Today's assessed value")
-    ax.set_xlabel("Era the district was first designated (the earliest, for lots in overlapping districts)")
+    style(ax, grid=pick("y", "x"))
+    billions(ax.xaxis if mobile() else ax.yaxis)
+    era = "Era the district was first designated (the earliest, for lots in overlapping districts)"
+    ax.set_ylabel(pick("Today's assessed value", ""))  # phones: the era labels speak for themselves
+    ax.set_xlabel(pick(era, "Today's assessed value"))
+    if mobile():
+        ax.tick_params(axis="y", labelcolor=INK)
     ax.legend(frameon=False, fontsize=8.5, reverse=True)
     headline(fig, f"{share:.0%} of today's value under district protection lies in districts first designated "
              "before 1990", "Today's assessed value inside historic districts, by era of first designation")
@@ -107,7 +112,7 @@ def designated_share_by_ward() -> None:
     t.index = t.index.astype(int)
     top = t["assessed_value"].idxmax()
 
-    fig, ax = plt.subplots(figsize=(10, 5.2))
+    fig, ax = plt.subplots(figsize=pick((10, 5.2), (MOBILE_WIDTH, 5.6)))
     x = range(len(t))
     ax.bar([i - 0.2 for i in x], t["records"], width=0.4, color=MID, label="Share of tax records")
     ax.bar([i + 0.2 for i in x], t["assessed_value"], width=0.4, color=INK, label="Share of assessed value")
@@ -117,7 +122,9 @@ def designated_share_by_ward() -> None:
     style(ax)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(1.0, decimals=0))
     ax.set_xticks(list(x))
-    ax.set_xticklabels([f"Ward {w}" for w in t.index])
+    ax.set_xticklabels([pick(f"Ward {w}", str(w)) for w in t.index])
+    if pick(False, True):
+        ax.set_xlabel("Ward")
     ax.legend(frameon=False, fontsize=8.5)
     headline(fig, f"Ward {top}: {t.loc[top, 'assessed_value']:.0%} of assessed value and "
              f"{t.loc[top, 'records']:.0%} of tax records are designated",
@@ -140,13 +147,17 @@ def top_districts_by_value(n: int = 15) -> None:
     t = t.sort_values("newtotal", ascending=False)
     shown = t.head(n).iloc[::-1]
 
-    fig, ax = plt.subplots(figsize=(10, 6.2))
+    fig, ax = plt.subplots(figsize=pick((10, 6.2), (MOBILE_WIDTH, 10)))
     y = range(len(shown))
-    ax.barh([i + 0.2 for i in y], shown["newtotal"], height=0.4, color=INK, label="Total value (land + improvements)")
-    ax.barh([len(shown) - 1 + 0.2], [shown["newtotal"].iloc[-1]], height=0.4, color=RED)  # the leader
-    ax.barh([i - 0.2 for i in y], shown["newland"], height=0.4, color=MID, label="Land value")
+    d, hgt = pick((0.2, 0.4), (0.15, 0.3))  # phones: thinner bars, leaving room for each name above its pair
+    ax.barh([i + d for i in y], shown["newtotal"], height=hgt, color=INK, label="Total value (land + improvements)")
+    ax.barh([len(shown) - 1 + d], [shown["newtotal"].iloc[-1]], height=hgt, color=RED)  # the leader
+    ax.barh([i - d for i in y], shown["newland"], height=hgt, color=MID, label="Land value")
+    names = shown.index.str.replace(" Historic District", "")
     ax.set_yticks(list(y))
-    ax.set_yticklabels(shown.index.str.replace(" Historic District", ""), fontsize=8.5, color=INK)
+    ax.set_yticklabels(pick(names, [""] * len(names)), fontsize=8.5, color=INK)
+    for i, name in enumerate(names if mobile() else ()):  # phones: each name above its bars, so the bars get the width
+        ax.text(0, i + 0.32, name, fontsize=8.5, color=INK, va="bottom")
     style(ax, grid="x")
     ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v / 1e9:,.0f}B"))
     ax.legend(frameon=False, fontsize=8.5, loc="lower right", reverse=True)

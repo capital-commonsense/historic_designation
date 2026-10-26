@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from historic_preservation.analysis.mayors_agent import load
-from historic_preservation.charts import DARK, INK, LIGHT, MID, RED, headline, save, style
+from historic_preservation.charts import DARK, INK, LIGHT, MID, MOBILE_WIDTH, RED, headline, mobile, pick, save, style
 
 PANELS = (("special_merit", "Special merit"), ("economic_hardship", "Economic hardship"), (None, "All decisions"))
 OUTCOMES = (("granted", "Granted", INK), ("partial", "Partly granted", DARK),
@@ -15,7 +15,7 @@ def outcomes() -> None:
     d = load()
     d["outcome"] = d["disposition"].where(d["disposition"].isin(["granted", "partial", "denied"]), "other")
     decades = sorted(d["decade"].dropna().unique())
-    fig, axes = plt.subplots(1, 3, figsize=(11, 4.6), sharey=True)
+    fig, axes = plt.subplots(*pick((1, 3), (3, 1)), figsize=pick((11, 4.6), (MOBILE_WIDTH, 10)), sharey=True, sharex=pick(False, True))
     tables = {}
     for ax, (col, label) in zip(axes, PANELS):
         sub = d if col is None else d[d[col]]
@@ -35,7 +35,7 @@ def outcomes() -> None:
     axes[0].set_ylabel("Mayor's Agent decisions")
     axes[-1].legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, reverse=True)
     sm, eh = (d[d[c] & (d["outcome"] != "other")] for c in ("special_merit", "economic_hardship"))
-    fig.subplots_adjust(bottom=0.2, wspace=0.08)
+    fig.subplots_adjust(bottom=0.2, wspace=0.08, hspace=0.35)
     headline(fig, f"The Mayor's Agent granted {(sm['outcome'] == 'granted').mean():.0%} of special-merit cases "
              f"but {(eh['outcome'] == 'granted').mean():.0%} of economic-hardship claims",
              f"Mayor's Agent decisions by decade and basis, {int(min(decades))}s–{int(max(decades))}s")
@@ -59,8 +59,8 @@ def by_case_type() -> None:
     d["outcome"] = d["disposition"].where(d["disposition"].isin(["granted", "partial", "denied"]), "other")
     t = d.pivot_table(index="case_type", columns="outcome", values="work_id", aggfunc="count", fill_value=0)
     t = t.reindex(index=[k for k, _ in TYPES], columns=[o for o, _, _ in OUTCOMES], fill_value=0)
-    fig, ax = plt.subplots(figsize=(10, 4.2))
-    labels = [label for _, label in TYPES][::-1]
+    fig, ax = plt.subplots(figsize=pick((10, 4.2), (MOBILE_WIDTH, 5.6)))
+    labels = [pick(label, label.split(" (")[0] if k == "alteration" else label) for k, label in TYPES][::-1]
     left = pd.Series(0, index=t.index[::-1])
     for key, name, color in OUTCOMES:
         vals = t[key][::-1]
@@ -94,8 +94,9 @@ APPLICANTS = (("government", "Public agencies"), ("business", "Developers and bu
 def by_applicant() -> None:
     d = load()
     d["outcome"] = d["disposition"].where(d["disposition"].isin(["granted", "partial", "denied"]), "other")
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4.4))
+    fig, axes = plt.subplots(*pick((1, 2), (2, 1)), figsize=pick((11, 4.4), (MOBILE_WIDTH, 8.6)))
     labels = [label for _, label in APPLICANTS][::-1]
+    height = pick(0.6, 0.42)  # phones: thinner bars, each with its applicant's name above it
     tables = {}
     for ax, (col, title) in zip(axes, PANELS[:2]):
         t = d[d[col]].pivot_table(index="applicant_type", columns="outcome", values="work_id", aggfunc="count",
@@ -105,8 +106,12 @@ def by_applicant() -> None:
         left = pd.Series(0, index=t.index[::-1])
         for key, name, color in OUTCOMES:
             vals = t[key][::-1]
-            ax.barh(labels, vals, left=left, color=color, label=name, height=0.6)
+            ax.barh(labels, vals, left=left, color=color, label=name, height=height)
             left += vals
+        for i, label in enumerate(labels if mobile() else ()):
+            ax.text(0, i + 0.27, label, fontsize=8.5, color=INK, va="bottom")
+        if mobile():
+            ax.set_ylim(-0.5, len(labels) - 0.2)  # room for the top name under the panel title
         for i, k in enumerate(t.index[::-1]):
             decided = t.loc[k, ["granted", "partial", "denied"]].sum()
             if decided:
@@ -115,14 +120,16 @@ def by_applicant() -> None:
         style(ax, grid="x")
         ax.tick_params(axis="y", labelcolor=INK)
     gov = tables["Special merit"].loc["government"]
-    axes[0].barh(labels[-1], gov["granted"], color=RED, height=0.6)  # the finding: the city's own projects
+    axes[0].barh(labels[-1], gov["granted"], color=RED, height=height)  # the finding: the city's own projects
     axes[1].tick_params(axis="y", labelleft=False)
+    if mobile():
+        axes[0].tick_params(axis="y", labelleft=False)
     for ax in axes:  # room for the "x of y granted" labels
         ax.set_xlim(0, max(t.sum(axis=1).max() for t in tables.values()) * 1.4)
-    axes[0].set_xlabel("Mayor's Agent decisions")
+    axes[0].set_xlabel(pick("Mayor's Agent decisions", ""))
     axes[1].set_xlabel("Mayor's Agent decisions")
     axes[0].legend(loc="upper center", bbox_to_anchor=(1.0, -0.2), ncol=4, frameon=False, fontsize=8.5)
-    fig.subplots_adjust(left=0.2, right=0.97, bottom=0.3, wspace=0.12)
+    fig.subplots_adjust(left=0.2, right=0.97, bottom=0.3, wspace=0.12, hspace=0.4)
     sm = tables["Special merit"]
     years = d.loc[d["special_merit"] | d["economic_hardship"], "order_date"].dt.year
     share = lambda k: f"{sm.loc[k, 'granted']} of {sm.loc[k, ['granted', 'partial', 'denied']].sum()}"

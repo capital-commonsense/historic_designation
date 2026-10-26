@@ -3140,7 +3140,7 @@ z
    </g>
   </g>
   <g id="text_35">
-   <!-- DC has designated 16% of its land outside parks; New York, Philadelphia and Boston 3%–5% -->
+   <!-- DC designates 16% of its land. Its peers: 3–5% -->
    <g style="fill: #111111" transform="translate(18 31.752734) scale(0.17 -0.17)">
     <defs>
      <path id="Newsreader72pt-Bold-8" d="M 173 0 
@@ -3198,113 +3198,6 @@ Q 2662 128 3078 128
 z
 " transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-3" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-d3" d="M 1885 0 
-L 115 0 
-L 115 99 
-L 454 205 
-L 454 3840 
-Q 390 3898 256 4019 
-Q 122 4141 -64 4307 
-L -64 4397 
-L 1510 4768 
-L 1571 4768 
-L 1571 2675 
-Q 1850 2970 2037 3110 
-Q 2224 3251 2392 3296 
-Q 2560 3341 2778 3341 
-Q 3674 3341 3674 2378 
-L 3674 205 
-L 4013 99 
-L 4013 0 
-L 2240 0 
-L 2240 99 
-L 2560 198 
-L 2560 2154 
-Q 2560 2413 2441 2525 
-Q 2323 2637 2077 2637 
-Q 1949 2637 1822 2608 
-Q 1696 2579 1571 2525 
-L 1571 198 
-L 1885 99 
-L 1885 0 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-cc" d="M 3638 317 
-Q 3389 86 3173 1 
-Q 2957 -83 2682 -83 
-Q 2342 -83 2187 88 
-Q 2032 259 2000 630 
-Q 1891 272 1670 96 
-Q 1450 -80 1142 -80 
-Q 678 -80 430 149 
-Q 182 378 182 771 
-Q 182 963 246 1116 
-Q 310 1270 496 1411 
-Q 682 1552 1040 1699 
-Q 1398 1846 1990 2029 
-L 1990 2499 
-Q 1990 2755 1851 2900 
-Q 1712 3046 1430 3046 
-Q 1226 3046 1078 3021 
-Q 1046 2774 1011 2644 
-Q 976 2515 925 2445 
-Q 810 2285 541 2285 
-Q 214 2285 214 2493 
-Q 214 2637 360 2789 
-Q 506 2941 752 3070 
-Q 998 3200 1302 3280 
-Q 1606 3360 1920 3360 
-Q 2566 3360 2835 3086 
-Q 3104 2813 3104 2346 
-L 3104 624 
-Q 3104 394 3322 394 
-Q 3478 394 3638 477 
-L 3638 317 
-z
-M 1258 1037 
-Q 1258 774 1362 659 
-Q 1466 544 1632 544 
-Q 1792 544 1891 646 
-Q 1990 749 1990 979 
-L 1990 1859 
-Q 1680 1738 1523 1619 
-Q 1366 1501 1312 1361 
-Q 1258 1222 1258 1037 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-de" d="M 1594 3360 
-Q 1862 3360 2065 3320 
-Q 2269 3280 2480 3200 
-L 2611 2307 
-L 2509 2307 
-L 2054 3059 
-Q 1846 3184 1597 3184 
-Q 1030 3184 1030 2778 
-Q 1030 2662 1086 2569 
-Q 1142 2477 1313 2385 
-Q 1485 2294 1837 2189 
-Q 2358 2029 2560 1753 
-Q 2762 1478 2762 1085 
-Q 2762 742 2574 478 
-Q 2387 214 2056 65 
-Q 1725 -83 1296 -83 
-Q 976 -83 747 -36 
-Q 518 10 355 93 
-L 182 1120 
-L 301 1120 
-L 845 198 
-Q 1062 93 1325 93 
-Q 1603 93 1788 229 
-Q 1974 365 1974 646 
-Q 1974 864 1804 1013 
-Q 1635 1162 1162 1302 
-Q 688 1443 472 1675 
-Q 256 1907 256 2275 
-Q 256 2605 429 2849 
-Q 602 3094 904 3227 
-Q 1206 3360 1594 3360 
-z
-" transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-cf" d="M 4054 141 
 L 2595 -118 
 L 2531 -118 
@@ -3365,6 +3258,39 @@ Q 1267 2762 1242 2272
 L 2195 2272 
 Q 2157 2765 2054 2952 
 Q 1952 3139 1760 3139 
+z
+" transform="scale(0.015625)"/>
+     <path id="Newsreader72pt-Bold-de" d="M 1594 3360 
+Q 1862 3360 2065 3320 
+Q 2269 3280 2480 3200 
+L 2611 2307 
+L 2509 2307 
+L 2054 3059 
+Q 1846 3184 1597 3184 
+Q 1030 3184 1030 2778 
+Q 1030 2662 1086 2569 
+Q 1142 2477 1313 2385 
+Q 1485 2294 1837 2189 
+Q 2358 2029 2560 1753 
+Q 2762 1478 2762 1085 
+Q 2762 742 2574 478 
+Q 2387 214 2056 65 
+Q 1725 -83 1296 -83 
+Q 976 -83 747 -36 
+Q 518 10 355 93 
+L 182 1120 
+L 301 1120 
+L 845 198 
+Q 1062 93 1325 93 
+Q 1603 93 1788 229 
+Q 1974 365 1974 646 
+Q 1974 864 1804 1013 
+Q 1635 1162 1162 1302 
+Q 688 1443 472 1675 
+Q 256 1907 256 2275 
+Q 256 2605 429 2849 
+Q 602 3094 904 3227 
+Q 1206 3360 1594 3360 
 z
 " transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-d4" d="M 1030 3680 
@@ -3484,6 +3410,49 @@ L 4064 99
 L 4064 0 
 L 2291 0 
 L 2291 99 
+z
+" transform="scale(0.015625)"/>
+     <path id="Newsreader72pt-Bold-cc" d="M 3638 317 
+Q 3389 86 3173 1 
+Q 2957 -83 2682 -83 
+Q 2342 -83 2187 88 
+Q 2032 259 2000 630 
+Q 1891 272 1670 96 
+Q 1450 -80 1142 -80 
+Q 678 -80 430 149 
+Q 182 378 182 771 
+Q 182 963 246 1116 
+Q 310 1270 496 1411 
+Q 682 1552 1040 1699 
+Q 1398 1846 1990 2029 
+L 1990 2499 
+Q 1990 2755 1851 2900 
+Q 1712 3046 1430 3046 
+Q 1226 3046 1078 3021 
+Q 1046 2774 1011 2644 
+Q 976 2515 925 2445 
+Q 810 2285 541 2285 
+Q 214 2285 214 2493 
+Q 214 2637 360 2789 
+Q 506 2941 752 3070 
+Q 998 3200 1302 3280 
+Q 1606 3360 1920 3360 
+Q 2566 3360 2835 3086 
+Q 3104 2813 3104 2346 
+L 3104 624 
+Q 3104 394 3322 394 
+Q 3478 394 3638 477 
+L 3638 317 
+z
+M 1258 1037 
+Q 1258 774 1362 659 
+Q 1466 544 1632 544 
+Q 1792 544 1891 646 
+Q 1990 749 1990 979 
+L 1990 1859 
+Q 1680 1738 1523 1619 
+Q 1366 1501 1312 1361 
+Q 1258 1222 1258 1037 
 z
 " transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-df" d="M 1645 982 
@@ -3679,33 +3648,30 @@ L 1574 4768
 L 1574 205 
 z
 " transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-e0" d="M 1546 1082 
-Q 1546 838 1656 734 
-Q 1766 630 1997 630 
-Q 2205 630 2429 723 
-L 2429 2938 
-L 2032 3123 
-L 2032 3235 
-L 3587 3318 
-L 3546 2973 
-L 3546 496 
-Q 3603 461 3756 374 
-Q 3910 288 4013 227 
-L 4013 141 
-L 2554 -118 
-L 2490 -118 
-L 2429 499 
-L 2429 541 
-Q 2173 278 1997 148 
-Q 1821 19 1661 -22 
-Q 1501 -64 1296 -64 
-Q 429 -64 429 870 
-L 429 2931 
-L 13 3123 
-L 13 3235 
-L 1568 3318 
-L 1546 2979 
-L 1546 1082 
+     <path id="Newsreader72pt-Bold-1de" d="M 842 1114 
+Q 1107 1114 1276 942 
+Q 1446 771 1446 522 
+Q 1446 269 1276 99 
+Q 1107 -70 842 -70 
+Q 573 -70 403 99 
+Q 234 269 234 522 
+Q 234 771 403 942 
+Q 573 1114 842 1114 
+z
+" transform="scale(0.015625)"/>
+     <path id="Newsreader72pt-Bold-d" d="M 2454 112 
+L 2454 0 
+L 173 0 
+L 173 112 
+L 672 259 
+L 672 4320 
+L 173 4464 
+L 173 4576 
+L 2454 4576 
+L 2454 4464 
+L 1958 4320 
+L 1958 259 
+L 2454 112 
 z
 " transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-db" d="M 1994 -1306 
@@ -3769,215 +3735,25 @@ Q 2323 3242 2457 3293
 Q 2592 3344 2733 3344 
 z
 " transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-d6" d="M 1571 205 
-L 1888 99 
-L 1888 0 
-L 115 0 
-L 115 99 
-L 454 205 
-L 454 3904 
-Q 390 3955 256 4065 
-Q 122 4176 -64 4330 
-L -64 4419 
-L 1510 4768 
-L 1571 4768 
-L 1571 1917 
-L 1638 1917 
-L 3056 3053 
-L 2554 3171 
-L 2554 3277 
-L 3942 3277 
-L 3942 3171 
-L 3408 3050 
-L 2438 2358 
-L 3853 205 
-L 4141 99 
-L 4141 0 
-L 2298 0 
-L 2298 99 
-L 2586 189 
-L 1622 1712 
-L 1571 1712 
-L 1571 205 
+     <path id="Newsreader72pt-Bold-1dc" d="M 934 3350 
+Q 1200 3350 1369 3179 
+Q 1539 3008 1539 2758 
+Q 1539 2506 1369 2336 
+Q 1200 2166 934 2166 
+Q 666 2166 496 2336 
+Q 326 2506 326 2758 
+Q 326 3008 496 3179 
+Q 666 3350 934 3350 
 z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-1db" d="M 931 3347 
-Q 1197 3347 1366 3177 
-Q 1536 3008 1536 2755 
-Q 1536 2506 1366 2334 
-Q 1197 2163 931 2163 
-Q 662 2163 492 2334 
-Q 323 2506 323 2755 
-Q 323 3008 492 3177 
-Q 662 3347 931 3347 
-z
-M 333 -973 
-Q 611 -787 745 -595 
-Q 880 -403 880 -157 
-Q 880 -6 797 107 
-Q 714 221 605 302 
-Q 496 384 413 440 
-Q 330 496 330 538 
-Q 330 790 498 945 
-Q 666 1101 934 1101 
-Q 1200 1101 1371 923 
-Q 1542 746 1542 442 
-Q 1542 64 1296 -329 
-Q 1050 -723 435 -1082 
-L 333 -973 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-12" d="M 707 253 
-L 707 4240 
-L 70 4480 
-L 70 4576 
-L 2045 4576 
-L 4176 1456 
-L 4176 4320 
-L 3626 4464 
-L 3626 4576 
-L 4954 4576 
-L 4954 4464 
-L 4435 4320 
-L 4435 -22 
-L 3757 -22 
-L 931 4115 
-L 931 253 
-L 1482 112 
-L 1482 0 
-L 186 0 
-L 186 112 
-L 707 253 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-e2" d="M 4934 3085 
-L 4550 3171 
-L 4550 3277 
-L 5549 3277 
-L 5549 3171 
-L 5206 3082 
-L 4339 -29 
-L 3661 -29 
-L 2739 2301 
-L 1910 -29 
-L 1232 -29 
-L 278 3043 
-L -61 3178 
-L -61 3277 
-L 1821 3277 
-L 1821 3171 
-L 1440 3072 
-L 2045 928 
-L 2819 3312 
-L 3507 3312 
-L 4416 973 
-L 4934 3085 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-1d" d="M 374 4307 
-L -96 4464 
-L -96 4576 
-L 2416 4576 
-L 2416 4464 
-L 1830 4314 
-L 3062 2461 
-L 4154 4317 
-L 3603 4464 
-L 3603 4576 
-L 4938 4576 
-L 4938 4464 
-L 4454 4307 
-L 3178 2157 
-L 3178 259 
-L 3677 112 
-L 3677 0 
-L 1395 0 
-L 1395 112 
-L 1894 259 
-L 1894 2138 
-L 374 4307 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-1da" d="M 221 -973 
-Q 499 -787 633 -595 
-Q 768 -403 768 -157 
-Q 768 -6 685 107 
-Q 602 221 493 302 
-Q 384 384 301 440 
-Q 218 496 218 538 
-Q 218 790 386 945 
-Q 554 1101 822 1101 
-Q 1088 1101 1259 923 
-Q 1430 746 1430 442 
-Q 1430 64 1184 -329 
-Q 938 -723 323 -1082 
-L 221 -973 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-14" d="M 173 4464 
-L 173 4576 
-L 2768 4576 
-Q 3382 4576 3761 4403 
-Q 4141 4230 4315 3939 
-Q 4490 3648 4490 3293 
-Q 4490 2931 4309 2632 
-Q 4128 2333 3747 2155 
-Q 3366 1978 2768 1978 
-L 1958 1978 
-L 1958 259 
-L 2454 112 
-L 2454 0 
-L 173 0 
-L 173 112 
-L 672 259 
-L 672 4320 
-L 173 4464 
-z
-M 3242 3274 
-Q 3242 3766 2970 4033 
-Q 2698 4301 2051 4301 
-L 1958 4301 
-L 1958 2253 
-L 2234 2253 
-Q 2682 2253 2962 2513 
-Q 3242 2774 3242 3274 
-z
-" transform="scale(0.015625)"/>
-     <path id="Newsreader72pt-Bold-6" d="M 163 0 
-L 163 112 
-L 682 275 
-L 682 4304 
-L 163 4464 
-L 163 4576 
-L 2749 4576 
-Q 3546 4576 3894 4281 
-Q 4243 3987 4243 3533 
-Q 4243 3117 3956 2849 
-Q 3670 2582 3213 2490 
-Q 3853 2410 4203 2094 
-Q 4554 1779 4554 1264 
-Q 4554 893 4358 608 
-Q 4163 323 3739 161 
-Q 3315 0 2627 0 
-L 163 0 
-z
-M 2163 4310 
-L 1965 4310 
-L 1965 2579 
-L 2413 2579 
-Q 2733 2579 2925 2798 
-Q 3117 3018 3117 3459 
-Q 3117 3843 2894 4076 
-Q 2672 4310 2163 4310 
-z
-M 2400 2314 
-L 1965 2314 
-L 1965 266 
-L 2314 266 
-Q 2822 266 3110 515 
-Q 3398 765 3398 1309 
-Q 3398 1750 3160 2032 
-Q 2922 2314 2400 2314 
+M 934 1114 
+Q 1200 1114 1369 942 
+Q 1539 771 1539 522 
+Q 1539 269 1369 99 
+Q 1200 -70 934 -70 
+Q 666 -70 496 99 
+Q 326 269 326 522 
+Q 326 771 496 942 
+Q 666 1114 934 1114 
 z
 " transform="scale(0.015625)"/>
      <path id="Newsreader72pt-Bold-236" d="M 1373 2176 
@@ -4057,91 +3833,49 @@ z
     <use xlink:href="#Newsreader72pt-Bold-8"/>
     <use xlink:href="#Newsreader72pt-Bold-7" transform="translate(81.703125 0)"/>
     <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(154.546875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d3" transform="translate(176.140625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(240.296875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(296.640625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(342.640625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(364.234375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(427.6875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(479.734375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(525.734375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d2" transform="translate(557.984375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(614.03125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(678.984375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(734.375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(777.625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(830.171875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(893.921875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-234" transform="translate(915.515625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-239" transform="translate(982.015625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-267" transform="translate(1048.515625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1131.421875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(1153.015625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d1" transform="translate(1211.71875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1255.96875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(1277.5625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(1309.8125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(1353.765625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1399.765625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d7" transform="translate(1421.359375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(1453.109375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(1509.453125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(1574.40625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1638.15625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(1659.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-e0" transform="translate(1719.15625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(1782.15625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(1826.109375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(1872.109375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(1904.359375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(1967.8125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(2020.359375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-db" transform="translate(2041.953125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(2105.5 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-dd" transform="translate(2161.84375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d6" transform="translate(2210.640625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(2272.453125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-1db" transform="translate(2318.25 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(2347.65625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-12" transform="translate(2369.25 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(2445.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-e2" transform="translate(2497.390625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(2581.140625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-1d" transform="translate(2600.03125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(2663.6875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-dd" transform="translate(2723.09375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d6" transform="translate(2771.890625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-1da" transform="translate(2835.046875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(2859.25 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-14" transform="translate(2880.84375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d3" transform="translate(2952.390625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(3016.546875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d7" transform="translate(3048.796875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(3080.546875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(3136.296875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(3199.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d7" transform="translate(3252.296875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-db" transform="translate(3284.046875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d3" transform="translate(3347.59375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(3411.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(3444 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(3499.5 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(3521.09375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(3577.4375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(3642.390625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(3706.140625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-6" transform="translate(3727.734375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(3802.03125 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(3861.4375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(3907.140625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(3950.390625 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(4009.796875 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(4074.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-236" transform="translate(4096.34375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-267" transform="translate(4162.84375 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-1fd" transform="translate(4245.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-238" transform="translate(4292.75 0)"/>
-    <use xlink:href="#Newsreader72pt-Bold-267" transform="translate(4359.25 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(176.140625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(239.59375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(291.640625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(337.640625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d2" transform="translate(369.890625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(425.9375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(490.890625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(546.28125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(589.53125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(641.578125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(687.578125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-234" transform="translate(709.171875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-239" transform="translate(775.671875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-267" transform="translate(842.171875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(925.078125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-da" transform="translate(946.671875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d1" transform="translate(1005.375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1049.625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d4" transform="translate(1071.21875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(1103.46875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(1147.421875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1193.421875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d7" transform="translate(1215.015625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-cc" transform="translate(1246.765625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d9" transform="translate(1303.109375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-cf" transform="translate(1368.0625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-1de" transform="translate(1431.8125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1456.015625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d" transform="translate(1477.609375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-df" transform="translate(1516.453125 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(1560.40625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1606.40625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-db" transform="translate(1628 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(1691.546875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-d0" transform="translate(1744.09375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-dd" transform="translate(1796.640625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-de" transform="translate(1844.890625 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-1dc" transform="translate(1890.6875 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-3" transform="translate(1919.84375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-236" transform="translate(1941.4375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-1fd" transform="translate(2007.9375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-238" transform="translate(2054.9375 0)"/>
+    <use xlink:href="#Newsreader72pt-Bold-267" transform="translate(2121.4375 0)"/>
    </g>
   </g>
   <g id="text_36">

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import pandas as pd
 
-from historic_preservation.charts import DARK, GREY, LIGHT, PAPER, RED, headline, save, style
+from historic_preservation.charts import DARK, GREY, LIGHT, MOBILE_WIDTH, PAPER, RED, headline, pick, save, sparse_years, style
 from historic_preservation.config import ANALYSIS
 
 
@@ -21,7 +21,7 @@ def property_tax() -> None:
     share = s["historic_share"][str(last)]
     ward = s["same_records_gap_last_year"]
 
-    fig, ax = plt.subplots(figsize=(10, 5.6))
+    fig, ax = plt.subplots(figsize=pick((10, 5.6), (MOBILE_WIDTH, 6.6)))
     layers = [("other", "Other property", LIGHT), ("historic", "Historic districts and landmarks", DARK),
               ("scenario_gap_total", "Scenario: older districts' homes grow at the rest of the city's rate", RED)]
     ax.stackplot(t.index, *[t[c] for c, _, _ in layers], colors=[c for _, _, c in layers], edgecolor=PAPER, lw=0.6)
@@ -40,6 +40,8 @@ def property_tax() -> None:
     style(ax)
     ax.set_xlim(t.index[0], last)
     ax.set_xticks(t.index)
+    if pick(False, True):
+        ax.set_xticklabels(sparse_years(t.index, 2))
     ax.set_ylim(0, (base + t["scenario_gap_total"]).max() * 1.08)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v / 1e3:,.1f}B"))
     ax.set_xlabel("Tax year")

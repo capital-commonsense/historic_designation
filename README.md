@@ -4,6 +4,7 @@ A reproducible pipeline that collects public data on Washington, DC's historic p
 
 - **Findings:** [`findings.md`](findings.md), generated on every build
 - **Charts:** [`charts/out/`](charts/out/). Each chart is saved as SVG, PNG and `.data.csv`, the exact data it plots.
+- **Charts for phones and newsletters:** [`charts/out/mobile_optimized/`](charts/out/mobile_optimized/). The same charts as PNGs, narrower and taller with larger type, with side-by-side panels stacked and legends beneath the plot. The animation is there too, in portrait as mp4 and GIF.
 - **Sources:** [`SOURCES.md`](SOURCES.md)
 - **Methods notes:** [`methods/`](methods/)
 - **What each year's records cover:** [`coverage.md`](coverage.md)

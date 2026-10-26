@@ -4,13 +4,15 @@ House style (see charts/__init__.py): white paper, ink type, Newsreader headline
 Sans labels, and red for the finding only, which is DC. A row of four maps (land, Census water,
 city outline) sits above the line chart of designated land share outside parkland; each city's
 designations fade in in their designation year (parkland in grey) as the lines draw. Frames go to
-tmp/frames/ (deletable) and ffmpeg encodes charts/out/comps_designated_land.mp4. Run with `make video`.
+tmp/frames/ (deletable) and ffmpeg encodes charts/out/comps_designated_land.mp4. The phone version
+(portrait, the maps two by two) goes to charts/out/mobile_optimized/ as mp4 and GIF. Run with `make video`.
 """
 
 import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import duckdb
@@ -26,7 +28,7 @@ from matplotlib.collections import PathCollection  # noqa: E402
 from matplotlib.font_manager import FontProperties  # noqa: E402
 from matplotlib.path import Path as MPath  # noqa: E402
 
-from historic_preservation.charts import snapshot, title  # noqa: E402
+from historic_preservation.charts import MOBILE_OUT, _wrap, snapshot, title  # noqa: E402
 from historic_preservation.config import ANALYSIS, CENSUS_PLACES, CHARTS_OUT, INPUTS, NORMALIZED, RAW  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -91,31 +93,58 @@ def load() -> dict:
     return out
 
 
-def render(preview: list[int] | None = None) -> Path:
-    """All frames and the mp4; or, with preview, only those frame numbers (no video)."""
+def render(preview: list[int] | None = None, mobile: bool = False) -> Path:
+    """All frames and the mp4; or, with preview, only those frame numbers (no video). `mobile`: the portrait
+    version for phones (charts/out/mobile_optimized/, with a GIF), the maps in a 2x2 grid above the chart."""
     data = load()
     series = pd.read_csv(ANALYSIS / "comps_by_year.csv").pivot(
         index="year", columns="city", values="designated_area_share_excl_parkland")[list(CITIES)]
     ymax = float(series.max().max()) * 1.12
     final = series.iloc[-1]
     others = final.drop("Washington")
+    headline = title("comps_designated_land_video",
+                     f"DC has designated {final['Washington']:.0%} of its land as historic. "
+                     f"Its peers: {others.min():.0%}\u2013{others.max():.0%}")
+    subtitle = f"Share of city land inside historic districts and landmarks, excluding parkland, {FIRST}\u2013{LAST}"
+    sources = (f"Grey on the maps: parkland, left out of the lines. Today's boundaries, dated by designation.\n"
+               f"Sources: DC GIS; NYC Open Data (LPC); City of Philadelphia; City of Boston; Census TIGERweb; "
+               f"snapshot {snapshot()}")
 
-    fig = plt.figure(figsize=(19.2, 10.8), dpi=100, facecolor=PAPER)
-    L, R = 0.055, 0.945  # text and graphics share these margins
-    fig.text(L, 0.925, title("comps_designated_land_video",
-                             f"DC has designated {final['Washington']:.0%} of its land as historic. "
-                             f"Its peers: {others.min():.0%}\u2013{others.max():.0%}"),
-             color=INK, fontproperties=serif_bold(40), va="baseline")
-    fig.text(L, 0.878, f"Share of city land inside historic districts and landmarks, excluding parkland, {FIRST}\u2013{LAST}",
-             color=GREY, fontproperties=sans(17), va="baseline")
+    if mobile:
+        # 1080 x 1680: the extra height over 1500 all goes to the maps, which are tall rather than wide.
+        fig = plt.figure(figsize=(10.8, 16.8), dpi=100, facecolor=PAPER)
+        L, R = 0.06, 0.94
+        k = 15 / 16.8  # fixed-height spacings below were set on a 1500-pixel frame
+        r = fig.canvas.get_renderer()
+        width = (R - L) * 1080
+        head = fig.text(L, 1 - 0.035 * k, headline, color=INK, fontproperties=serif_bold(46), va="top", linespacing=1.05)
+        _wrap(head, width, r)
+        y = fig.transFigure.inverted().transform(head.get_window_extent(r))[0][1] - 0.012 * k
+        sub = fig.text(L, y, subtitle, color=GREY, fontproperties=sans(23), va="top", linespacing=1.3)
+        _wrap(sub, width, r)
+        y = fig.transFigure.inverted().transform(sub.get_window_extent(r))[0][1]
+        # Maps: two rows of two below the headline; the city name over each slot's left edge.
+        label_h, gap_x, gap_y, bottom = 0.027 * k, 0.04, 0.02 * k, 0.36 * k
+        slot_w = (R - L - gap_x) / 2
+        slot_h = (y - 0.025 * k - bottom - gap_y) / 2 - label_h
+        slots = [(L + (k % 2) * (slot_w + gap_x), bottom + (1 - k // 2) * (slot_h + label_h + gap_y), slot_w, slot_h)
+                 for k in range(4)]
+        city_font, anchor = sans_bold(24), "W"
+    else:
+        fig = plt.figure(figsize=(19.2, 10.8), dpi=100, facecolor=PAPER)
+        L, R = 0.055, 0.945  # text and graphics share these margins
+        fig.text(L, 0.925, headline, color=INK, fontproperties=serif_bold(40), va="baseline")
+        fig.text(L, 0.878, subtitle, color=GREY, fontproperties=sans(17), va="baseline")
+        # Maps: a row of four, each fitted to its slot; the city name sits on the slot's left edge.
+        slot_w, gap, top, bottom = (R - L - 3 * 0.02) / 4, 0.02, 0.785, 0.43
+        slots = [(L + k * (slot_w + gap), bottom, slot_w, top - bottom) for k in range(4)]
+        city_font, anchor, label_h = sans_bold(15), "NW", 0.012
 
-    # Maps: a row of four, each fitted to its slot; the city name sits on the slot's left edge.
     groups = []  # (collection, year)
-    slot_w, gap, top, bottom = (R - L - 3 * 0.02) / 4, 0.02, 0.785, 0.43
-    for k, city in enumerate(CITIES):
-        x0 = L + k * (slot_w + gap)
-        fig.text(x0, top + 0.012, SHORT[city].upper(), color=CITIES[city], fontproperties=sans_bold(15))
-        ax = fig.add_axes([x0, bottom, slot_w, top - bottom], facecolor=PAPER)
+    for (x0, y0, w_, h_), city in zip(slots, CITIES):
+        fig.text(x0, y0 + h_ + label_h * (0.25 if mobile else 1), SHORT[city].upper(), color=CITIES[city],
+                 fontproperties=city_font)
+        ax = fig.add_axes([x0, y0, w_, h_], facecolor=PAPER)
         ax.set_axis_off()
         b = data[city]["land"]
         ext = b.get_extents()
@@ -128,38 +157,48 @@ def render(preview: list[int] | None = None) -> Path:
             groups.append((col, int(year)))
         ax.set_xlim(ext.x0 - pad, ext.x1 + pad)
         ax.set_ylim(ext.y0 - pad, ext.y1 + pad)
-        ax.set_aspect("equal", adjustable="box", anchor="NW")
+        ax.set_aspect("equal", adjustable="box", anchor=anchor)
 
-    # Chart: light rules, grey ticks, no spines, labelled endpoints.
-    chart = fig.add_axes([L + 0.03, 0.135, R - L - 0.03 - 0.125, 0.235], facecolor=PAPER)
+    # Chart: light rules, grey ticks, no spines, labelled endpoints (on phones, the share alone: the colors
+    # match the city names over the maps).
+    chart = fig.add_axes([L + 0.08, 0.14 * k, R - L - 0.08 - 0.115, 0.175 * k] if mobile else
+                         [L + 0.03, 0.135, R - L - 0.03 - 0.125, 0.235], facecolor=PAPER)
     chart.set_xlim(FIRST, LAST)
     chart.set_ylim(0, ymax)
     chart.yaxis.set_major_locator(mticker.MultipleLocator(0.05))
     chart.yaxis.set_major_formatter(mticker.PercentFormatter(1.0, decimals=0))
-    chart.xaxis.set_major_locator(mticker.MultipleLocator(10))
+    chart.xaxis.set_major_locator(mticker.MultipleLocator(20 if mobile else 10))
     for s_ in chart.spines.values():
         s_.set_visible(False)
     chart.tick_params(colors=GREY, length=0, pad=10)
     for t in chart.get_xticklabels() + chart.get_yticklabels():
-        t.set_fontproperties(sans(14))
+        t.set_fontproperties(sans(21 if mobile else 14))
     chart.grid(axis="y", color=RULE, linewidth=1.3)
     chart.set_axisbelow(True)
     lines, dots, ends = {}, {}, {}
     for c, col in CITIES.items():
         dc = c == "Washington"
-        lines[c] = chart.plot([], [], color=col, lw=4.5 if dc else 2.6, drawstyle="steps-post",
-                              solid_joinstyle="miter", zorder=4 if dc else 3)[0]
-        dots[c] = chart.plot([], [], "o", color=col, ms=9 if dc else 6, zorder=5)[0]
-        ends[c] = chart.text(0, 0, "", color=col, va="center", fontproperties=sans_bold(19 if dc else 14), zorder=5)
-    year_text = fig.text(R, chart.get_position().y1 + 0.03, "", color=INK, fontproperties=serif_bold(44),
-                         va="bottom", ha="right")
-    fig.text(L, 0.035, f"Grey on the maps: parkland, left out of the lines. Today's boundaries, dated by designation.\n"
-             f"Sources: DC GIS; NYC Open Data (LPC); City of Philadelphia; City of Boston; Census TIGERweb; "
-             f"snapshot {snapshot()}", color=GREY, fontproperties=sans(12.5), va="baseline", linespacing=1.5)
+        lines[c] = chart.plot([], [], color=col, lw=(5.5 if dc else 3.4) if mobile else (4.5 if dc else 2.6),
+                              drawstyle="steps-post", solid_joinstyle="miter", zorder=4 if dc else 3)[0]
+        dots[c] = chart.plot([], [], "o", color=col, ms=(11 if dc else 8) if mobile else (9 if dc else 6), zorder=5)[0]
+        ends[c] = chart.text(0, 0, "", color=col, va="center", zorder=5,
+                             fontproperties=sans_bold((26 if dc else 21) if mobile else (19 if dc else 14)))
+    if mobile:  # inside the chart's empty top left
+        year_text = chart.text(0.02, 1.0, "", transform=chart.transAxes, color=INK, fontproperties=serif_bold(50),
+                               va="top", ha="left")
+    else:
+        year_text = fig.text(R, chart.get_position().y1 + 0.03, "", color=INK, fontproperties=serif_bold(44),
+                             va="bottom", ha="right")
+    if mobile:
+        foot = fig.text(L, 0.02 * k, sources.replace("\n", " "), color=GREY, fontproperties=sans(16), va="bottom",
+                        linespacing=1.4)
+        _wrap(foot, width, r)
+    else:
+        fig.text(L, 0.035, sources, color=GREY, fontproperties=sans(12.5), va="baseline", linespacing=1.5)
     # Optional wordmark, bottom right, from a local checkout of the brand kit named by $HP_BRAND_DIR.
     brand = os.environ.get("HP_BRAND_DIR")
     wm = Path(brand) / "Capital_Commonsense_Wordmark_Transparent_4096.png" if brand else None
-    if wm and wm.exists():
+    if wm and wm.exists() and not mobile:
         img = mpimg.imread(wm)
         h = 0.026  # figure height fraction
         w = h * img.shape[1] / img.shape[0] * 1080 / 1920
@@ -167,9 +206,10 @@ def render(preview: list[int] | None = None) -> Path:
         wax.imshow(img)
         wax.set_axis_off()
 
-    if FRAMES.exists():
-        shutil.rmtree(FRAMES)
-    FRAMES.mkdir(parents=True)
+    frames = FRAMES.with_name("frames_mobile") if mobile else FRAMES
+    if frames.exists():
+        shutil.rmtree(frames)
+    frames.mkdir(parents=True)
     n_frames = (LAST - FIRST + 1) * PER_YEAR + HOLD
     for i in (preview if preview is not None else range(n_frames)):
         t = min(FIRST + i / PER_YEAR, LAST + 0.999)
@@ -184,26 +224,35 @@ def render(preview: list[int] | None = None) -> Path:
             ys = list(s_.values) + [s_.values[-1]]
             line.set_data(xs, ys)
             dots[c].set_data([tx], [ys[-1]])
-            ends[c].set_text(f"{SHORT[c]} {ys[-1]:.1%}")
+            ends[c].set_text(f"{ys[-1]:.1%}" if mobile else f"{SHORT[c]} {ys[-1]:.1%}")
         # End labels: keep a small gap between cities' values.
-        gap_y, placed = ymax * 0.075, []
+        gap_y, placed = ymax * (0.13 if mobile else 0.075), []
         for c in sorted(lines, key=lambda c: lines[c].get_ydata()[-1]):
             y = lines[c].get_ydata()[-1]
             y = max([y] + [p + gap_y for p in placed])
             placed.append(y)
-            ends[c].set_position((tx + 0.8, y))
+            ends[c].set_position((tx + (1.5 if mobile else 0.8), y))
         year_text.set_text(str(yr))
-        fig.savefig(FRAMES / f"f{i:05d}.png", facecolor=PAPER)
+        fig.savefig(frames / f"f{i:05d}.png", facecolor=PAPER)
     plt.close(fig)
     if preview is not None:
-        return FRAMES
+        return frames
 
-    out = CHARTS_OUT / "comps_designated_land.mp4"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", str(FRAMES / "f%05d.png"),
+    out_dir = MOBILE_OUT if mobile else CHARTS_OUT
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / "comps_designated_land.mp4"
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", str(frames / "f%05d.png"),
                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", str(out)],
                    check=True)
+    if mobile:  # a GIF too, for newsletter tools that take no video: 10 frames a second, 720 pixels wide
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", str(frames / "f%05d.png"),
+                        "-vf", "fps=10,scale=720:-1:flags=lanczos,split[a][b];[a]palettegen=stats_mode=diff[p];"
+                               "[b][p]paletteuse=dither=bayer:bayer_scale=4", str(out.with_suffix(".gif"))], check=True)
     return out
 
 
 if __name__ == "__main__":
-    print(render())
+    # python -m historic_preservation.charts.comps_video [page|mobile|all]
+    which = sys.argv[1] if len(sys.argv) > 1 else "all"
+    for m in {"page": [False], "mobile": [True], "all": [False, True]}[which]:
+        print(render(mobile=m))

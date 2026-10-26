@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import FancyArrowPatch
 
-from historic_preservation.charts import BLUE, GOLD, GREY, INK, LIGHT, MID, headline, save, style
+from historic_preservation.charts import BLUE, GOLD, GREY, INK, LIGHT, MID, MOBILE_SCALE, MOBILE_WIDTH, headline, mobile, pick, save, style
 from historic_preservation.charts import RED
 from historic_preservation.config import ANALYSIS
 
@@ -16,7 +16,7 @@ TYPES = (("demolition", "Demolition", RED), ("new_construction", "New constructi
          ("other", "Other", LIGHT))
 SHORT = {"demolition": "Demolition", "new_construction": "New constr.", "subdivision": "Subdivision",
          "alteration_addition": "Alteration"}
-STAGES = (("all", "All applications HPO handled"), ("hprb", "Referred to HPRB"), ("mayors_agent", "At the Mayor's Agent"))
+STAGES = (("all", "applications HPO handled"), ("hprb", "referred to HPRB"), ("mayors_agent", "at the Mayor's Agent"))
 
 
 def review_pipeline() -> None:
@@ -24,9 +24,9 @@ def review_pipeline() -> None:
     s = json.loads((ANALYSIS / "hpo_review_types_summary.json").read_text())
     data = r.pivot(index="fy", columns="type", values=[k for k, _ in STAGES])
     years = data.index
-    fig = plt.figure(figsize=(11, 6.2))
-    gs = fig.add_gridspec(1, 3, wspace=0.95)
-    axes = [fig.add_subplot(gs[0, i]) for i in range(3)]
+    fig = plt.figure(figsize=pick((11, 6.2), (MOBILE_WIDTH, 10.5)))
+    gs = fig.add_gridspec(*pick((1, 3), (3, 1)), wspace=0.95, hspace=0.75)
+    axes = [fig.add_subplot(gs[i]) for i in range(3)]
     for ax, (stage, name) in zip(axes, STAGES):
         bottom = pd.Series(0.0, index=years)
         for key, label, color in TYPES:
@@ -36,7 +36,7 @@ def review_pipeline() -> None:
         for y, v in bottom.items():
             ax.text(y, v, f"{v:,.0f}", ha="center", va="bottom", fontsize=7.5, color=GREY)
         style(ax)
-        ax.set_title(f"{name}\n{s['printed_totals'][stage]:,} in FY{years.min()}–{years.max() % 100:02d}", loc="left", fontsize=10)
+        ax.set_title(f"{s['printed_totals'][stage]:,} {name}", loc="left", fontsize=10)
         ax.set_xticks(years)
         ax.set_xticklabels([f"{y % 100:02d}" for y in years], fontsize=8)
         ax.set_ylim(0, bottom.max() * 1.12)
@@ -49,17 +49,32 @@ def review_pipeline() -> None:
             f"{SHORT[k]} {rate('all', 'hprb', k):.0%}" for k, _, _ in TYPES[:4]) + "\nOther 0%",
         f"{p['mayors_agent']} cases\n\n" + "\n".join(f"{SHORT[k]} {t[k]['mayors_agent']}" for k, _, _ in TYPES[:4]),
     )
-    axes[0].legend(loc="upper left", bbox_to_anchor=(0, -0.09), ncol=5, fontsize=8.5)
+    axes[pick(0, 2)].legend(loc="upper left", bbox_to_anchor=(0, -0.09), ncol=5, fontsize=8.5)
 
     d = t["demolition"]
     headline(fig, f"Of {p['all']:,} applications HPO handled in FY{years.min()}–{years.max()}, {p['hprb']} went to the "
                   f"review board and {p['mayors_agent']} to the Mayor's Agent; demolitions, "
                   f"{d['all'] / s['row_sums']['all']:.1%} of applications, were {d['mayors_agent']} of those {p['mayors_agent']}",
              "Permit and concept applications by type and the stage they reached, by fiscal year (each panel on its own scale)")
+    if mobile():  # arrows down between the stacked panels, each with its rates on one line beside it
+        lines = (f"{p['hprb'] / p['all']:.1%} referred: " + ", ".join(
+                     f"{SHORT[k].lower()} {rate('all', 'hprb', k):.0%}" for k, _, _ in TYPES[:4]) + ", other 0%",
+                 f"{p['mayors_agent']} cases: " + ", ".join(f"{SHORT[k].lower()} {t[k]['mayors_agent']}" for k, _, _ in TYPES[:4]))
+
+        def arrows():
+            for upper, lower, note in zip(axes, axes[1:], lines):
+                a, b = upper.get_tightbbox(), lower.get_tightbbox()
+                y0, y1 = fig.transFigure.inverted().transform([(0, a.y0), (0, b.y1)])[:, 1]
+                x = fig.transFigure.inverted().transform((a.x0, 0))[0] + 0.02
+                fig.patches.append(FancyArrowPatch((x, y0 - 0.01), (x, y1 + 0.01), transform=fig.transFigure,
+                                                   arrowstyle="-|>", mutation_scale=16, color=INK, lw=1.2))
+                fig.text(x + 0.04, (y0 + y1) / 2, note.replace("constr.", "construction"), ha="left", va="center",
+                         fontsize=7.5 * MOBILE_SCALE, color=GREY, wrap=True)
+        fig._after_layout = arrows
     fig.subplots_adjust(top=fig.subplotpars.top - 0.07, bottom=0.2)
     # after the layout is final, so the arrows sit between the panels (an override headline relays it out)
     fig.canvas.draw()
-    for left, right, note in zip(axes, axes[1:], notes):
+    for left, right, note in zip(axes, axes[1:], notes if not mobile() else ()):
         a, b = left.get_position(), right.get_position()
         x0, x1, y = a.x1 + 0.015, b.x0 - 0.045, a.y0 + a.height * 0.62
         fig.patches.append(FancyArrowPatch((x0, y), (x1, y), transform=fig.transFigure, arrowstyle="-|>",

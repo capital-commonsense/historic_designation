@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.transforms import ScaledTranslation
 import pandas as pd
 
-from historic_preservation.charts import BLUE, DARK, GOLD, GREEN, GREY, INK, LIGHT, MID, PAPER, RED, headline, save, style
+from historic_preservation.charts import (BLUE, DARK, GOLD, GREEN, GREY, INK, LIGHT, MID, MOBILE_WIDTH, PAPER, RED, headline,
+                                          mobile, pick, save, sparse_years, style)
 from historic_preservation.config import ANALYSIS, INPUTS, JOINED
 
 DECIDED = ("designated", "amended", "denied", "withdrawn", "de-designated")
@@ -41,14 +42,16 @@ def by_entity_and_year() -> None:
     title = (f"{leader} filed {lead_n} of {attributed} nominations with a known filer decided in FY{lo}–{str(hi)[2:]}"
              f" ({lead_n / attributed:.0%})")
 
-    fig, ax = plt.subplots(figsize=(10, 5.6))
+    fig, ax = plt.subplots(figsize=pick((10, 5.6), (MOBILE_WIDTH, 6.6)))
     bottom = pd.Series(0, index=table.index)
     # Red: the leading filer the headline names; other named filers in ink and the shared hues.
     others = iter([INK, BLUE, GREEN, GOLD, DARK])
     colors = {**{e: RED if e == leader else next(others) for e in top},
               "Other named filers": MID, "Property owners": DARK if leader in top[:4] else GREY, "Unknown": PAPER}
     for col in order:
-        ax.bar(table.index, table[col], bottom=bottom, color=colors[col], label=col, width=0.8,
+        # Phones: the longest name shortened, so the legend fits two columns.
+        label = pick(col, col.replace("Department", "Dept."))
+        ax.bar(table.index, table[col], bottom=bottom, color=colors[col], label=label, width=0.8,
                hatch="///" if col == "Unknown" else None, edgecolor=MID if col == "Unknown" else PAPER,
                linewidth=0.4)
         bottom += table[col]
@@ -61,7 +64,7 @@ def by_entity_and_year() -> None:
     ax.set_ylabel("Nominations decided by HPRB")
     ax.set_xlabel("Fiscal year of decision")
     ax.set_xticks(table.index)
-    ax.set_xticklabels([str(y)[2:] if y % 2 else str(y) for y in table.index], fontsize=8)
+    ax.set_xticklabels(pick([str(y)[2:] if y % 2 else str(y) for y in table.index], sparse_years(table.index)), fontsize=8)
     ax.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, title="First-named filer",
               title_fontsize=8.5, reverse=True)
     fig.subplots_adjust(bottom=0.16)
@@ -82,7 +85,7 @@ def inventory_additions_per_year() -> None:
     later = t.drop(index=1964)
     peak = later.sum(axis=1).idxmax()
 
-    fig, ax = plt.subplots(figsize=(10, 5.2))
+    fig, ax = plt.subplots(figsize=pick((10, 5.2), (MOBILE_WIDTH, 5.6)))
     ax.bar(later.index, later["landmark"], color=INK, label="Landmarks", width=0.8)
     ax.bar(later.index, later["district"], bottom=later["landmark"], color=MID, label="Historic districts", width=0.8)
     ax.text(peak, later.loc[peak].sum(), f"{int(later.loc[peak].sum())}", ha="center", va="bottom", color=INK,
@@ -90,8 +93,9 @@ def inventory_additions_per_year() -> None:
     style(ax)
     ax.set_ylabel("Designations")
     ax.legend(frameon=False, fontsize=8.5)
-    ax.text(1965, later.sum(axis=1).max() * 0.95,
-            f"1964 (not shown): {first} entries on the first DC list", fontsize=8, color=GREY)
+    ax.text(pick(1965, later.index.max()), later.sum(axis=1).max() * 0.95,  # phones: top right, clear of the peak
+            f"1964 (not shown): {first} entries{pick(' ', chr(10))}on the first DC list", fontsize=8, color=GREY,
+            ha=pick("left", "right"), va=pick("baseline", "top"))
     headline(fig, f"After the 1964 list, DC added landmarks and districts most quickly in {peak} "
              f"({int(later.loc[peak].sum())})", f"Designations per calendar year, 1965–{later.index.max()}")
     fig.subplots_adjust(bottom=0.18)
@@ -118,7 +122,7 @@ def nomination_outcomes() -> None:
     rate = good["designated"].sum() / decided
     span = f"{len(good)} adequately covered years, FY{good.index.min()}–{str(good.index.max())[2:]}"
 
-    fig, ax = plt.subplots(figsize=(10, 5.4))
+    fig, ax = plt.subplots(figsize=pick((10, 5.4), (MOBILE_WIDTH, 6.4)))
     bottom = pd.Series(0, index=t.index)
     for col, color in (("designated", INK), ("denied", DARK), ("withdrawn", MID)):
         for ok in (True, False):
@@ -141,15 +145,15 @@ def nomination_outcomes() -> None:
     ax.plot([], [], marker=">", color=RED, ms=5, ls="none",
             label="HPO reports owner opposition")
     style(ax)
-    ax.set_ylabel("Nominations decided (landmarks and districts)")
+    ax.set_ylabel("Nominations decided\n(landmarks and districts)")
     ax.set_xlabel("Fiscal year of decision; grey hatched = years whose scraped coverage of HPO's counts is below 0.8")
     ax.set_xticks(t.index)
-    ax.set_xticklabels([str(y)[2:] if y % 2 else str(y) for y in t.index], fontsize=8)
-    ax.legend(frameon=False, fontsize=8.5, loc="upper left", bbox_to_anchor=(1.0, 1.0))
+    ax.set_xticklabels(pick([str(y)[2:] if y % 2 else str(y) for y in t.index], sparse_years(t.index)), fontsize=8)
+    ax.legend(frameon=False, fontsize=8.5, loc="upper right")  # over the low recent years, so the plot gets the width
     headline(fig, f"In the {span}, {rate:.0%} of decided nominations were designated "
              f"({int(good['designated'].sum())} of {int(decided)})",
              f"Landmark and district nominations by HPRB outcome, FY{t.index.min()}–{t.index.max()}")
-    fig.subplots_adjust(bottom=0.2)
+    fig.subplots_adjust(bottom=0.2, right=0.98)
     save(fig, "nomination_outcomes", t,
          "Nomination outcomes by fiscal year of the HPRB decision (amendments count as designated). Withdrawals are "
          "undercounted: most nominations withdrawn before a hearing leave no public record. Owner-opposition counts "
@@ -191,7 +195,7 @@ def by_filer_type() -> None:
     rv = v.loc["2010s"].drop("unknown")
     vlead = rv.idxmax()
 
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(12, 5.6))
+    fig, (ax, ax2) = plt.subplots(*pick((1, 2), (2, 1)), figsize=pick((12, 5.6), (MOBILE_WIDTH, 9.6)))
     for axis, table, ylabel in ((ax, t, "Nominations decided"), (ax2, v, "Today's assessed value of designated property")):
         bottom = pd.Series(0.0, index=table.index)
         for key, name, color in FILER_TYPES:
@@ -207,7 +211,7 @@ def by_filer_type() -> None:
     ax.set_title("Nominations decided", loc="left", fontsize=10)
     ax2.set_title("Value designated", loc="left", fontsize=10)
     ax2.legend(loc="upper left", bbox_to_anchor=(1.0, 1.0), frameon=False, fontsize=8.5, reverse=True)
-    fig.subplots_adjust(bottom=0.2, wspace=0.28)
+    fig.subplots_adjust(bottom=0.2, wspace=0.28, hspace=0.35)
     headline(fig, f"In the 2010s, {label} filed {int(recent[lead])} of {int(known)} decided nominations with a known "
              f"filer; {dict((k, n) for k, n, _ in FILER_TYPES)[vlead]} filings cover the most designated value "
              f"({pct_share(rv[vlead], rv.sum())})", f"Decided nominations and designated value by filer type, "
@@ -255,7 +259,7 @@ def by_filer_success() -> None:
     t = d.pivot_table(index="group", columns="result", values="nomination_id", aggfunc="count", fill_value=0)
     t = t.reindex(index=[g for g, _ in FILER_GROUPS], columns=[k for k, _, _ in results], fill_value=0)
 
-    fig, ax = plt.subplots(figsize=(10, 4.8))
+    fig, ax = plt.subplots(figsize=pick((10, 4.8), (MOBILE_WIDTH, 6.4)))
     labels = list(t.index[::-1])
     left = pd.Series(0, index=labels)
     for key, name, color in results:
