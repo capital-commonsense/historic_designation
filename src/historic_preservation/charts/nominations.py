@@ -118,7 +118,8 @@ def nomination_outcomes() -> None:
     t["hpo_owner_opposed_approved"] = cov["hpo_approved_owner_opposed"].reindex(t.index)
     t["hpo_owner_opposed_denied"] = cov["hpo_denied_owner_opposed"].reindex(t.index)
     good = t[t["adequate_coverage"]]
-    decided = good[["designated", "denied", "withdrawn"]].to_numpy().sum()
+    # The rate is HPRB's (as H1): withdrawals are the applicant's act, shown but not counted.
+    decided = good[["designated", "denied"]].to_numpy().sum()
     rate = good["designated"].sum() / decided
     span = f"{len(good)} adequately covered years, FY{good.index.min()}–{str(good.index.max())[2:]}"
 
@@ -150,13 +151,13 @@ def nomination_outcomes() -> None:
     ax.set_xticks(t.index)
     ax.set_xticklabels(pick([str(y)[2:] if y % 2 else str(y) for y in t.index], sparse_years(t.index)), fontsize=8)
     ax.legend(frameon=False, fontsize=8.5, loc="upper right")  # over the low recent years, so the plot gets the width
-    headline(fig, f"In the {span}, {rate:.0%} of decided nominations were designated "
+    headline(fig, f"In the {span}, HPRB designated {rate:.0%} of the nominations it voted on "
              f"({int(good['designated'].sum())} of {int(decided)})",
              f"Landmark and district nominations by HPRB outcome, FY{t.index.min()}–{t.index.max()}")
     fig.subplots_adjust(bottom=0.2, right=0.98)
     save(fig, "nomination_outcomes", t,
          "Nomination outcomes by fiscal year of the HPRB decision (amendments count as designated). Withdrawals are "
-         "undercounted: most nominations withdrawn before a hearing leave no public record. Owner-opposition counts "
+         "from HPO's case log (released under FOIA) and are not counted in the headline rate. Owner-opposition counts "
          "are HPO's annual-report figures (approved or denied over the owner's objection), one mark per case beside that "
          "outcome's segment; HPO does not name the cases, so marks are not matched to individual nominations. Sources: data/joined/nominations.csv, "
          "data/analysis/coverage_by_year.csv.")

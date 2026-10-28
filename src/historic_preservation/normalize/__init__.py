@@ -27,6 +27,7 @@ from historic_preservation.normalize import courts
 from historic_preservation.normalize import mayors_agent
 from historic_preservation.normalize import permits as permit_records
 from historic_preservation.normalize import comps as comp_records
+from historic_preservation.normalize.case_log import case_log
 
 ITSPE_DROP = ("OWNERNAME", "OWNNAME2")
 
@@ -230,6 +231,9 @@ def run() -> None:
     if (snapshot / "court_opinions" / "manifest.json").exists():
         courts.opinions(snapshot / "court_opinions").to_csv(NORMALIZED / "court_opinions.csv", index=False)
         courts.cases(snapshot / "court_opinions").to_csv(NORMALIZED / "court_cases.csv", index=False, date_format="%Y-%m-%d")
+    if (MANUAL / "records_request").exists():  # HPO's case log, released under FOIA (records_request/status.md)
+        case_log(MANUAL / "records_request").to_csv(NORMALIZED / "hpo_case_log.csv", index=False,
+                                                   date_format="%Y-%m-%d")
     if (MANUAL / "mayors_agent" / "mayors_agent_catalog.json").exists():
         mayors_agent.decisions(MANUAL / "mayors_agent").to_csv(
             NORMALIZED / "mayors_agent_decisions.csv", index=False, date_format="%Y-%m-%d")

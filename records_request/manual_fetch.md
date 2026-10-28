@@ -7,6 +7,7 @@ What the pipeline does with each folder today:
 - `hpo_reports/`: read automatically on every build.
 - `dcpl_990/`: archived, OCR'd, and the figures recorded in `inputs/dcpl_990_lines.csv`. The 990s are scanned images, so I check each OCR'd figure by eye rather than trusting it blind.
 - `mayors_agent/`, `hprb_box/`: read on every build (decisions and HPRB actions, with reviewed inputs).
+- `records_request/`: records released under FOIA, one dated folder per release. HPO's case log (`.doc`) is read on every build (`normalize/case_log.py`; needs macOS `textutil` or LibreOffice).
 - `press/`: archived news articles cited as sources (e.g. `inputs/agreements.csv`).
 - `icg_settlement/`: for the settlement text once obtained; it will be read by hand into `inputs/agreements.csv` with a checked quote.
 

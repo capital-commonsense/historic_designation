@@ -12,10 +12,10 @@
   "mayors_agent_by_applicant": null,
   "mayors_agent_by_case_type": null,
   "mayors_agent_outcomes": null,
-  "nomination_outcomes": "90% of decided nominations approved",
-  "nominations_by_entity_year": "DCPL filed 52 of 184 identifiable nominations decided in FY2010–22",
+  "nomination_outcomes": "92% of decided nominations approved",
+  "nominations_by_entity_year": "DCPL filed 53 of 185 identifiable nominations decided in FY2010–22",
   "nominations_by_filer_type": null,
-  "nominations_success_by_filer": null,
+  "nominations_success_by_filer": "DCPL's nominations succeed about as often as others",
   "property_tax_scenario": null,
   "top_districts_by_value": null,
   "value_by_designation_era": null

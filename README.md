@@ -24,6 +24,7 @@ Optional extras:
 - `make video` builds the animated city comparison. It needs `ffmpeg`.
 - `make osm` builds the OpenStreetMap building counts. It needs `osmium` and the Geofabrik extracts.
 - `ocrmypdf` reads scanned PDFs.
+- macOS `textutil` or LibreOffice reads HPO's case log, a Word file released under FOIA.
 - `make video` adds a wordmark if `HP_BRAND_DIR` names a local checkout of the Capital Commonsense brand kit.
 
 ### Raw data

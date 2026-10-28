@@ -79,9 +79,10 @@ def run() -> None:
     joined.to_parquet(JOINED / "itspe_status.parquet", index=False)
     print("join: match methods\n" + joined["match_method"].value_counts().to_string())
 
-    from historic_preservation.join import nomination_lots, nominations, permits, spatial
+    from historic_preservation.join import case_log, nomination_lots, nominations, permits, spatial
 
     spatial.run()
     nominations.run()
+    case_log.run()
     permits.run()
     nomination_lots.run()

@@ -1,6 +1,6 @@
 link_id,source,case_no,name,reason
-L001,hprb,11-21,,"HPRB action for case 11-21 (headed 'Old Naval Observatory') reads: The Board designated Observatory Hill, at 2300 E Street NW/2301 Constitution Avenue NW, as a historic district (HPRB actions Oct 27 / Nov 3, 2016)"
-L001,update,,Observatory Hill Historic District,same designation as case 11-21
+L001,hprb,16-17,,"HPRB action printed as case 11-21 (headed 'Old Naval Observatory'; case 16-17 in HPO's case log, see hprb_case_corrections.csv) reads: The Board designated Observatory Hill, at 2300 E Street NW/2301 Constitution Avenue NW, as a historic district (HPRB actions Oct 27 / Nov 3, 2016)"
+L001,update,,Observatory Hill Historic District,same designation as case 16-17
 L002,hprb,15-14,,HPRB lists case 15-14 by address only (3020 Albemarle Street NW); the FY2015 update lists Colonel Davis House at 3020 Albemarle Street NW designated July 23 2015 (HPRB meeting of July 23 and 30 2015)
 L002,update,,Colonel Davis House,same designation as case 15-14
 L003,hprb,22-13,,HPRB case 22-13 (Lafayette Square Historic District amendment and boundary alterations) and the FY2022 report's 'Lafayette Square Historic District Expansion' carry the same date (September 29 2022)
@@ -11,8 +11,6 @@ L005,hprb,11-16,,"Same property and outcome; dates conflict: HPRB actions (July 
 L005,update,,Margaret Murray Washington School,same property as case 11-16 (date conflict kept in date_conflict)
 L006,hprb,13-19,,"Same property and outcome; dates conflict: HPRB actions (Oct 24 / 31 2013) designate case 13-19, the FY2014 update says designated May 22 2014"
 L006,update,,Metropolitan Apartments,same property as case 13-19 (date conflict kept in date_conflict)
-L007,hprb,04-05,,"Western Union Telegraph Company, Washington Radio Terminal, 4623 41st Street NW, Case #04-05 was continued on April 24 2008 to the May 22 2008 hearing (2008-04_HPRB_Actions.pdf)"
-L007,hprb,08-05,Western Union Telegraph Company Tenley Site,"designated May 22 2008 at the same address under 'Case #08-05' (2008-05_Actions.pdf); 08-05 is the Navy Yard Annex case in the February 2008 actions, so this is the continued case 04-05"
 L008,hprb,16-18,,"HPRB designated 'Union Market Terminal' as a historic district on November 3 2016 (HPRB_ACTIONS_10_2016_REVISED_0.pdf); the FY2017 update lists Union Market Historic District designated November 3 2016"
 L008,update,,Union Market Historic District,same designation as case 16-18
 L009,hprb,10-05,,"HPRB Jan 28 2010: 'Munson Hall, 2212 I Street, NW, Case #10-05'; the FY2010 update (hand-read) lists The Euclid at 2212 I Street NW designated the same day"
@@ -26,3 +24,20 @@ L012,hpo_pending,22-16,,"HPO's pending list: Folger Shakespeare Library amendmen
 L012,dcpl,,Folger Shakespeare Library Amendment (Hartman-Cox Addition),"DCPL's nomination PDF (posted 2022-10, FolgerAmendment.pdf) covers the Hartman-Cox Addition, 'Date of Construction: 1983': the 1983 wing whose earlier amendment (case 17-07) HPRB denied in Aug 2019 while encouraging refiling. Without this link it joined the 2018 amendment (18-16) by name"
 L013,hprb,11-10,,"HPRB actions, March 22 2012: 1349 Kenyon Street NW, Case #11-10, denied"
 L013,report,,Apartment building,"HPO FY2012 annual report: the apartment building at 1349 Kenyon Street NW, denied (same case)"
+L004,hpo_log,21-13,,"HPO's case log lists 'National Geographic Society (2)' as 21-13, designated March 24, 2022: the campus heard with case 17-09"
+L014,hpo_log,01-13,,"HPO's case log: 'Ellington School for the Arts/Western HS', designated May 23, 2002; the 2009 Inventory's entry gives the same date"
+L014,inventory,,Western High School (Duke Ellington School of the Arts),same designation as case 01-13
+L015,hpo_log,02-30,,"HPO's case log: 'Christian Heurich Mansion interior', designated October 24, 2002; the 2009 Inventory dates the house and interiors to the same day"
+L015,inventory,,Christian Heurich House (and Interiors),same designation as case 02-30
+L016,hpo_log,02-27,,"HPO's case log: 'Springland springhouse II', designated June 27, 2002 (it supersedes case 01-10, 'Springland (Dent) Spring House')"
+L016,inventory,,Dent Springhouse,"same designation as case 02-27; the Inventory dates it June 25, 2002"
+L017,hpo_log,02-09,,"HPO's case log: 'Engine Company No. 25', designated July 22, 2004"
+L017,inventory,,Chemical Engine No. 5 (Engine Company No. 25; Congress Heights Firehouse),same designation as case 02-09 (July 22 2004)
+L018,hpo_log,02-15,,"HPO's case log: 'Engine Company No. 10', designated July 22, 2004"
+L018,inventory,,Truck House No. 13 (Engine Company No. 10; Trinidad Firehouse),same designation as case 02-15 (July 22 2004)
+L019,hpo_log,10-08,,"HPO's case log: 'Walter Reed Medical Center HD', 'Designated April 24, 2014 (see 14-10)': the earlier application for the district designated as case 14-10"
+L019,hprb,14-10,,"HPRB actions of April 24 and May 1, 2014 designate the Walter Reed Army Medical Center Historic District under 'Cases 14-10 and 10-08'"
+L020,hpo_log,17-21,,"HPO's case log lists St. Paul's College twice, 17-14 and 17-21, both designated November 16, 2017; the HPRB actions head the item 'Cases 17-14 and 17-21'"
+L020,hprb,17-14,,one designation of St. Paul's College under cases 17-14 and 17-21
+L021,hpo_log,20-09,,"HPO's case log lists the Colony Hill Historic District twice, 20-09 and 21-03, both designated February 4, 2021; the HPRB actions print case 21-03"
+L021,hprb,21-03,,one designation of the Colony Hill Historic District under cases 20-09 and 21-03

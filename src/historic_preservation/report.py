@@ -33,9 +33,16 @@ def fy_span(years) -> str:
     return f"FY{years[0]}–{years[-1]}" if years else "no years"
 
 
+def plural(k: int, word: str) -> str:
+    return f"{k} {word}" + ("" if k == 1 else "s")
+
+
 def h1(n: pd.DataFrame, cov: pd.DataFrame) -> str:
+    """HPRB's rate counts what it voted on; withdrawals are the applicant's act and are reported beside it."""
     good = sorted(cov.loc[cov["adequate"], "fy"].astype(int))
-    d = n[n["fy"].isin(good) & n["outcome"].isin(DECIDED)]
+    closed = n[n["fy"].isin(good) & n["outcome"].isin(DECIDED)]
+    d = closed[closed["outcome"] != "withdrawn"]
+    withdrawn = int((closed["outcome"] == "withdrawn").sum())
     designated = d["outcome"].isin(["designated", "amended"])
     lm = d[d["kind"] == "landmark"]
     dist = d[d["kind"] == "district"]
@@ -45,14 +52,16 @@ def h1(n: pd.DataFrame, cov: pd.DataFrame) -> str:
     return (
         f"**Supported, with a qualification.** In the {len(good)} fiscal years where the scrape covers at least 80% of "
         f"HPO's reported applications ({fy_span(good)}, gaps excluded), HPRB designated or amended "
-        f"{frac(designated.sum(), len(d))} of nominations it decided; landmarks alone "
+        f"{frac(designated.sum(), len(d))} of the nominations it voted on; landmarks alone "
         f"{frac(lm['outcome'].eq('designated').sum(), len(lm))}. Historic districts: "
         f"{frac(dist['outcome'].isin(['designated', 'amended']).sum(), len(dist))} designated in those years; across all "
         f"years the table records {int(dist_all.get('designated', 0))} district designations, "
-        f"{int(dist_all.get('denied', 0))} denials and {int(dist_all.get('withdrawn', 0))} withdrawal. "
+        f"{plural(int(dist_all.get('denied', 0)), 'denial')} and "
+        f"{plural(int(dist_all.get('withdrawn', 0)), 'withdrawal')}. Applicants withdrew {withdrawn} more nominations "
+        f"in those years (HPO's case log); counted as failures, the rate would be "
+        f"{pct(designated.sum(), len(closed))}. "
         f"The qualification, and the strongest counterexample: nominations heard while a raze application was pending "
-        f"(H2) were designated only {frac(raze['designated'], raze['n'])} (FY2007–25). Withdrawals before a hearing are "
-        f"undercounted, which flatters the rate.")
+        f"(H2) were designated only {frac(raze['designated'], raze['n'])} (FY2007–25).")
 
 
 def h2() -> str:
@@ -77,20 +86,37 @@ def h2() -> str:
 
 
 def h3(n: pd.DataFrame) -> str:
+    """Withdrawals are counted from HPO's case log; why each was withdrawn is not in any released record."""
     w = n[n["outcome"] == "withdrawn"]
-    nh = n[n["outcome"] == "not_heard"]
+    recent = w[w["fy"].ge(2006)]
+    closed = n[n["fy"].ge(2006) & n["outcome"].isin(DECIDED)]
+    heard = recent["seen_in"].str.contains("hprb")
+    dcpl = recent[recent["filers"].fillna("").str.contains("Preservation League")]
+    unknown = int((recent["filer_type"] == "unknown").sum())
+    raze = pd.read_csv(ANALYSIS / "h2_raze_after_denial.csv", dtype=str)
+    razed = raze.loc[raze["outcome"] == "withdrawn", "name"].drop_duplicates()
     ag = pd.read_csv(INPUTS / "agreements.csv")
     linked = ag[ag["agreement_id"].str.contains("st_martins")]
+    martin = n[n["case_no"] == "06-10"]
+    martin_date = pd.Timestamp(martin["outcome_date"].iloc[0]).strftime("%B %-d, %Y") if len(martin) else "no date"
+    unseen = int((w["seen_in"] == "hpo_log").sum())
     return (
-        f"**Inconclusive: the public record cannot test it.** The nominations table holds {len(w)} withdrawals and "
-        f"{len(nh)} nominations noticed but never heard. A check of every case number in HPRB agendas, actions and HPO "
-        f"monthly notices (2006–2026) found only three nominations HPRB never acted on; nominations withdrawn before "
-        f"HPO scheduled them leave no public trace. HPO's own reports confirm the gap: FY2011's says four applications "
-        f"were withdrawn by their sponsors without naming them, and FY2012's names one (the Ontario Theatre) that no "
-        f"agenda shows. Of {len(ag)} agreements recorded in inputs/agreements.csv, "
-        f"{len(linked)} documents a withdrawal in exchange for concessions: St. Martin's (2006), where DCPL agreed to "
-        f"withdraw its application in return for preservation commitments and prior review of future permits, with no "
-        f"payment. Testing H3 needs HPO's case log and withdrawal letters (records_request/request.md).")
+        f"**Not testable with the records released; withdrawals are uncommon.** HPO's case log, released under FOIA, "
+        f"lists {len(w)} withdrawn nominations, {unseen} of which no agenda, notice or report shows. From FY2006 on, "
+        f"applicants "
+        f"withdrew {frac(len(recent), len(closed))} of the nominations that reached an outcome; {int(heard.sum())} of "
+        f"the {len(recent)} had been heard by HPRB first, the rest were withdrawn before a hearing. The log gives the "
+        f"date of each withdrawal but not its reason, and the filer is unknown for {unknown} of them; "
+        f"{len(dcpl)} {'was' if len(dcpl) == 1 else 'were'} filed by DCPL ({', '.join(dcpl['name']) or 'none'}). {plural(len(razed), 'withdrawal').capitalize()} "
+        f"since 2009 {'was' if len(razed) == 1 else 'were'} followed within 180 days by a raze permit at the address "
+        f"({', '.join(razed) or 'none'}; H2). Old Naval Observatory (case 11-21) counts as "
+        f"a withdrawal as HPO records it, though a revised application (16-17) designated the area as Observatory Hill "
+        f"three weeks later. Of {len(ag)} agreements recorded in inputs/agreements.csv, {len(linked)} documents a "
+        f"withdrawal in exchange for concessions: St. Martin's, where DCPL agreed in August 2006 to withdraw its "
+        f"application in return for preservation commitments and prior review of future permits, with no payment "
+        f"(HPO's log dates the withdrawal {martin_date}). HPO did not release withdrawal letters or related "
+        f"correspondence, so whether other withdrawals bought concessions cannot be established from the public "
+        f"record.")
 
 
 def h4(n: pd.DataFrame) -> str:

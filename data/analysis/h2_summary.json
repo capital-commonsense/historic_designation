@@ -1,11 +1,11 @@
 {
   "window": "FY2007-FY2025, individual landmark nominations (and amendments) with an HPRB action",
   "heard": {
-    "n": 270,
-    "designated": 243,
-    "denied": 24,
-    "withdrawn": 3,
-    "designated_share": 0.9
+    "n": 267,
+    "designated": 240,
+    "denied": 23,
+    "withdrawn": 4,
+    "designated_share": 0.899
   },
   "documented_pending_raze": {
     "n": 15,
@@ -21,23 +21,16 @@
     "designated_share": 0.846
   },
   "no_documented_pending_application": {
-    "n": 242,
-    "designated": 226,
-    "denied": 15,
-    "withdrawn": 1,
-    "designated_share": 0.934
+    "n": 239,
+    "designated": 223,
+    "denied": 14,
+    "withdrawn": 2,
+    "designated_share": 0.933
   },
-  "documented_any_share": 0.104,
+  "documented_any_share": 0.105,
   "documented_raze_share": 0.056,
   "pending_not_in_nominations": [],
-  "pending_never_heard": [
-    {
-      "case_no": "18-05",
-      "name": "Raymond and Olive Clapper House",
-      "application_type": "raze",
-      "note": "not heard: absent from the revised Dec 21 2017 agenda and actions; permit R1700219 issued 2018-03-27 (open data)"
-    }
-  ],
+  "pending_never_heard": [],
   "order_stated": [
     {
       "case_no": "18-09",
@@ -56,8 +49,8 @@
     "of_which_not_documented_as_pending": [
       "11-22",
       "13-14",
-      "20-12",
-      "21-01"
+      "21-01",
+      "21-12"
     ]
   },
   "caveats": [

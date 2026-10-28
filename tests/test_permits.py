@@ -34,8 +34,8 @@ def test_negated_designation_is_denial(noms):
 
 
 def test_house_number_list_is_not_a_name(noms):
-    # "917, 919 and 921 6th Street NW, Case 20-12" was named "917".
-    assert noms.loc["20-12", "address"].startswith("917, 919")
+    # "917, 919 and 921 6th Street NW, Case 20-12" was named "917". (HPO's case log numbers it 21-12.)
+    assert noms.loc["21-12", "address"].startswith("917, 919")
 
 
 def test_pending_applications_link_to_nominations():
@@ -44,8 +44,9 @@ def test_pending_applications_link_to_nominations():
 
 
 def test_unheard_nominations_are_in_table(noms):
-    # HPO notices: noticed for a hearing, never acted on (inputs/unheard_nominations.csv).
-    assert noms.loc["18-05", "outcome"] == "not_heard"  # Clapper House, razed 2018
+    # HPO notices: noticed for a hearing, never acted on (inputs/unheard_nominations.csv). Where HPO's
+    # case log records a withdrawal, that is the outcome.
+    assert noms.loc["18-05", "outcome"] == "withdrawn"  # Clapper House, razed 2018; withdrawn Dec 14 2017
     assert noms.loc["17-11", "outcome"] == "withdrawn"  # Square 653 Rowhouses
     assert noms.loc["07-36", "outcome"] == "denied"  # "recommending the Board not designate"
 

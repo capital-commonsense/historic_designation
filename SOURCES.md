@@ -7,13 +7,14 @@ Data collections used in this analysis. Links are the addresses the pipeline fet
 - [DC GIS map services](https://maps2.dcgis.dc.gov/dcgis/rest/services) (DC Office of the Chief Technology Officer): historic district and landmark layers, zoning lots, the real property tax roll (ITSPE: assessments and tax billing history), condominium crosswalks, address points and Department of Buildings building permits
 - [DC Inventory of Historic Sites and its updates](https://planning.dc.gov/publication/dc-inventory-updates) (DC Office of Planning)
 - [Pending nominations to the DC Inventory](https://planning.dc.gov/page/pending-nominations-dc-inventory) (DC Historic Preservation Office)
+- DC Historic Preservation Office, ["Record of HPRB Actions on Designation Applications"](data/raw/manual/records_request/2026-10-27/) (case log), released under the DC Freedom of Information Act, October 2026
 - [DC Historic Preservation Office annual reports, FY1979–2023](https://planning.dc.gov/publications) (DC Office of Planning; each year at `planning.dc.gov/publication/<year>-hpo-annual-report`)
 
 ## Review board and Mayor's Agent decisions
 
 - [Historic Preservation Review Board meeting records](https://planning.dc.gov/publications) (DC Office of Planning): actions, agendas, notices and staff reports (search "HPRB")
-- HPRB meeting archive, 2006–2026 (DC Historic Preservation Office, box.com) <!-- TODO: add the share link -->
-- [Mayor's Agent for Historic Preservation decisions](https://law.digital.georgetown.edu/collections/932f9f5b-a884-4c9c-be30-95211f86b424) (Georgetown Law Library)
+- [HPRB meeting archive, 2006–2026](https://app.box.com/s/t5gnx7p29jtpzv6on4khbiyl1p00owzh) (DC Historic Preservation Office, box.com; linked from [Past HPRB Meetings](https://planning.dc.gov/page/past-hprb-meetings))
+- [Mayor's Agent Decisions](https://law.digital.georgetown.edu/collections/932f9f5b-a884-4c9c-be30-95211f86b424) (D.C. Historic Preservation Law Collection, Georgetown Law Library)
 
 ## Courts and zoning
 

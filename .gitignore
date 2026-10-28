@@ -10,7 +10,11 @@ wheels/
 .venv
 
 # Raw snapshots are large; derived outputs are rebuilt by `make all`
-data/raw/
+data/raw/*
+!data/raw/manual/
+data/raw/manual/*
+# except the records-request response, which is small and cited in SOURCES.md
+!data/raw/manual/records_request/
 data/normalized/
 data/joined/
 data/drafts/

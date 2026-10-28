@@ -22,4 +22,4 @@ Electronic records are preferred in their native format (e.g., spreadsheet or da
 
 - Case numbers in published sources take the form `YY-NN` (e.g. Case 22-05); citing a few known numbers (from `nominations.csv`) may help the office locate the log.
 - If the office says no consolidated log exists, ask for item 1 as whatever the HPO uses to produce the "applications received / approved / denied" tables in its annual reports.
-- When records arrive, save them unedited under `data/raw/records_request/<date>/` and update `status.md`; the pipeline joins them to `nominations.csv` by case number and address.
+- When records arrive, save them unedited under `data/raw/manual/records_request/<date>/` and update `status.md`; the pipeline joins them to `nominations.csv` by case number and address.

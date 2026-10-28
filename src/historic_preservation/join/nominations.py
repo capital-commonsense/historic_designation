@@ -9,12 +9,18 @@ There is no single docket. Each source contributes partial records:
   dcpl       DCPL's posted list of its pending nominations
   hpo_pending HPO's list of pending nominations (case numbers)
   notice     noticed nominations HPRB never acted on (inputs/unheard_nominations.csv)
+  hpo_log    HPO's case log, released under FOIA (case no., action, date)
 
 Records are merged on case number when both have one, otherwise on name
 similarity (token_set_ratio >= 90) within a date window. A merged row lists
 every source it was seen in; rows seen in only one source are written to
 reconciliation.csv for review. Outcomes from later actions win over earlier
 ones for the same case (e.g. continued, then designated).
+
+The case log decides a case's outcome. The HPRB actions keep their date when they record the
+same outcome (the log dates a two-day meeting by its first day, the actions by its last).
+Where the log and another source disagree on a final outcome, or the log records none where
+another source does, inputs/case_log_review.csv decides, case by case.
 """
 
 import re
@@ -23,12 +29,20 @@ import pandas as pd
 from rapidfuzz import fuzz
 
 from historic_preservation.config import INPUTS, JOINED, NORMALIZED, snapshot_dir
+from historic_preservation.join.case_log import FAMILY
 from historic_preservation.normalize.filers import classify, load_rules
 
 OUTCOME_RANK = {"designated": 5, "denied": 5, "withdrawn": 5, "de-designated": 6, "amended": 4,
                 "pending": 1, "continued": 2, "unclear": 0, "adopted": 3, "nr_only": 3,
                 "not_heard": 2}
 DATE_FMT = "%B %d, %Y"
+# Case log actions -> this table's outcomes. A superseded case continues under another number, so it
+# isn't a nomination of its own; "1964 listing updated" amends an old designation.
+LOG_OUTCOME = {"designated": "designated", "amended": "amended", "adopted": "adopted", "updated": "amended",
+               "denied": "denied", "withdrawn": "withdrawn", "revoked": "de-designated", "continued": "continued",
+               "forwarded": "nr_only", "listed": "nr_only", "none": "pending"}
+FINAL = {"designated", "denied", "withdrawn", "revoked"}  # outcome families that close a case
+SAME_MEETING = 15  # days: the log's date and the HPRB actions' date for one meeting
 
 
 GENERIC_ALIAS = re.compile(r"proposed|amend|expan|boundar|interior|demolish|revis|technical|additional|continu", re.I)
@@ -83,7 +97,7 @@ def records() -> pd.DataFrame:
             name += " (amendment)"  # e.g. "All Souls Church, Unitarian, ..., Case 20-10 (amendment)"; read by kind()
         outcome = "amended" if re.search(r"\bamend", name, re.I) and r.outcome == "designated" else r.outcome
         address = re.sub(r",?\s*Case.*$", "", rest).strip() or (name if name[:1].isdigit() else "")
-        recs.append({"source": "hprb", "case_no": r.case_no, "name": name, "address": address, "date": r.meeting_date,
+        recs.append({"source": "hprb", "case_no": r.case_no if isinstance(r.case_no, str) else "", "name": name, "address": address, "date": r.meeting_date,
                      "outcome": outcome, "vote": f"{r.vote_for:.0f}-{r.vote_against:.0f}" if pd.notna(r.vote_for) else "",
                      "staff_recommendation": r.staff_recommendation, "nominated_by": "", "ref": r.source_file})
     upd = pd.read_csv(NORMALIZED / "inventory_update_items.csv")
@@ -124,6 +138,7 @@ def records() -> pd.DataFrame:
                          "address": r.address if isinstance(r.address, str) else "", "date": pd.NaT,
                          "outcome": "pending", "nominated_by": "", "ref": "hpo_pending_nominations.html"})
     recs += unheard()
+    recs += case_log()
     df = pd.DataFrame(recs)
     df["key"] = df["name"].map(norm)
     df["alt"] = df["name"].map(aliases)
@@ -146,6 +161,29 @@ def unheard() -> list[dict]:
     return out
 
 
+def case_log() -> list[dict]:
+    """HPO's case log (normalize/case_log.py). Dates given only to the month or year are approximate,
+    like a report's fiscal year: they match within the wider window and never set a row's date if
+    another source has one. A case number marked VOID was never used."""
+    path = NORMALIZED / "hpo_case_log.csv"
+    if not path.exists():
+        return []
+    log = pd.read_csv(path, dtype={"case_no": str}, parse_dates=["action_date"]).fillna({"case_no": ""})
+    return [{"source": "hpo_log", "case_no": r.case_no, "name": r.name, "address": "", "date": r.action_date,
+             "fy_only": r.date_precision != "day", "precision": r.date_precision, "outcome": LOG_OUTCOME[r.action],
+             "nominated_by": "", "ref": f"{r.source_doc} line {r.line}"}
+            for r in log.itertuples() if r.action != "superseded" and r.name != "VOID"]
+
+
+def log_review() -> dict[str, tuple[str, str]]:
+    """Hand-checked outcomes where the case log and the other sources disagree: case_no -> (outcome, note)."""
+    review = pd.read_csv(INPUTS / "case_log_review.csv", dtype=str).fillna("")
+    bad = set(review["outcome"]) - set(OUTCOME_RANK)
+    if bad:
+        raise ValueError(f"case_log_review.csv: unknown outcomes {sorted(bad)}")
+    return {r.case_no: (r.outcome, r.note) for r in review.itertuples()}
+
+
 def links(df: pd.DataFrame) -> pd.Series:
     """Hand-reviewed links (inputs/nomination_links.csv) for records the matcher can't pair."""
     out = pd.Series("", index=df.index)
@@ -154,6 +192,11 @@ def links(df: pd.DataFrame) -> pd.Series:
         if not hit.any():
             raise ValueError(f"nomination_links.csv: no {r.source} record for {r.case_no or r.name!r}")
         out[hit] = r.link_id
+    # A link takes its records out of their case-number groups, so it takes the log's record of
+    # each of those case numbers too.
+    log = df["source"] == "hpo_log"
+    for link_id, cases in df[(out != "") & ~log].groupby(out)["case_no"]:
+        out[log & df["case_no"].isin(set(cases) - {""}) & (out == "")] = link_id
     return out
 
 
@@ -191,6 +234,9 @@ def _score(a, b) -> float:
 def _same(a, b) -> bool:
     score = _score(a, b)
     same_addr = bool(a.addr) and a.addr == b.addr
+    if a.case_no and b.case_no and "hpo_log" in (a.source, b.source):
+        # The log is HPO's own numbering; misprinted numbers are fixed in hprb_case_corrections.csv.
+        return a.case_no == b.case_no
     if a.case_no and b.case_no:
         # HPRB action lists occasionally print one case number for two properties
         # (e.g. #10-04 for both The Flagler and Milton Hall), so names must also fit.
@@ -214,7 +260,28 @@ def _same(a, b) -> bool:
     return abs((pd.Timestamp(a.date) - pd.Timestamp(b.date)).days) <= window
 
 
-SOURCE_ORDER = ["hprb", "hpo_pending", "notice", "update", "manual", "report", "dcpl", "inventory"]
+def main_case(sub: pd.DataFrame) -> str:
+    """The case number a row goes by: the HPRB's (or another source's) first, else the log's."""
+    ordered = pd.concat([sub[sub["source"] != "hpo_log"], sub[sub["source"] == "hpo_log"]])
+    return next((c for c in ordered["case_no"] if c), "")
+
+
+def settle(sub: pd.DataFrame, review: dict, conflicts: set) -> str:
+    """One group's outcome: the case log's, unless it disagrees with a final outcome found elsewhere."""
+    def best(rows):
+        return rows.loc[rows["outcome"].map(OUTCOME_RANK).fillna(0).idxmax(), "outcome"]
+    case = main_case(sub)
+    log, rest = sub[sub["source"] == "hpo_log"], sub[sub["source"] != "hpo_log"]
+    if not len(log) or not len(rest):
+        return best(sub)
+    theirs, ours = log["outcome"].iloc[0], best(rest)
+    if FAMILY.get(ours, ours) in FINAL and FAMILY.get(theirs, theirs) != FAMILY.get(ours, ours):
+        conflicts.add(case)
+        return review[case][0] if case in review else ours
+    return ours if theirs == "pending" else theirs  # no action in the log: keep continued / not heard
+
+
+SOURCE_ORDER = ["hpo_log", "hprb", "hpo_pending", "notice", "update", "manual", "report", "dcpl", "inventory"]
 
 
 def reconcile(df: pd.DataFrame) -> pd.DataFrame:
@@ -247,27 +314,40 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
             groups.append([i])
     rules = load_rules()
     reviewed = filer_review()
+    review, conflicts = log_review(), set()
     rows = []
     for n, g in enumerate(groups):
         sub = df.loc[g]
-        best = sub.loc[sub["outcome"].map(OUTCOME_RANK).fillna(0).idxmax()]
-        same = sub[sub["outcome"] == best["outcome"]]
-        # The board's own record of its vote wins over a later report's date.
-        dated = (same[same["source"] == "hprb"] if (same["source"] == "hprb").any() else same)["date"].dropna()
+        outcome = settle(sub, review, conflicts)
+        same = sub[sub["outcome"] == outcome]
+        # The board's own record of its vote wins over a later report's date; the log's month- or
+        # year-only dates are used only when nothing else dates the outcome.
+        rough = (same["source"] == "hpo_log") & same["fy_only"].eq(True)
+        pick = (same[same["source"] == "hprb"] if (same["source"] == "hprb").any() else
+                same[~rough] if same.loc[~rough, "date"].notna().any() else same).dropna(subset=["date"])
+        dated = pick["date"]
+        latest = pick.loc[dated.idxmax()] if len(dated) else None
+        precision = ("" if latest is None else latest["precision"] if latest["source"] == "hpo_log" else
+                     "fy" if latest.get("fy_only") is True else "day")
         exact = same[same.get("fy_only", pd.Series(False, index=same.index)).ne(True)].dropna(subset=["date"])
         conflict = (exact["date"].max() - exact["date"].min()).days > 120 if len(exact) > 1 else False
         nominators = [x for x in sub["nominated_by"] if isinstance(x, str) and x]
-        case = next((c for c in sub["case_no"] if c), "")
+        case = main_case(sub)
         if not nominators and case in reviewed:
             nominators = [reviewed[case]]
         filer = classify(nominators[0], rules) if nominators else classify("", rules)
         rows.append({
             "nomination_id": f"N{n:05d}",
-            "case_no": next((c for c in sub["case_no"] if c), ""),
-            "name": sub.sort_values("source").iloc[0]["name"],
+            "case_no": case,
+            "case_nos": "; ".join(sorted(set(sub["case_no"]) - {""})),
+            # The log's names are abbreviated ("HUD"); it names a row only when nothing else does
+            # (or when the other names are empty once normalized, e.g. an HPRB item headed "(proposed)").
+            "name": (named if len(named := sub[(sub["source"] != "hpo_log") & (sub["key"] != "")]) else sub)
+                    .sort_values("source").iloc[0]["name"],
             "address": next((a for a in sub["address"] if isinstance(a, str) and a and a[0].isdigit()), ""),
-            "outcome": best["outcome"],
+            "outcome": outcome,
             "outcome_date": dated.max() if len(dated) else pd.NaT,
+            "date_precision": precision,
             "fy": fy(dated.max()) if len(dated) else None,
             "first_seen": sub["date"].min(),
             "date_conflict": "; ".join(f"{s}:{d:%Y-%m-%d}" for s, d in zip(exact["source"], exact["date"])) if conflict else "",
@@ -279,7 +359,12 @@ def reconcile(df: pd.DataFrame) -> pd.DataFrame:
             "seen_in": "; ".join(sorted(set(sub["source"]))),
             "n_sources": sub["source"].nunique(),
             "refs": "; ".join(sorted(set(str(x) for x in sub["ref"] if isinstance(x, str) and x))),
+            "outcome_note": review[case][1] if case in conflicts and case in review else "",
         })
+    unreviewed, stale = conflicts - set(review), set(review) - conflicts
+    if unreviewed or stale:
+        raise ValueError(f"case_log_review.csv: conflicts without a row {sorted(unreviewed)}; "
+                         f"rows with no conflict {sorted(stale)}")
     return pd.DataFrame(rows)
 
 
@@ -297,7 +382,7 @@ def split_neighborhood(noms: pd.DataFrame) -> pd.DataFrame:
 
 def kind(name: str) -> str:
     n = str(name).lower()
-    if re.search(r"multiple[- ]property|thematic document", n):
+    if re.search(r"multi(?:ple)?[- ]property|mult\. prop|\bmpd\b|thematic document", n):
         return "thematic_document"  # a National Register framework, not a designation
     if re.search(r"historic district|\bhd\b", n):
         return "district_amendment" if re.search(r"expan|amend|boundar", n) else "district"

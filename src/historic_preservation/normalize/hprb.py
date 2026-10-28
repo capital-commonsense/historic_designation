@@ -250,11 +250,18 @@ def extract(hprb_dir: Path) -> pd.DataFrame:
             rows.append({"meeting_date": date, "slug": "box", "source_file": source, **it})
     df = pd.DataFrame(rows)
     # Misprinted case numbers (inputs/hprb_case_corrections.csv), each backed by HPO's own record of the hearing.
-    for r in pd.read_csv(INPUTS / "hprb_case_corrections.csv", dtype=str).itertuples():
+    # header_start, when given, picks one item where a list prints the same number for two properties.
+    # All rows are matched before any is applied, so swapped numbers (10-10 -> 10-12, 10-11 -> 10-10) don't chain.
+    fixes = []
+    for r in pd.read_csv(INPUTS / "hprb_case_corrections.csv", dtype=str).fillna("").itertuples():
         hit = (df["source_file"] == r.source_file) & (df["case_no"] == r.printed)
+        if r.header_start:
+            hit &= df["header"].str.startswith(r.header_start)
         if not hit.any():
             raise ValueError(f"hprb_case_corrections.csv: no case {r.printed} in {r.source_file}")
-        df.loc[hit, "case_no"] = r.case_no
+        fixes.append((hit, r.case_no))
+    for hit, case in fixes:
+        df.loc[hit, "case_no"] = case
     df = df.drop_duplicates(["meeting_date", "case_no", "action_text"]) if len(df) else df
     return apply_review(df, hprb_dir, index)
 

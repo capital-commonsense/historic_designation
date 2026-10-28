@@ -1,13 +1,12 @@
 {
  "reports": 122,
  "not_in_nominations": [
-  "16-17",
   "17-21",
   "21-13"
  ],
- "decided_with_position": 114,
- "staff_grant": 107,
- "staff_deny": 7,
+ "decided_with_position": 111,
+ "staff_grant": 105,
+ "staff_deny": 6,
  "departures": 6,
  "board_denied_staff_grant": [
   {
@@ -37,7 +36,7 @@
    "name": "Kingman Park Historic District amendment (boundary expansion)"
   }
  ],
- "staff_deny_followed": 5,
+ "staff_deny_followed": 4,
  "fiscal_years": [
   2015,
   2024
