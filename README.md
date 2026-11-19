@@ -31,6 +31,20 @@ Optional extras:
 
 Raw downloads aren't in the repository because they're large. Derived tables under `data/analysis/` and the charts are committed.
 
+The raw material behind the committed outputs is archived on S3: the 2026-10-17 snapshot, the hand-downloaded sources under `data/raw/manual/`, and `records_request/georgetown/`. To rebuild from exactly what we used, without re-fetching:
+
+```sh
+scripts/fetch_source_archive.sh   # or: make source
+make all
+```
+
+The script downloads the archive (about 1.5 GB, 2.3 GB unpacked), checks its SHA-256 and unpacks it into the checkout. It doesn't overwrite files you already have. Pass `--keep` to keep the downloaded `.tar.gz` in `tmp/`. To get it by hand:
+
+- https://sbma44.s3.amazonaws.com/capital-commonsense/historic_designation_source.tar.gz
+- https://sbma44.s3.amazonaws.com/capital-commonsense/historic_designation_source.tar.gz.sha256
+
+Unpack it from the repository root with `tar -xzf historic_designation_source.tar.gz`.
+
 `make fetch` gets the sources the code can reach directly:
 - DC GIS
 - planning.dc.gov

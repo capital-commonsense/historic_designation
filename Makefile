@@ -1,12 +1,16 @@
 PY := uv run python -m historic_preservation
 
-.PHONY: all fetch build charts report test video osm
+.PHONY: all fetch source build charts report test video osm
 
 # From the newest complete raw snapshot (or $HP_SNAPSHOT) to every output.
 all: build charts report test
 
 fetch:
 	$(PY) fetch
+
+# The archived raw snapshot and manual downloads behind the committed outputs (README, "Raw data").
+source:
+	scripts/fetch_source_archive.sh
 
 build:
 	$(PY) build
